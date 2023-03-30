@@ -11,4 +11,10 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
+    UserEntity findUserEntityByEmail(String email);
+
+    UserEntity findUserEntityById(int id);
+
+    UserEntity findUserEntityByUuid(String uuid);
+
 }

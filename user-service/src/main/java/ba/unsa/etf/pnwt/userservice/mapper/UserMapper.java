@@ -14,7 +14,7 @@ public class UserMapper {
             return null;
         }
         UserDTO projection = new UserDTO();
-        projection.setCdid(entity.getCdid());
+        projection.setUuid(entity.getUuid());
         projection.setCity(CityMapper.mapToProjection(entity.getCityEntity()));
         projection.setFirstName(entity.getFirstName());
         projection.setLastName(entity.getLastName());
@@ -26,7 +26,7 @@ public class UserMapper {
         return entities.stream().map(UserMapper::mapToProjection).collect(Collectors.toList());
     }
 
-    public UserEntity mapToEntity(UserDTO projection, UserEntity entity) {
+    public static UserEntity mapToEntity(UserDTO projection, UserEntity entity) {
         if (projection == null) {
             return null;
         }
@@ -38,6 +38,11 @@ public class UserMapper {
 
         entity.setFirstName(projection.getFirstName());
         entity.setLastName(projection.getLastName());
+        entity.setCompanyName(projection.getCompanyName());
+        entity.setUserType(projection.getUserType());
+        entity.setDescription(projection.getDescription());
+        entity.setEmail(projection.getEmail());
+        entity.setPassword(projection.getPassword());
         return entity;
     }
 }

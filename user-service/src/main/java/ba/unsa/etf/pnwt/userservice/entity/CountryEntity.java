@@ -13,7 +13,7 @@ public class CountryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "creationTS", nullable = false)
@@ -39,5 +39,21 @@ public class CountryEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ZonedDateTime getCreationTS() {
+        return creationTS;
+    }
+
+    public void setCreationTS(ZonedDateTime creationTS) {
+        this.creationTS = creationTS;
+    }
+
+    public ZonedDateTime getModificationTS() {
+        return modificationTS;
+    }
+
+    public void setModificationTS(ZonedDateTime modificationTS) {
+        this.modificationTS = modificationTS;
     }
 }

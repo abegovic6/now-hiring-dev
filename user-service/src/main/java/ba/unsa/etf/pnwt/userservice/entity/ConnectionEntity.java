@@ -29,4 +29,52 @@ public class ConnectionEntity {
 
     @Column(name = "modificationTS")
     private ZonedDateTime modificationTS;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public UserEntity getUserOne() {
+        return userOne;
+    }
+
+    public void setUserOne(UserEntity userOne) {
+        this.userOne = userOne;
+    }
+
+    public UserEntity getUserTwo() {
+        return userTwo;
+    }
+
+    public void setUserTwo(UserEntity userTwo) {
+        this.userTwo = userTwo;
+    }
+
+    public CityEntity getCityEntity() {
+        return cityEntity;
+    }
+
+    public void setCityEntity(CityEntity cityEntity) {
+        this.cityEntity = cityEntity;
+    }
+
+    public ZonedDateTime getCreationTS() {
+        return creationTS;
+    }
+
+    public void setCreationTS(ZonedDateTime creationTS) {
+        this.creationTS = creationTS;
+    }
+
+    public ZonedDateTime getModificationTS() {
+        return modificationTS;
+    }
+
+    public void setModificationTS(ZonedDateTime modificationTS) {
+        this.modificationTS = modificationTS;
+    }
 }

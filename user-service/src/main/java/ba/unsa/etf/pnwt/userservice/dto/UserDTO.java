@@ -1,30 +1,58 @@
 package ba.unsa.etf.pnwt.userservice.dto;
 
+import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * User DTO class
  */
 public class UserDTO implements Serializable {
-    private String cdid;
+    private int id;
+    private String uuid;
+    private String email;
+    private String password;
     private String firstName;
-
     private String lastName;
     private CityDTO city;
     private String description;
-    private List<UserDTO> connections;
+    private List<UserDTO> connections = new ArrayList<>();
+    private UserType userType;
+    private String companyName;
 
-
-
-    public String getCdid() {
-        return cdid;
+    public int getId() {
+        return id;
     }
 
-    public void setCdid(String cdid) {
-        this.cdid = cdid;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Nullable
@@ -54,7 +82,6 @@ public class UserDTO implements Serializable {
         this.description = description;
     }
 
-    @Nullable
     public List<UserDTO> getConnections() {
         return connections;
     }
@@ -70,5 +97,22 @@ public class UserDTO implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    @Nullable
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

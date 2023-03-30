@@ -1,6 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.entity;
 
 import ba.unsa.etf.pnwt.userservice.constants.DatabaseConstants;
+import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -12,11 +13,14 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "cdid", unique = true, nullable = false)
-    private String cdid;
+    @Column(name = "uuid", unique = true, nullable = false)
+    private String uuid;
 
     @Column(name = "eMail", unique = true, nullable = false)
     private String email;
+
+    @Column(name = "companyName")
+    private String companyName;
 
     @Column(name = "firstName")
     private String firstName;
@@ -37,11 +41,18 @@ public class UserEntity {
     @JoinColumn(name = "city_id")
     private CityEntity cityEntity;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "userType", nullable = false)
+    private UserType userType;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
     public UserEntity() {
     }
 
-    public UserEntity(String cdid, String firstName, CityEntity cityEntity) {
-        this.cdid = cdid;
+    public UserEntity(String uuid, String firstName, CityEntity cityEntity) {
+        this.uuid = uuid;
         this.firstName = firstName;
     }
 
@@ -53,12 +64,12 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getCdid() {
-        return cdid;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setCdid(String cdid) {
-        this.cdid = cdid;
+    public void setUuid(String cdid) {
+        this.uuid = cdid;
     }
 
     public String getEmail() {
@@ -115,5 +126,29 @@ public class UserEntity {
 
     public void setModificationTS(ZonedDateTime modificationTS) {
         this.modificationTS = modificationTS;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

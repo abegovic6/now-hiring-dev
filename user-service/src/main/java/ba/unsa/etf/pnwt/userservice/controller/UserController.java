@@ -1,11 +1,19 @@
 package ba.unsa.etf.pnwt.userservice.controller;
 
 
-import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessage;
+import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
+import ba.unsa.etf.pnwt.userservice.exception.NotValidException;
+import ba.unsa.etf.pnwt.userservice.params.UserParams;
 import ba.unsa.etf.pnwt.userservice.service.UserService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,104 +28,183 @@ public class UserController {
     @Autowired
     protected UserService userService;
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})}
+    )
     @GetMapping("/all")
-    public List<UserDTO> getAll() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getAll(
+            @RequestParam(required = false) String searchValue,
+            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) UserType userType
+    ) {
+        return new ResponseEntity<>(userService.getAllUsers(
+                new UserParams(searchValue, city, country, userType)
+        ), HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))}),
+            @ApiResponse(responseCode = "404", description = ApiResponseMessages.USER_NOT_FOUND_WITH_ID,
+                    content = @Content)})
     @GetMapping("/id/{id}")
-    public UserDTO getUserById(@PathVariable("id") Integer id) {
-        return userService.getUserById(id);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))}),
+            @ApiResponse(responseCode = "404", description = ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL,
+                    content = @Content)})
     @GetMapping("/email/{email}")
-    public UserDTO getUserByEmail(@PathVariable("email") String email) {
-        return userService.getUserByEmail(email);
+    public ResponseEntity<UserDTO> getUserByEmail(@PathVariable("email") String email) {
+        return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))}),
+            @ApiResponse(responseCode = "404", description = ApiResponseMessages.USER_NOT_FOUND_WITH_UUID,
+                    content = @Content)})
     @GetMapping("/uuid/{uuid}")
-    public UserDTO getUserByUUID(@PathVariable("uuid") String uuid) {
-        return userService.getUserByUUID(uuid);
+    public ResponseEntity<UserDTO> getUserByUUID(@PathVariable("uuid") String uuid) {
+        return new ResponseEntity<>(userService.getUserByUUID(uuid), HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_CREATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})})
     @PostMapping("/upload")
-    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
-        ResponseEntity<String> response = validateUser(userDTO);
-        if (response == null) {
-            response = userService.createUser(userDTO);
-        }
-        return response;
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        validateUserCreation(userDTO);
+        return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.CREATED);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_UPDATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})})
+    @PutMapping("/{uuid}/update/{userType}")
+    public ResponseEntity<UserDTO> updateUser(
+            @PathVariable("uuid") String uuid,
+            @PathVariable("userType") UserType userType,
+            @RequestBody UserDTO userDTO) {
+        validateUserUpdate(userDTO, uuid, userType);
+        return new ResponseEntity<>(userService.updateUser(userDTO, uuid, userType), HttpStatus.OK);
+    }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.EMAIL_SUCCESSFULLY_CHANGED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})})
+    @PutMapping("/{oldEmail}/emailUpdate")
+    public ResponseEntity<UserDTO> updateUserEmail(
+            @PathVariable("oldEmail") String oldEmail,
+            @RequestBody String newEmail) {
+        validateEmail(newEmail);
+        return new ResponseEntity<>(userService.updateEmail(oldEmail, newEmail), HttpStatus.OK);
+    }
 
-    private ResponseEntity<String> validateUser(UserDTO userDTO) {
-        if (userDTO.getUserType() == null) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.MISSING_ACCOUNT_TYPE);
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.PASSWORD_SUCCESSFULLY_CHANGED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})})
+    @PutMapping("/{uuid}/emailUpdate")
+    public ResponseEntity<UserDTO> updateUserPassword(
+            @PathVariable("uuid") String uuid,
+            @RequestBody String oldPassword,
+            @RequestBody String newPassword) {
+        validatePassword(newPassword);
+        return new ResponseEntity<>(userService.updatePassword(uuid, oldPassword, newPassword), HttpStatus.OK);
+    }
+
+    private void validateUserUpdate(UserDTO userDTO, String uuid, UserType userType) {
+        if (userDTO.getUuid() == null) {
+            throw new NotValidException(ApiResponseMessages.MISSING_UUID);
         }
-        if (userDTO.getEmail() == null) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.MISSING_EMAIL);
+        if (!userDTO.getUuid().equals(uuid)) {
+            throw new NotValidException(ApiResponseMessages.UUIDS_DO_NOT_MATCH);
+        }
+        validateUserTypeAndBasicData(userDTO, userType);
+    }
+
+    private void validateUserCreation(UserDTO userDTO) {
+        if (userDTO.getUserType() == null) {
+            throw new NotValidException(ApiResponseMessages.MISSING_ACCOUNT_TYPE);
+        }
+
+        validateEmail(userDTO.getEmail());
+        validatePassword(userDTO.getPassword());
+        validateUserTypeAndBasicData(userDTO, userDTO.getUserType());
+    }
+
+    private void validateUserTypeAndBasicData(UserDTO userDTO, UserType userType) {
+        if (userDTO.getDescription() != null && userDTO.getDescription().length() > ApiResponseMessages.MAX_DESCRIPTION_LENGTH) {
+            throw new NotValidException(ApiResponseMessages.DESCRIPTION_TO_LONG);
         }
         if (userDTO.getCompanyName() != null) {
-            if (userDTO.getUserType().equals(UserType.PRIVATE)) {
-                return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.CAN_NOT_DECLARE_NAME_WITH_PRIVATE_ACCOUNT);
+            if (userType.equals(UserType.PRIVATE)) {
+                throw new NotValidException(ApiResponseMessages.CAN_NOT_DECLARE_NAME_WITH_PRIVATE_ACCOUNT);
             }
-            if (userDTO.getCompanyName().length() > ApiResponseMessage.MAX_NAME_LENGTH) {
-                return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.NAME_TOO_LONG);
+            if (userDTO.getCompanyName().length() > ApiResponseMessages.MAX_NAME_LENGTH) {
+                throw new NotValidException(ApiResponseMessages.NAME_TOO_LONG);
             }
         }
         if (userDTO.getFirstName() != null) {
-            if (userDTO.getUserType().equals(UserType.COMPANY)) {
-                return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.CAN_NOT_DECLARE_NAME_WITH_COMPANY_ACCOUNT);
+            if (userType.equals(UserType.COMPANY)) {
+                throw new NotValidException(ApiResponseMessages.CAN_NOT_DECLARE_NAME_WITH_COMPANY_ACCOUNT);
             }
-            if (userDTO.getFirstName().length() > ApiResponseMessage.MAX_NAME_LENGTH) {
-                return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.FIRST_NAME_TOO_LONG);
+            if (userDTO.getFirstName().length() > ApiResponseMessages.MAX_NAME_LENGTH) {
+                throw new NotValidException(ApiResponseMessages.FIRST_NAME_TOO_LONG);
             }
         }
         if (userDTO.getLastName() != null) {
-            if (userDTO.getUserType().equals(UserType.COMPANY)) {
-                return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.CAN_NOT_DECLARE_NAME_WITH_COMPANY_ACCOUNT);
+            if (userType.equals(UserType.COMPANY)) {
+                throw new NotValidException(ApiResponseMessages.CAN_NOT_DECLARE_NAME_WITH_COMPANY_ACCOUNT);
             }
-            if (userDTO.getLastName().length() > ApiResponseMessage.MAX_NAME_LENGTH) {
-                return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.LAST_NAME_TOO_LONG);
+            if (userDTO.getLastName().length() > ApiResponseMessages.MAX_NAME_LENGTH) {
+                throw new NotValidException(ApiResponseMessages.LAST_NAME_TOO_LONG);
             }
         }
-
-        if (userDTO.getDescription() != null && userDTO.getDescription().length() > ApiResponseMessage.MAX_DESCRIPTION_LENGTH) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.DESCRIPTION_TO_LONG);
-        }
-
-        return validateEmailAndPassword(userDTO);
-
     }
 
-    private ResponseEntity<String> validateEmailAndPassword(UserDTO userDTO) {
-        if (userDTO.getEmail().length() > ApiResponseMessage.MAX_NAME_LENGTH) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.EMAIL_TOO_LONG);
+    private void validateEmail(String email) {
+        if (email == null) {
+            throw new NotValidException(ApiResponseMessages.MISSING_EMAIL);
+        }
+        if (email.length() > ApiResponseMessages.MAX_NAME_LENGTH) {
+            throw new NotValidException(ApiResponseMessages.EMAIL_TOO_LONG);
         }
 
         String emailRegex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(userDTO.getEmail());
+        Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.EMAIL_HAS_WRONG_FORMAT);
+            throw new NotValidException(ApiResponseMessages.EMAIL_HAS_WRONG_FORMAT);
         }
+    }
 
-        if (userDTO.getPassword() == null) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.MISSING_PASSWORD);
+    private void validatePassword(String password) {
+        if (password == null) {
+            throw new NotValidException(ApiResponseMessages.MISSING_PASSWORD);
         }
-        if (userDTO.getPassword().length() < 8 || userDTO.getPassword().length() > 25) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.PASSWORD_LENGTH);
+        if (password.length() < 8 || password.length() > 25) {
+            throw new NotValidException(ApiResponseMessages.PASSWORD_LENGTH);
         }
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,25}$";
-        pattern = Pattern.compile(passwordRegex);
-        matcher = pattern.matcher(userDTO.getPassword());
+        Pattern pattern = Pattern.compile(passwordRegex);
+        Matcher matcher = pattern.matcher(password);
         if (!matcher.matches()) {
-            return ApiResponseMessage.createBadRequestResponse(ApiResponseMessage.PASSWORD_TO_WEAK);
+            throw new NotValidException(ApiResponseMessages.PASSWORD_TO_WEAK);
         }
-
-
-        return null;
     }
 
 }

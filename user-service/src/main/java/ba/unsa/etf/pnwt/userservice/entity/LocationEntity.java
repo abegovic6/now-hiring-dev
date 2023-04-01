@@ -1,33 +1,32 @@
 package ba.unsa.etf.pnwt.userservice.entity;
 
-import ba.unsa.etf.pnwt.userservice.constants.DatabaseConstants;
+import ba.unsa.etf.pnwt.userservice.constants.ApplicationConstants;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(schema = DatabaseConstants.USER_SERVICE_SCHEMA, name = "city" )
-public class CityEntity {
+@Table(schema = ApplicationConstants.USER_SERVICE_SCHEMA, name = "location" )
+public class LocationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "city", nullable = false)
+    private String city;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    private CountryEntity countryEntity;
+    @Column(name = "country", nullable = false)
+    private String country;
 
-    @Column(name = "creationTS", nullable = false)
+    @Column(name = "creation_ts", nullable = false)
     private ZonedDateTime creationTS;
 
-    @Column(name = "modificationTS")
+    @Column(name = "modification_ts")
     private ZonedDateTime modificationTS;
 
 
-    public CityEntity() {
+    public LocationEntity() {
     }
 
     public Integer getId() {
@@ -38,20 +37,20 @@ public class CityEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCity() {
+        return city;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCity(String cityName) {
+        this.city = cityName;
     }
 
-    public CountryEntity getCountryEntity() {
-        return countryEntity;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCountryEntity(CountryEntity countryEntity) {
-        this.countryEntity = countryEntity;
+    public void setCountry(String countryName) {
+        this.country = countryName;
     }
 
     public ZonedDateTime getCreationTS() {

@@ -1,13 +1,13 @@
 package ba.unsa.etf.pnwt.userservice.entity;
 
-import ba.unsa.etf.pnwt.userservice.constants.DatabaseConstants;
+import ba.unsa.etf.pnwt.userservice.constants.ApplicationConstants;
 import jakarta.persistence.*;
 
 /**
  * Example entity
  */
 @Entity
-@Table(schema = DatabaseConstants.USER_SERVICE_SCHEMA, name = "example" )
+@Table(schema = ApplicationConstants.USER_SERVICE_SCHEMA, name = "example" )
 public class ExampleEntity {
 
     @Id

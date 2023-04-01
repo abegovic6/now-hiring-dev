@@ -1,13 +1,14 @@
 package ba.unsa.etf.pnwt.userservice.entity;
 
-import ba.unsa.etf.pnwt.userservice.constants.DatabaseConstants;
+import ba.unsa.etf.pnwt.userservice.constants.ApplicationConstants;
 import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(schema = DatabaseConstants.USER_SERVICE_SCHEMA, name = "user" )
+@Table(schema = ApplicationConstants.USER_SERVICE_SCHEMA, name = "user" )
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,33 +17,33 @@ public class UserEntity {
     @Column(name = "uuid", unique = true, nullable = false)
     private String uuid;
 
-    @Column(name = "eMail", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "companyName")
+    @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "creationTS", nullable = false)
+    @Column(name = "creation_ts", nullable = false)
     private ZonedDateTime creationTS;
 
-    @Column(name = "modificationTS")
+    @Column(name = "modification_ts")
     private ZonedDateTime modificationTS;
 
     @ManyToOne
-    @JoinColumn(name = "city_id")
-    private CityEntity cityEntity;
+    @JoinColumn(name = "location_id")
+    private LocationEntity locationEntity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "userType", nullable = false)
+    @Column(name = "user_type", nullable = false)
     private UserType userType;
 
     @Column(name = "password", nullable = false)
@@ -51,7 +52,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String uuid, String firstName, CityEntity cityEntity) {
+    public UserEntity(String uuid, String firstName, LocationEntity locationEntity) {
         this.uuid = uuid;
         this.firstName = firstName;
     }
@@ -104,12 +105,12 @@ public class UserEntity {
         this.description = description;
     }
 
-    public CityEntity getCityEntity() {
-        return cityEntity;
+    public LocationEntity getLocationEntity() {
+        return locationEntity;
     }
 
-    public void setCityEntity(CityEntity cityEntity) {
-        this.cityEntity = cityEntity;
+    public void setLocationEntity(LocationEntity locationEntity) {
+        this.locationEntity = locationEntity;
     }
 
     public ZonedDateTime getCreationTS() {
@@ -150,5 +151,9 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean comparePasswords(@NotNull String password1) {
+        return password1.equals(password);
     }
 }

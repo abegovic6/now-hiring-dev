@@ -17,11 +17,12 @@ public class UserDTO implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
-    private CityDTO city;
+    private LocationDTO locationDTO;
     private String description;
     private List<UserDTO> connections = new ArrayList<>();
     private UserType userType;
     private String companyName;
+    private String displayValue;
 
     public int getId() {
         return id;
@@ -65,12 +66,12 @@ public class UserDTO implements Serializable {
     }
 
     @Nullable
-    public CityDTO getCity() {
-        return city;
+    public LocationDTO getLocationDTO() {
+        return locationDTO;
     }
 
-    public void setCity(CityDTO city) {
-        this.city = city;
+    public void setLocationDTO(LocationDTO locationDTO) {
+        this.locationDTO = locationDTO;
     }
 
     @Nullable
@@ -114,5 +115,13 @@ public class UserDTO implements Serializable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getDisplayValue() {
+        return displayValue;
+    }
+
+    public void setDisplayValue(String displayValue) {
+        this.displayValue = displayValue;
     }
 }

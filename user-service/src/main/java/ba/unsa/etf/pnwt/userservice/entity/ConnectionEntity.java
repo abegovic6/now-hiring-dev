@@ -1,12 +1,14 @@
 package ba.unsa.etf.pnwt.userservice.entity;
 
-import ba.unsa.etf.pnwt.userservice.constants.DatabaseConstants;
+import ba.unsa.etf.pnwt.userservice.constants.ApplicationConstants;
+import ba.unsa.etf.pnwt.userservice.constants.ConnectionStatus;
+import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(schema = DatabaseConstants.USER_SERVICE_SCHEMA, name = "connection" )
+@Table(schema = ApplicationConstants.USER_SERVICE_SCHEMA, name = "connection" )
 public class ConnectionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +22,14 @@ public class ConnectionEntity {
     @JoinColumn(name = "user_two", nullable = false)
     private UserEntity userTwo;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
-    private CityEntity cityEntity;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ConnectionStatus connectionStatus;
 
-    @Column(name = "creationTS", nullable = false)
+    @Column(name = "creation_ts", nullable = false)
     private ZonedDateTime creationTS;
 
-    @Column(name = "modificationTS")
+    @Column(name = "modification_ts")
     private ZonedDateTime modificationTS;
 
     public Integer getId() {
@@ -54,12 +56,12 @@ public class ConnectionEntity {
         this.userTwo = userTwo;
     }
 
-    public CityEntity getCityEntity() {
-        return cityEntity;
+    public ConnectionStatus getConnectionStatus() {
+        return connectionStatus;
     }
 
-    public void setCityEntity(CityEntity cityEntity) {
-        this.cityEntity = cityEntity;
+    public void setConnectionStatus(ConnectionStatus connectionStatus) {
+        this.connectionStatus = connectionStatus;
     }
 
     public ZonedDateTime getCreationTS() {

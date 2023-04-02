@@ -22,20 +22,20 @@ public class UserEntity {
     @Column(name = "eMail", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "userType", nullable = false)
+    private String userType;
+
     @Column(name = "firstName")
     private String firstName;
 
     @Column(name = "lastName")
     private String lastName;
 
+    @Column(name = "companyName")
+    private String companyName;
+
     @Column(name = "description")
     private String description;
-
-    @Column(name = "creationTS", nullable = false)
-    private ZonedDateTime creationTS;
-
-    @Column(name = "modificationTS")
-    private ZonedDateTime modificationTS;
 
     @Column(name = "location")
     private String location;
@@ -91,20 +91,20 @@ public class UserEntity {
         this.description = description;
     }
 
-    public ZonedDateTime getCreationTS() {
-        return creationTS;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setCreationTS(ZonedDateTime creationTS) {
-        this.creationTS = creationTS;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
-    public ZonedDateTime getModificationTS() {
-        return modificationTS;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setModificationTS(ZonedDateTime modificationTS) {
-        this.modificationTS = modificationTS;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getLocation() {

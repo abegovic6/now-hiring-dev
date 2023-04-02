@@ -15,6 +15,11 @@ public class JobDTO implements Serializable {
     private String title;
     @NotNull(message = "Job location must be specified")
     private String location;
+
+    @NotNull(message = "Company ID must be specified")
+    private String companyId;
+
+    private String companyName;
     private String validTo;
     private String type;
     private String description;
@@ -75,5 +80,21 @@ public class JobDTO implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

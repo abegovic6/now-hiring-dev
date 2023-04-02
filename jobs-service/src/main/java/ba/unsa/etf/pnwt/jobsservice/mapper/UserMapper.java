@@ -16,8 +16,10 @@ public class UserMapper {
     public static UserDTO mapToProjection(UserEntity entity) {
         UserDTO projection = new UserDTO();
         projection.setId(entity.getUid());
+        projection.setUserType(entity.getUserType());
         projection.setFirstName(entity.getFirstName());
         projection.setLastName(entity.getLastName());
+        projection.setCompanyName(entity.getCompanyName());
         projection.setDescription(entity.getDescription());
         projection.setLocation(entity.getLocation());
         return projection;

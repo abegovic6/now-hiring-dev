@@ -21,6 +21,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private Job2ApplicationRepository job2ApplicationRepository;
+
+    @Autowired
+    private UserService userService;
 
 
     @Override
@@ -98,10 +102,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public ApplicationDTO createApplication(ApplicationDTO app) {
         if (app.getJobId() == null){
-            throw new NotValidException("Job id missing");
+            throw new NotValidException("Job ID not provided");
         }
         if (app.getUserId() == null){
-            throw new NotValidException("User id missing");
+            throw new NotValidException("User ID not provided");
         }
 
         UserEntity userDb = userRepository.findUserEntityByUid(app.getUserId());
@@ -110,6 +114,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (userDb == null){
             throw new EntityNotFoundException("User with provided ID not found");
         }
+
+        if (Objects.equals(userService.getUserType(app.getUserId()), "COMPANY")){
+            throw new NotValidException("User with provided ID is a Company and can't apply for a job");
+        }
+
         if (!jobDb.isPresent()){
             throw new EntityNotFoundException("Job with provided ID not found");
         }
@@ -136,6 +145,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         UserEntity userDb = userRepository.findUserEntityByUid(userId);
         if (userDb == null){
             throw new EntityNotFoundException("User with provided ID not found");
+        }
+
+        if (Objects.equals(userService.getUserType(userId), "COMPANY")){
+            throw new NotValidException("User with provided ID is a Company and can't apply for jobs");
         }
         List<ApplicationEntity> userApplications = applicationRepository.findApplicationEntityByUserUid(userId);
         List<Job2ApplicationEntity> job2Applications = job2ApplicationRepository.findAll();

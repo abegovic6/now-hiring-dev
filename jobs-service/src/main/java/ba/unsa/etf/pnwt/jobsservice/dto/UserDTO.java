@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class UserDTO implements Serializable {
     private String uid;
+    private String userType;
+    private String companyName;
     private String firstName;
     private String lastName;
     private String description;
@@ -57,5 +59,22 @@ public class UserDTO implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    @Nullable
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

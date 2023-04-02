@@ -2,6 +2,7 @@ package ba.unsa.etf.pnwt.jobsservice.mapper;
 
 import ba.unsa.etf.pnwt.jobsservice.dto.JobDTO;
 import ba.unsa.etf.pnwt.jobsservice.entity.JobEntity;
+import ba.unsa.etf.pnwt.jobsservice.entity.UserEntity;
 
 
 import java.time.LocalDate;
@@ -21,11 +22,22 @@ public class JobMapper {
         projection.setValidTo(entity.getValidTo());
         projection.setType(entity.getType());
         projection.setDescription(entity.getDescription());
+        projection.setCompanyId(entity.getCompanyId());
+        return projection;
+    }
+
+    public static JobDTO mapToProjection(JobEntity entity, UserEntity userEntity) {
+        JobDTO projection = mapToProjection(entity);
+        projection.setCompanyName(userEntity.getCompanyName());
         return projection;
     }
 
     public static List<JobDTO> mapToProjections(List<JobEntity> entities) {
         return entities.stream().map(JobMapper::mapToProjection).collect(Collectors.toList());
+    }
+
+    public static List<JobDTO> mapToProjections(List<JobEntity> entities, UserEntity userEntity) {
+        return entities.stream().map(jobEntity -> mapToProjection(jobEntity, userEntity)).collect(Collectors.toList());
     }
 
     public static JobEntity mapToEntity(JobDTO projection){
@@ -37,6 +49,7 @@ public class JobMapper {
         entity.setTitle(projection.getTitle());
         entity.setType(projection.getType());
         entity.setLocation(projection.getLocation());
+        entity.setCompanyId(projection.getCompanyId());
         if(projection.getValidTo() != null)
             entity.setValidTo(LocalDate.parse(projection.getValidTo()));
         else entity.setValidTo(null);

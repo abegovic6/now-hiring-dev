@@ -11,5 +11,9 @@ public interface UserService {
 
     UserDTO getByUid(String uid);
 
+    String getUserType(String uid);
+
+    String getCompanyName(String uid);
+
 
 }

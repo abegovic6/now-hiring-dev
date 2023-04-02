@@ -17,7 +17,7 @@ public interface JobService {
 
     JobDTO update(JobDTO job);
 
-    void delete(JobDTO job);
-
     String deleteById(int id);
+
+    List<JobDTO> getByCompanyId(String id);
 }

@@ -71,11 +71,6 @@ public class JobController {
     }
 
 
-//    @DeleteMapping("/delete")
-//    public void delete(@RequestBody JobDTO job){
-//        jobService.delete(job);
-//    }
-
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully deleted the job with provided ID",
                     content = { @Content(mediaType = "application/json",

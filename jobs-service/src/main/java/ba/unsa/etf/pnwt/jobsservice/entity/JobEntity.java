@@ -16,6 +16,9 @@ public class JobEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "companyId")
+    private String companyId;
+
     @Column(name = "title")
     private String title;
 
@@ -80,5 +83,13 @@ public class JobEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 }

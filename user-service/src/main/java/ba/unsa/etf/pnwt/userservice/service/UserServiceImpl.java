@@ -142,7 +142,8 @@ public class UserServiceImpl implements UserService{
         return getUserByUUID(uuid);
     }
 
-    private UserEntity getUserEntityByUUID(String uuid) {
+    @Override
+    public UserEntity getUserEntityByUUID(String uuid) {
         UserEntity userEntity = userRepository.findUserEntityByUuid(uuid);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_UUID);
@@ -150,7 +151,8 @@ public class UserServiceImpl implements UserService{
         return userEntity;
     }
 
-    private UserEntity getUserEntityByEmail(String email) {
+    @Override
+    public UserEntity getUserEntityByEmail(String email) {
         UserEntity userEntity = userRepository.findUserEntityByEmail(email);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL);
@@ -158,7 +160,8 @@ public class UserServiceImpl implements UserService{
         return userEntity;
     }
 
-    private UserEntity getUserEntityById(int id) {
+    @Override
+    public UserEntity getUserEntityById(int id) {
         UserEntity userEntity = userRepository.findUserEntityById(id);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_ID);

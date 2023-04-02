@@ -7,7 +7,7 @@ public class ApiResponseMessages {
     public static final int PASSWORD_MIN_LENGTH = 8;
 
     // successful
-    public static final String ALL_USERS_FOUND = "Successfully found all users in the system";
+    public static final String ALL_USERS_FOUND = "Successfully found all users";
     public static final String USER_WAS_FOUND = "Successfully found the user with provided information";
     public static final String USER_CREATED = "The user was successfully created!";
     public static final String USER_UPDATED = "The user was successfully updated!";
@@ -17,6 +17,11 @@ public class ApiResponseMessages {
     public static final String CITY_CREATED = "The city was successfully created!";
     public static final String COUNTRY_CREATED = "The country was successfully created!";
     public static final String ALL_LOCATIONS_FOUND = "Successfully found all locations in the system";
+    public static final String CONNECTION_SENT = "The connection request was successfully sent!";
+    public static final String CONNECTION_ACCEPTED = "The connection request was successfully accepted!";
+    public static final String CONNECTION_REJECTED = "The connection request was successfully rejected!";
+    public static final String MAIL_SENT = "The mail was successfully sent";
+    public static final String NOTIFICATION_CREATED = "The notification has been created";
 
     // not found
     public static final String USER_NOT_FOUND_WITH_ID = "The user with provided id was not found";
@@ -37,7 +42,10 @@ public class ApiResponseMessages {
     public static final String COUNTRY_DOES_NOT_EXISTS = "The provided county does not exist";
     public static final String CITY_DOES_NOT_EXISTS = "The provided city does not exist";
     public static final String CITY_DOES_NOT_MATCH_THE_COUNTRY = "The provided city does not match the provided country";
-
+    public static final String CONNECTION_FOR_ACCEPTANCE_DOES_NOT_EXISTS = "The connection for acceptance was not found!";
+    public static final String CONNECTION_FOR_REJECTING_DOES_NOT_EXISTS = "The connection for rejecting was not found!";
+    public static final String CONNECTION_ALREADY_EXISTS = "The connection is already pending or accepted!";
+    public static final String CANT_HAVE_CONNECTION_WITH_YOURSELF = "The connection can not start between same users";
 
     // wrong format
     public static final String EMAIL_HAS_WRONG_FORMAT = "The provided email has a wrong format. Follow the next patter: email@mail.com";

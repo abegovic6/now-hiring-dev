@@ -2,7 +2,6 @@ package ba.unsa.etf.pnwt.userservice.entity;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApplicationConstants;
 import ba.unsa.etf.pnwt.userservice.constants.ConnectionStatus;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -15,12 +14,12 @@ public class ConnectionEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_one", nullable = false)
-    private UserEntity userOne;
+    @JoinColumn(name = "user_to", nullable = false)
+    private UserEntity userTo;
 
     @ManyToOne
-    @JoinColumn(name = "user_two", nullable = false)
-    private UserEntity userTwo;
+    @JoinColumn(name = "user_from", nullable = false)
+    private UserEntity userFrom;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -32,6 +31,14 @@ public class ConnectionEntity {
     @Column(name = "modification_ts")
     private ZonedDateTime modificationTS;
 
+    public ConnectionEntity() {
+    }
+
+    public ConnectionEntity(UserEntity userTo, UserEntity userFrom) {
+        this.userTo = userTo;
+        this.userFrom = userFrom;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -40,20 +47,20 @@ public class ConnectionEntity {
         this.id = id;
     }
 
-    public UserEntity getUserOne() {
-        return userOne;
+    public UserEntity getUserTo() {
+        return userTo;
     }
 
-    public void setUserOne(UserEntity userOne) {
-        this.userOne = userOne;
+    public void setUserTo(UserEntity userOne) {
+        this.userTo = userOne;
     }
 
-    public UserEntity getUserTwo() {
-        return userTwo;
+    public UserEntity getUserFrom() {
+        return userFrom;
     }
 
-    public void setUserTwo(UserEntity userTwo) {
-        this.userTwo = userTwo;
+    public void setUserFrom(UserEntity userTwo) {
+        this.userFrom = userTwo;
     }
 
     public ConnectionStatus getConnectionStatus() {

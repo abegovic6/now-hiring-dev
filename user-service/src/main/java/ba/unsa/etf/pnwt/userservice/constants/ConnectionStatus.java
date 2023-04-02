@@ -1,5 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.constants;
 
 public enum ConnectionStatus {
-    PENDING
+    PENDING,
+    ACCEPTED,
+    REJECTED
 }

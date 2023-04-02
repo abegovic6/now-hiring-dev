@@ -3,6 +3,7 @@ package ba.unsa.etf.pnwt.userservice.service;
 import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import ba.unsa.etf.pnwt.userservice.controller.UserController;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
+import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.userservice.params.UserParams;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -27,4 +28,10 @@ public interface UserService {
     UserDTO updateUser(UserDTO newUser, String uuid, UserType userType);
     UserDTO updateEmail(String oldEmail, String newEmail);
     UserDTO updatePassword(String uuid, String oldPassword, String newPassword);
+
+    UserEntity getUserEntityByUUID(String uuid);
+
+    UserEntity getUserEntityByEmail(String email);
+
+    UserEntity getUserEntityById(int id);
 }

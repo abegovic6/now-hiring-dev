@@ -1,12 +1,8 @@
 package ba.unsa.etf.pnwt.dto;
 
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.hibernate.validator.constraints.Email;
-
-
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserDTO implements Serializable {

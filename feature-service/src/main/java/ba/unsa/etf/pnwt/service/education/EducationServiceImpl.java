@@ -1,22 +1,35 @@
 package ba.unsa.etf.pnwt.service.education;
 
 import ba.unsa.etf.pnwt.dto.EducationDTO;
+import ba.unsa.etf.pnwt.entity.EducationEntity;
+import ba.unsa.etf.pnwt.entity.ExperienceEntity;
+import ba.unsa.etf.pnwt.entity.UserEntity;
 import ba.unsa.etf.pnwt.mapper.EducationMapper;
+import ba.unsa.etf.pnwt.mapper.ExperienceMapper;
 import ba.unsa.etf.pnwt.repository.EducationRepository;
+import ba.unsa.etf.pnwt.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EducationServiceImpl implements EducationService{
 
     @Autowired
-    EducationRepository educationRepository;
+    private EducationRepository educationRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<EducationDTO> findEducationByUser(Integer id){
-        return EducationMapper.mapToProjections(educationRepository.findByUserId(id));
+        UserEntity userEntity = userRepository.findById(id);
+        if (userEntity != null)
+            return EducationMapper.mapToProjections(educationRepository.findByUserId(id));
+        else throw new EntityNotFoundException("User with provided id not found");
     }
 
     @Override
@@ -26,8 +39,11 @@ public class EducationServiceImpl implements EducationService{
 
     @Override
     public String deleteEducation(Integer id) {
-        educationRepository.deleteEducationById(id);
-        return "Education succesfully deleted";
+        Optional<EducationEntity> educationEntity = educationRepository.findById(id);
+        if (educationEntity.isPresent()) {
+            educationRepository.deleteEducationById(id);
+            return "Education succesfully deleted";
+        }else throw new EntityNotFoundException("Education with provided id not found");
     }
 
     @Override

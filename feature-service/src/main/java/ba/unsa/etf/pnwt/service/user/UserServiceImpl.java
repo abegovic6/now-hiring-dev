@@ -1,8 +1,10 @@
 package ba.unsa.etf.pnwt.service.user;
 
 import ba.unsa.etf.pnwt.dto.UserDTO;
+import ba.unsa.etf.pnwt.entity.UserEntity;
 import ba.unsa.etf.pnwt.mapper.UserMapper;
 import ba.unsa.etf.pnwt.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +24,26 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        return UserMapper.mapToProjection(userRepository.findByEmail(email));
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if (userEntity != null)
+            return UserMapper.mapToProjection(userEntity);
+        else throw new EntityNotFoundException("User with provided email not found");
     }
 
     @Override
     public UserDTO getUserById(Integer id) {
-        return UserMapper.mapToProjection(userRepository.findById(id));
+        UserEntity userEntity = userRepository.findById(id);
+        if (userEntity != null)
+            return UserMapper.mapToProjection(userEntity);
+        else throw new EntityNotFoundException("User with provided id not found");
     }
 
     @Override
     public UserDTO getUserByUuid(String uuid) {
-        return UserMapper.mapToProjection(userRepository.findByUuid(uuid));
+        UserEntity userEntity = userRepository.findByUuid(uuid);
+        if (userEntity != null)
+            return UserMapper.mapToProjection(userEntity);
+        else throw new EntityNotFoundException("User with provided uuid not found");
     }
 
 
@@ -43,12 +54,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String deleteUser(String uuid){
-        userRepository.deleteByUuid(uuid);
-        return "Succes";
+        UserEntity userEntity = userRepository.findByUuid(uuid);
+        if (userEntity != null) {
+            userRepository.deleteByUuid(uuid);
+            return "Succes";
+        }else throw new EntityNotFoundException("User with provided uuid not found");
     }
 
     @Override
     public UserDTO editUser(UserDTO userDTO){
-        return UserMapper.mapToProjection(userRepository.save(UserMapper.mapToEntity(userDTO)));
+        UserEntity userEntity = userRepository.findByUuid(userDTO.getUuid());
+        if (userEntity != null)
+            return UserMapper.mapToProjection(userRepository.save(UserMapper.mapToEntity(userDTO)));
+        else throw new EntityNotFoundException("User with provided uuid not found");
     }
 }

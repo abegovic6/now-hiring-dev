@@ -63,7 +63,7 @@ public class JobController {
                             schema = @Schema(implementation = JobDTO.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid information supplied",
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "Category with provided ID not found",
+            @ApiResponse(responseCode = "404", description = "Job with provided ID not found",
                     content = @Content)})
     @PostMapping("/update")
     public ResponseEntity<JobDTO> update(@RequestBody JobDTO job){

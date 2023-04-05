@@ -1,5 +1,6 @@
 package ba.unsa.etf.pnwt.jobsservice.dto;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
@@ -8,20 +9,26 @@ import java.io.Serializable;
  * Example DTO class
  */
 public class UserDTO implements Serializable {
+    @NotNull(message = "ID must be specified")
     private String uid;
+    @NotNull(message = "User Type must be specified")
     private String userType;
     private String companyName;
     private String firstName;
     private String lastName;
+    @NotNull(message = "E-mail must be specified")
+    private String email;
     private String description;
     private String location;
 
+    private Integer id;
+
     @Nullable
-    public String getId() {
+    public String getUid() {
         return uid;
     }
 
-    public void setId(String id) {
+    public void setUid(String id) {
         this.uid = id;
     }
 
@@ -76,5 +83,21 @@ public class UserDTO implements Serializable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -71,17 +71,6 @@ public class ApplicationController {
         return new ResponseEntity<>(applicationService.getApplicationsForJobId(id), HttpStatus.OK);
     }
 
-    //    @PostMapping("/add")
-    //    public ApplicationDTO add(@RequestBody ApplicationEntity job){
-    //        return applicationService.save(job);
-    //    }
-
-    // Vjerovatno nece trebati jer nema smisla mijenjati prijavu
-    //    @PostMapping("/update")
-    //    public ApplicationDTO update(@RequestBody ApplicationEntity job){
-    //        return applicationService.update(job);
-    //    }
-
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully created job application for user",
                     content = { @Content(mediaType = "application/json",

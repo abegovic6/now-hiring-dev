@@ -15,5 +15,11 @@ public interface UserService {
 
     String getCompanyName(String uid);
 
+    UserDTO save(UserDTO user);
+
+    UserDTO update(UserDTO user);
+
+    String deleteById(String id);
+
 
 }

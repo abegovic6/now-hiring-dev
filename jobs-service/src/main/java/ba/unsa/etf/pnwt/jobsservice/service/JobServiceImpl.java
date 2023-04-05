@@ -51,6 +51,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public JobDTO save(JobDTO job) {
 
+        Optional<JobEntity> jobDb = jobRepository.findById((long) job.getId());
+        if(jobDb.isPresent()) throw new NotValidException("Job with provided ID already exists");
+
         if (Objects.equals(userService.getUserType(job.getCompanyId()), "COMPANY")){
             JobDTO jobDTO = JobMapper.mapToProjection(jobRepository.save(JobMapper.mapToEntity(job)));
             jobDTO.setCompanyName(userService.getCompanyName(jobDTO.getCompanyId()));

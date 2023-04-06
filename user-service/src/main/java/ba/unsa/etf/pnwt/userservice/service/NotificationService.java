@@ -2,15 +2,17 @@ package ba.unsa.etf.pnwt.userservice.service;
 
 import ba.unsa.etf.pnwt.userservice.dto.NotificationDTO;
 
+import java.util.List;
+
 public interface NotificationService {
 
     void sendTestMail();
 
-    void createConnectionNotification(String uuidFrom, String uuidTo);
+    NotificationDTO createConnectionNotification(String uuidFrom, String uuidTo);
 
-    void createCompanyCreatedAJobNotification(String uuidCompany);
+    List<NotificationDTO> createCompanyCreatedAJobNotification(String uuidCompany);
 
-    void createUserAppliedForJobApplication(String uuidUser, String companyUuid);
+    NotificationDTO createUserAppliedForJobApplication(String uuidUser, String companyUuid);
 
-    void createReviewerWroteAReviewForUser(String uuidReviewer, String uuidForUser);
+    NotificationDTO createReviewerWroteAReviewForUser(String uuidReviewer, String uuidForUser);
 }

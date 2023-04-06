@@ -9,6 +9,14 @@ public class LocationDTO {
     private String country;
     private String displayValue;
 
+    public LocationDTO() {
+    }
+
+    public LocationDTO(String city, String country) {
+        this.city = city;
+        this.country = country;
+    }
+
     public int getId() {
         return id;
     }

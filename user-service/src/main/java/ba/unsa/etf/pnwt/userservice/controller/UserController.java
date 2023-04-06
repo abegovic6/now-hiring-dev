@@ -3,6 +3,7 @@ package ba.unsa.etf.pnwt.userservice.controller;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.dto.PasswordDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.exception.NotValidException;
 import ba.unsa.etf.pnwt.userservice.params.UserParams;
@@ -79,7 +80,7 @@ public class UserController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_CREATED,
+            @ApiResponse(responseCode = "201", description = ApiResponseMessages.USER_CREATED,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = UserDTO.class))})})
     @PostMapping("/upload")
@@ -102,28 +103,15 @@ public class UserController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ApiResponseMessages.EMAIL_SUCCESSFULLY_CHANGED,
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = UserDTO.class))})})
-    @PutMapping("/{oldEmail}/emailUpdate")
-    public ResponseEntity<UserDTO> updateUserEmail(
-            @PathVariable("oldEmail") String oldEmail,
-            @RequestBody String newEmail) {
-        validateEmail(newEmail);
-        return new ResponseEntity<>(userService.updateEmail(oldEmail, newEmail), HttpStatus.OK);
-    }
-
-    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.PASSWORD_SUCCESSFULLY_CHANGED,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = UserDTO.class))})})
-    @PutMapping("/{uuid}/emailUpdate")
+    @PutMapping("/{uuid}/passwordUpdate")
     public ResponseEntity<UserDTO> updateUserPassword(
             @PathVariable("uuid") String uuid,
-            @RequestBody String oldPassword,
-            @RequestBody String newPassword) {
-        validatePassword(newPassword);
-        return new ResponseEntity<>(userService.updatePassword(uuid, oldPassword, newPassword), HttpStatus.OK);
+            @RequestBody PasswordDTO password) {
+        validatePassword(password.getNewPassword());
+        return new ResponseEntity<>(userService.updatePassword(uuid, password.getOldPassword(), password.getNewPassword()), HttpStatus.OK);
     }
 
     private void validateUserUpdate(UserDTO userDTO, String uuid, UserType userType) {

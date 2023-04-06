@@ -1,6 +1,5 @@
 package ba.unsa.etf.pnwt.userservice.usertests;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -10,7 +9,6 @@ import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.controller.UserController;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class UserTests {
     private static final String API_USER = "/api/user/";
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private UserController controller;
+    @Autowired private MockMvc mockMvc;
+    @Autowired private UserController controller;
 
     @Test
     public void contextLoads() throws Exception {

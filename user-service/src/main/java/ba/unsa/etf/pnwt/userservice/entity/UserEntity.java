@@ -52,6 +52,8 @@ public class UserEntity {
     public UserEntity() {
     }
 
+
+
     public UserEntity(String uuid, String firstName, LocationEntity locationEntity) {
         this.uuid = uuid;
         this.firstName = firstName;

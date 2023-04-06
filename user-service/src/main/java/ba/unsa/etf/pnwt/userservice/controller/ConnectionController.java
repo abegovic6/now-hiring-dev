@@ -1,6 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.controller;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
+import ba.unsa.etf.pnwt.userservice.dto.NotificationDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.service.ConnectionService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,10 +38,9 @@ public class ConnectionController {
                             schema = @Schema(implementation = String.class))})}
     )
     @PostMapping("{uuidFrom}/start/{uuidTo}")
-    public ResponseEntity<String> startNewConnection(
+    public ResponseEntity<NotificationDTO> startNewConnection(
             @PathVariable("uuidFrom") String uuidFrom, @PathVariable("uuidTo") String uuidTo) {
-        connectionService.sendConnectionRequest(uuidTo, uuidFrom);
-        return new ResponseEntity<>(ApiResponseMessages.CONNECTION_SENT, HttpStatus.OK);
+        return new ResponseEntity<>(connectionService.sendConnectionRequest(uuidTo, uuidFrom), HttpStatus.OK);
     }
 
     @ApiResponses(value = {

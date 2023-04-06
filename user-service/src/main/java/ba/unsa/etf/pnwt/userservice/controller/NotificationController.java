@@ -1,6 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.controller;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
+import ba.unsa.etf.pnwt.userservice.dto.NotificationDTO;
 import ba.unsa.etf.pnwt.userservice.service.NotificationService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notification")
@@ -24,11 +27,10 @@ public class NotificationController {
                             schema = @Schema(implementation = String.class))})}
     )
     @PostMapping("{companyUuid}/created-job")
-    public ResponseEntity<String> createCompanyCreatedAJobNotification(
+    public ResponseEntity<List<NotificationDTO>> createCompanyCreatedAJobNotification(
             @PathVariable("companyUuid") String companyUuid
     ) {
-        notificationService.createCompanyCreatedAJobNotification(companyUuid);
-        return new ResponseEntity<>(ApiResponseMessages.NOTIFICATION_CREATED, HttpStatus.OK);
+        return new ResponseEntity<>(notificationService.createCompanyCreatedAJobNotification(companyUuid), HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -37,11 +39,11 @@ public class NotificationController {
                             schema = @Schema(implementation = String.class))})}
     )
     @PostMapping("{userUuid}/user-applied-for-job/{companyUuid}")
-    public ResponseEntity<String> createUserAppliedForJobApplication(
+    public ResponseEntity<NotificationDTO> createUserAppliedForJobApplication(
             @PathVariable("userUuid") String userUuid, @PathVariable("companyUuid") String companyUuid
     ) {
-        notificationService.createUserAppliedForJobApplication(userUuid, companyUuid);
-        return new ResponseEntity<>(ApiResponseMessages.NOTIFICATION_CREATED, HttpStatus.OK);
+        return new ResponseEntity<>(
+                notificationService.createUserAppliedForJobApplication(userUuid, companyUuid), HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -50,12 +52,12 @@ public class NotificationController {
                             schema = @Schema(implementation = String.class))})}
     )
     @PostMapping("{uuidReviewer}/review/{userUuid}")
-    public ResponseEntity<String> createCompanyCreatedAJobNotification(
+    public ResponseEntity<NotificationDTO> createUserWroteAReviewNotification(
             @PathVariable("uuidReviewer") String uuidReviewer,
             @PathVariable("userUuid") String userUuid
     ) {
-        notificationService.createReviewerWroteAReviewForUser(uuidReviewer, userUuid);
-        return new ResponseEntity<>(ApiResponseMessages.NOTIFICATION_CREATED, HttpStatus.OK);
+        return new ResponseEntity<>(
+                notificationService.createReviewerWroteAReviewForUser(uuidReviewer, userUuid), HttpStatus.OK);
     }
 
     @ApiResponses(value = {

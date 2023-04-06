@@ -26,7 +26,6 @@ public interface UserService {
 
     UserDTO createUser(UserDTO userDTO);
     UserDTO updateUser(UserDTO newUser, String uuid, UserType userType);
-    UserDTO updateEmail(String oldEmail, String newEmail);
     UserDTO updatePassword(String uuid, String oldPassword, String newPassword);
 
     UserEntity getUserEntityByUUID(String uuid);

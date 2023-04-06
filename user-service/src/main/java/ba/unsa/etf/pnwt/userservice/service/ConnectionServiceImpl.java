@@ -2,13 +2,13 @@ package ba.unsa.etf.pnwt.userservice.service;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.ConnectionStatus;
+import ba.unsa.etf.pnwt.userservice.dto.NotificationDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.entity.ConnectionEntity;
 import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.userservice.exception.NotValidException;
 import ba.unsa.etf.pnwt.userservice.mapper.UserMapper;
 import ba.unsa.etf.pnwt.userservice.repository.ConnectionRepository;
-import ba.unsa.etf.pnwt.userservice.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,15 @@ import java.util.Objects;
 public class ConnectionServiceImpl implements ConnectionService{
     @Autowired protected UserService userService;
     @Autowired protected ConnectionRepository connectionRepository;
+    @Autowired protected NotificationService notificationService;
 
     @Override
     public List<UserDTO> findAllConnectionsByUUID(String uuid) {
+        return UserMapper.mapToProjections(findAllConnectionEntitiesByUUID(uuid));
+    }
+
+    @Override
+    public List<UserEntity> findAllConnectionEntitiesByUUID(String uuid) {
         UserEntity user = userService.getUserEntityByUUID(uuid);
         List<ConnectionEntity> allConnections
                 = connectionRepository.getConnectionEntitiesByConnectionStatusAndUserFromOrUserTo(ConnectionStatus.ACCEPTED, user, user);
@@ -38,11 +44,11 @@ public class ConnectionServiceImpl implements ConnectionService{
                 connectedUsers.add(connection.getUserTo());
             }
         }
-        return UserMapper.mapToProjections(connectedUsers);
+        return connectedUsers;
     }
 
     @Override
-    public void sendConnectionRequest(String uuidTo, String uuidFrom) {
+    public NotificationDTO sendConnectionRequest(String uuidTo, String uuidFrom) {
         if (uuidTo.equals(uuidFrom)) {
             throw new NotValidException(ApiResponseMessages.CANT_HAVE_CONNECTION_WITH_YOURSELF);
         }
@@ -62,6 +68,8 @@ public class ConnectionServiceImpl implements ConnectionService{
         connection.setCreationTS(ZonedDateTime.now());
         connection.setModificationTS(ZonedDateTime.now());
         connectionRepository.save(connection);
+
+        return notificationService.createConnectionNotification(uuidFrom, uuidTo);
     }
 
     @Override

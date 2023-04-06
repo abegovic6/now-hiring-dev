@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO updateUser(UserDTO userDTO, String uuid, UserType userType) {
-        UserEntity userEntity = userRepository.findUserEntityByUuid(uuid);
+        UserEntity userEntity = getUserEntityByUUID(uuid);
 
         if (!userType.equals(userEntity.getUserType())) {
             throw new NotValidException("Not a " + userType + " profile!");
@@ -118,15 +118,6 @@ public class UserServiceImpl implements UserService{
         userRepository.save(userEntity);
 
         return getUserByUUID(uuid);
-    }
-
-    @Override
-    public UserDTO updateEmail(String oldEmail, String newEmail) {
-        UserEntity userEntity = getUserEntityByEmail(oldEmail);
-        userEntity.setEmail(newEmail);
-        userEntity.setModificationTS(ZonedDateTime.now());
-        userRepository.save(userEntity);
-        return getUserByEmail(newEmail);
     }
 
     @Override

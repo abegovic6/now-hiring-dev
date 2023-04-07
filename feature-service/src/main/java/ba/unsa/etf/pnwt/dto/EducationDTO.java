@@ -21,14 +21,14 @@ public class EducationDTO implements Serializable {
     @Size(max=1000, message = "Description can not have more than 1000 characters.")
     private String description;
 
-    @Min(value = 1, message = "Month can not have value smaller than 1.")
-    @Max(value = 12, message = "Month can not have value larger than 12")
+    @Min(value = 1, message = "Months can not have value smaller than 1.")
+    @Max(value = 12, message = "Months can not have value larger than 12.")
     private Integer startingMonth;
 
     private Integer startingYear;
 
-    @Min(value = 1, message = "Month can not have value smaller than 1.")
-    @Max(value = 12, message = "Month can not have value larger than 12")
+    @Min(value = 1, message = "Months can not have value smaller than 1.")
+    @Max(value = 12, message = "Months can not have value larger than 12.")
     private Integer endMonth;
 
     private Integer endYear;

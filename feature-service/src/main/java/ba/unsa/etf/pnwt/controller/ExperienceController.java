@@ -37,7 +37,7 @@ public class ExperienceController {
                     content = @Content)})
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody ResponseEntity<List<ExperienceDTO>> getAllEducations() {
+    public @ResponseBody ResponseEntity<List<ExperienceDTO>> getAllExperience() {
         List<ExperienceDTO> experience = experienceService.getAllExperience();
         return new ResponseEntity<>(experience, HttpStatus.OK);
     }

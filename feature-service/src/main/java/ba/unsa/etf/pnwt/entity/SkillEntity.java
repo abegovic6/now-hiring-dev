@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(schema = DatabaseConstants.FEATURE_SERVICE_SCHEMA, name = "experience" )
+@Table(schema = DatabaseConstants.FEATURE_SERVICE_SCHEMA, name = "skill" )
 public class SkillEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

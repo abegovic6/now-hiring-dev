@@ -17,7 +17,7 @@ public class ExperienceDTO implements Serializable {
     private UserDTO user;
 
     @NotNull(message = "Title must be specified")
-    @Size(min=2, max=30, message = "Title size must be larger than 2 and smaller tha 30.")
+    @Size(min=2, max=30, message = "Title size must be larger than 2 and smaller than 30.")
     private String title;
 
     @Size(max=1000, message = "Description must be smaller than 1000 characters.")

@@ -38,7 +38,7 @@ public class SkillController {
                     content = @Content)})
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody ResponseEntity<List<SkillDTO>> getAllEducations() {
+    public @ResponseBody ResponseEntity<List<SkillDTO>> getAllSkills() {
         List<SkillDTO> skill = skillService.getAllSkills();
         return new ResponseEntity<>(skill, HttpStatus.OK);
     }

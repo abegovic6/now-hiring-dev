@@ -11,7 +11,7 @@ public interface UserService{
 
     void deleteUser(Long id);
 
-    void updateUser(Long id, String name, String email);
+    UserEntity updateUser(Long id, String name, String email);
 
     UserEntity deleteUserByEmail(String email);
 }

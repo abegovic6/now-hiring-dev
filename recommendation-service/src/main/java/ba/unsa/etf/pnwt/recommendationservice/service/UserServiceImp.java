@@ -49,7 +49,7 @@ public class UserServiceImp implements UserService{
 
     @Override
     @Transactional
-    public void updateUser(Long id, String name, String email) {
+    public UserEntity updateUser(Long id, String name, String email) {
         UserEntity updatedUser = userRepository.findById(id).orElseThrow(
                 ()->new ApiRequestException("User with id" + id + " doesn't exist")
         );
@@ -63,6 +63,8 @@ public class UserServiceImp implements UserService{
             }
             updatedUser.setEmail(email);
         }
+
+        return updatedUser;
 
     }
 

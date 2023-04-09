@@ -29,9 +29,11 @@ INSERT INTO aeesuser.location (city, country, creation_ts, modification_ts) VALU
 
 
 -- insert into user
-INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts) VALUES (6, '1111', 'abegovic6@etf.unsa.ba', 'Sifra0001', 'PRIVATE', null, 'Amila', 'Begovic', 'Opis', now(), now());
-INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts) VALUES (1, '2222', 'eleka1@etf.unsa.ba', 'Sifra0002', 'PRIVATE', null, 'Elma', 'Polutan', 'Opis', now(), now());
-INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts) VALUES (1, '3333', 'skaleta1@etf.unsa.ba', 'Sifra0003', 'PRIVATE', null, 'Senija', 'Kaleta', 'Opis', now(), now());
-INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts) VALUES (1, '4444', 'epanjeta1@etf.unsa.ba', 'Sifra0004', 'PRIVATE', null, 'Eldar', 'Panjeta', 'Opis', now(), now());
-INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts) VALUES (9, '5555', 'begovicami5@gmail.com', 'Sifra0005', 'COMPANY', 'Google', null, null, 'Opis', now(), now());
+INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts, verified) VALUES (6, '1111', 'abegovic6@etf.unsa.ba', 'Sifra0001', 'PRIVATE', null, 'Amila', 'Begovic', 'Opis', now(), now(), true);
+INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts, verified) VALUES (1, '2222', 'eleka1@etf.unsa.ba', 'Sifra0002', 'PRIVATE', null, 'Elma', 'Polutan', 'Opis', now(), now(), true);
+INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts, verified) VALUES (1, '3333', 'skaleta1@etf.unsa.ba', 'Sifra0003', 'PRIVATE', null, 'Senija', 'Kaleta', 'Opis', now(), now(), true);
+INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts, verified) VALUES (1, '4444', 'epanjeta1@etf.unsa.ba', 'Sifra0004', 'PRIVATE', null, 'Eldar', 'Panjeta', 'Opis', now(), now(), true);
+INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts, verified) VALUES (9, '5555', 'begovicami5@gmail.com', 'Sifra0005', 'COMPANY', 'Google', null, null, 'Opis', now(), now(), true);
 
+-- insert into connection
+INSERT INTO aeesuser.connection (user_from, user_to, creation_ts, status, modification_ts) VALUES (1, 5, now(), 'ACCEPTED', now())

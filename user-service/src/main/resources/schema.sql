@@ -37,6 +37,9 @@ create table aeesuser.user
     creation_ts     TIMESTAMP          NOT NULL,
     modification_ts TIMESTAMP,
 
+    code            VARCHAR(6),
+    verified        BOOLEAN            NOT NULL DEFAULT FALSE,
+
     FOREIGN KEY (location_id)
         REFERENCES aeesuser.location (id)
 );

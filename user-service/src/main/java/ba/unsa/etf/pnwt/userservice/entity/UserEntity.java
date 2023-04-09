@@ -49,6 +49,12 @@ public class UserEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "verified", nullable = false)
+    private boolean verified;
+
     public UserEntity() {
     }
 
@@ -157,5 +163,21 @@ public class UserEntity {
 
     public boolean comparePasswords(@NotNull String password1) {
         return password1.equals(password);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }

@@ -6,6 +6,7 @@ import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class UserMapper {
@@ -57,5 +58,15 @@ public class UserMapper {
         entity.setEmail(projection.getEmail());
         entity.setPassword(projection.getPassword());
         return entity;
+    }
+
+    public static String getRandomCode() {
+        // It will generate 6 digit random Number.
+        // from 0 to 999999
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+
+        // this will convert any number sequence into 6 character.
+        return String.format("%06d", number);
     }
 }

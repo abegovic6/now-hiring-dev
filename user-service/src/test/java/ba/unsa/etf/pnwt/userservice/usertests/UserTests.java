@@ -9,6 +9,7 @@ import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.controller.UserController;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import jakarta.transaction.Transactional;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class UserTests {
     private static final String API_USER = "/api/user/";
     @Autowired private MockMvc mockMvc;

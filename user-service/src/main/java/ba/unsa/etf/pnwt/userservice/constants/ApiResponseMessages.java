@@ -9,6 +9,7 @@ public class ApiResponseMessages {
     // successful
     public static final String ALL_USERS_FOUND = "Successfully found all users";
     public static final String USER_WAS_FOUND = "Successfully found the user with provided information";
+    public static final String USER_WAS_VERIFIED = "The user was verified";
     public static final String USER_CREATED = "The user was successfully created!";
     public static final String USER_UPDATED = "The user was successfully updated!";
     public static final String EMAIL_SUCCESSFULLY_CHANGED = "The email was successfully changed!";
@@ -22,11 +23,13 @@ public class ApiResponseMessages {
     public static final String CONNECTION_REJECTED = "The connection request was successfully rejected!";
     public static final String MAIL_SENT = "The mail was successfully sent";
     public static final String NOTIFICATION_CREATED = "The notification has been created";
+    public static final String VERIFICATION_CODE_WAS_SENT = "The verification code was sent. Please check your email.";
 
     // not found
     public static final String USER_NOT_FOUND_WITH_ID = "The user with provided id was not found";
     public static final String USER_NOT_FOUND_WITH_EMAIL = "The user with provided email was not found";
     public static final String USER_NOT_FOUND_WITH_UUID = "The user with provided uuid was not found";
+    public static final String WRONG_EMAIL_OR_PASSWORD = "The provided email and password combination is not valid";
 
     // missing data
     public static final String MISSING_EMAIL = "Missing email. Please provide.";
@@ -46,6 +49,9 @@ public class ApiResponseMessages {
     public static final String CONNECTION_FOR_REJECTING_DOES_NOT_EXISTS = "The connection for rejecting was not found!";
     public static final String CONNECTION_ALREADY_EXISTS = "The connection is already pending or accepted!";
     public static final String CANT_HAVE_CONNECTION_WITH_YOURSELF = "The connection can not start between same users";
+    public static final String USER_IS_ALREADY_VERIFIED = "The user is already verified";
+    public static final String WRONG_VERIFICATION_CODE = "The verification code is not correct!";
+
 
     // wrong format
     public static final String EMAIL_HAS_WRONG_FORMAT = "The provided email has a wrong format. Follow the next patter: email@mail.com";

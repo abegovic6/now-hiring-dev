@@ -8,6 +8,7 @@ import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.userservice.repository.UserRepository;
 import ba.unsa.etf.pnwt.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class UserUpdateTests {
     private static final String API_USER_PRIVATE_PROFILE = "/api/user/1111/update/PRIVATE";
     private static final String API_USER_COMPANY_PROFILE = "/api/user/5555/update/COMPANY";

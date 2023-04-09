@@ -80,13 +80,48 @@ public class UserController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = ApiResponseMessages.USER_CREATED,
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))}),
+            @ApiResponse(responseCode = "404", description = ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD,
+                    content = @Content)})
+    @GetMapping("{email}/authenticate")
+    public ResponseEntity<UserDTO> getUserByEmailAndPassword(
+            @PathVariable("email") String email,
+            @RequestBody PasswordDTO password) {
+        return new ResponseEntity<>(userService.getUserByEmailAndPassword(email, password.getOldPassword()), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_VERIFIED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))}),
+            @ApiResponse(responseCode = "404", description = ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL,
+                    content = @Content)})
+    @PutMapping("/{email}/verify")
+    public ResponseEntity<UserDTO> verifyUser(@PathVariable("email") String email, @RequestParam("code") String code) {
+        return new ResponseEntity<>(userService.verifyUser(email, code), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))})})
+    @PostMapping("/upload")
+    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
+        validateUserCreation(userDTO);
+        userService.createUser(userDTO);
+        return new ResponseEntity<>(ApiResponseMessages.VERIFICATION_CODE_WAS_SENT, HttpStatus.CREATED);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = UserDTO.class))})})
-    @PostMapping("/upload")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        validateUserCreation(userDTO);
-        return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.CREATED);
+    @PutMapping("/{email}/sendCodeAgain")
+    public ResponseEntity<String> sendVerificationCodeAgain(@PathVariable("email") String email) {
+        userService.sendCodeAgain(email);
+        return new ResponseEntity<>(ApiResponseMessages.VERIFICATION_CODE_WAS_SENT, HttpStatus.CREATED);
     }
 
     @ApiResponses(value = {

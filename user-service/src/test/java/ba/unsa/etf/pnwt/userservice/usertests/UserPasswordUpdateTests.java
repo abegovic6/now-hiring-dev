@@ -3,6 +3,7 @@ package ba.unsa.etf.pnwt.userservice.usertests;
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.dto.PasswordDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class UserPasswordUpdateTests {
 
     private static final String API_USER = "/api/user/1111/passwordUpdate";

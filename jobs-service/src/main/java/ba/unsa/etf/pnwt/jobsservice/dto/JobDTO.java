@@ -23,6 +23,7 @@ public class JobDTO implements Serializable {
     private String validTo;
     private String type;
     private String description;
+    private boolean expired;
 
 
     public int getId() {
@@ -96,5 +97,13 @@ public class JobDTO implements Serializable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 }

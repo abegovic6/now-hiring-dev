@@ -12,6 +12,7 @@ import ba.unsa.etf.pnwt.userservice.params.UserParams;
 import ba.unsa.etf.pnwt.userservice.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -26,13 +27,14 @@ public class UserServiceImpl implements UserService{
     @Autowired protected UserRepository userRepository;
     @Autowired protected LocationService locationService;
     @Autowired protected UUIDService uuidService;
+    @Autowired protected EmailService emailService;
 
     @Override
     public List<UserDTO> getAllUsers(UserParams userParams) {
         List<UserEntity> entities;
 
         if (userParams.getSearchValue() != null) {
-            entities = userRepository.findAllByCompanyNameContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+            entities = userRepository.findAllByCompanyNameContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseAndVerifiedIsTrue(
                     userParams.getSearchValue(), userParams.getSearchValue(), userParams.getSearchValue());
         } else {
             entities = userRepository.findAll();
@@ -70,7 +72,21 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserDTO verifyUser(String email, String code) {
+        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
+        if (userEntity.isVerified()) {
+            throw new NotValidException(ApiResponseMessages.USER_IS_ALREADY_VERIFIED);
+        }
+        if (!code.equals(userEntity.getCode())) {
+            throw new NotValidException(ApiResponseMessages.WRONG_VERIFICATION_CODE);
+        }
+        userEntity.setVerified(true);
+        userRepository.save(userEntity);
+        return getUserByEmail(email);
+    }
+
+    @Override
+    public void createUser(UserDTO userDTO) {
         if (userDTO.getLocationDTO() == null) {
             throw new NotValidException(ApiResponseMessages.MISSING_CITY);
         }
@@ -86,9 +102,31 @@ public class UserServiceImpl implements UserService{
         UserEntity userEntity = UserMapper.mapToEntity(userDTO, null);
         userEntity.setUuid(uuidService.createNewUUID());
         userEntity.setLocationEntity(locationEntity);
-        userDTO = UserMapper.mapToProjection(userRepository.save(userEntity));
+        userEntity.setVerified(false);
+        setCodeAndSend(userEntity);
+        UserMapper.mapToProjection(userRepository.save(userEntity));
+    }
 
-        return userDTO;
+    @Override
+    public void sendCodeAgain(String email) {
+        UserEntity userEntity = getUserEntityByEmail(email);
+        setCodeAndSend(userEntity);
+    }
+
+    @Override
+    public UserDTO getUserByEmailAndPassword(String email, String password) {
+        UserEntity userEntity = getUserEntityByEmail(email);
+        if (!userEntity.comparePasswords(password)) {
+            throw new NotValidException(ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD);
+        }
+        return UserMapper.mapToProjection(userEntity);
+    }
+
+    private void setCodeAndSend(UserEntity userEntity) {
+        String code = UserMapper.getRandomCode();
+        userEntity.setCode(code);
+
+        emailService.sendEmail("Verification code", "Your verification code is " +  code, userEntity);
     }
 
     @Override
@@ -135,7 +173,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserEntity getUserEntityByUUID(String uuid) {
-        UserEntity userEntity = userRepository.findUserEntityByUuid(uuid);
+        UserEntity userEntity = userRepository.findUserEntityByUuidAndVerifiedIsTrue(uuid);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_UUID);
         }
@@ -144,7 +182,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserEntity getUserEntityByEmail(String email) {
-        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
+        UserEntity userEntity = userRepository.findUserEntityByEmailAndVerifiedIsTrue(email);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL);
         }
@@ -153,7 +191,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserEntity getUserEntityById(int id) {
-        UserEntity userEntity = userRepository.findUserEntityById(id);
+        UserEntity userEntity = userRepository.findUserEntityByIdAndVerifiedIsTrue(id);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_ID);
         }

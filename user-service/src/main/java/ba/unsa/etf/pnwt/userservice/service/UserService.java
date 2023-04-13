@@ -23,8 +23,12 @@ public interface UserService {
     UserDTO getUserByEmail(String email);
 
     UserDTO getUserByUUID(String uuid);
+    UserDTO getUserByEmailAndPassword(String email, String password);
 
-    UserDTO createUser(UserDTO userDTO);
+    UserDTO verifyUser(String email, String code);
+
+    void createUser(UserDTO userDTO);
+    void sendCodeAgain(String email);
     UserDTO updateUser(UserDTO newUser, String uuid, UserType userType);
     UserDTO updatePassword(String uuid, String oldPassword, String newPassword);
 

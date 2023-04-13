@@ -11,6 +11,7 @@ import ba.unsa.etf.pnwt.userservice.constants.NotificationType;
 import ba.unsa.etf.pnwt.userservice.constants.ServerConfigValue;
 import ba.unsa.etf.pnwt.userservice.service.NotificationService;
 import ba.unsa.etf.pnwt.userservice.service.ServerConfigService;
+import jakarta.transaction.Transactional;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +26,9 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class NotificationTests {
-    private String API_URL = "/api/notification/";
+    private final String API_URL = "/api/notification/";
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,13 +43,31 @@ public class NotificationTests {
     }
 
     @Test
-    void userAppliedForJobTest() throws Exception {
+    void companyCreatedAJobTest() throws Exception {
         this.mockMvc
                 .perform(post(API_URL + "5555/created-job"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(Matchers.containsString(NotificationType.JOB_APPLICATION.toString())));
+                .andExpect(content().string(Matchers.containsString(NotificationType.JOB_CREATED.toString())));
+    }
 
+    @Test
+    void userAppliedForJobTest() throws Exception {
+        this.mockMvc
+                .perform(post(API_URL + "1111/user-applied-for-job/5555"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(Matchers.containsString(NotificationType.JOB_APPLICATION.toString())))
+                .andExpect(content().string(Matchers.containsString("5555")));
+    }
 
+    @Test
+    void userWroteReviewTest() throws Exception {
+        this.mockMvc
+                .perform(post(API_URL + "1111/review/2222"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(Matchers.containsString(NotificationType.REVIEW.toString())))
+                .andExpect(content().string(Matchers.containsString("2222")));
     }
 }

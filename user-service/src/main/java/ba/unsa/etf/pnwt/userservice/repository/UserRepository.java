@@ -16,10 +16,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     UserEntity findUserEntityByEmail(String email);
 
-    UserEntity findUserEntityById(int id);
+    UserEntity findUserEntityByEmailAndVerifiedIsTrue(String email);
 
-    UserEntity findUserEntityByUuid(String uuid);
+    UserEntity findUserEntityByIdAndVerifiedIsTrue(int id);
 
-    List<UserEntity> findAllByCompanyNameContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+    UserEntity findUserEntityByUuidAndVerifiedIsTrue(String uuid);
+
+    List<UserEntity> findAllByCompanyNameContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseAndVerifiedIsTrue(
             String search1, String search2, String search3);
 }

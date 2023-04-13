@@ -5,6 +5,7 @@ import ba.unsa.etf.pnwt.userservice.constants.UserType;
 import ba.unsa.etf.pnwt.userservice.dto.LocationDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class UserCreationTests {
     private static final String API_USER = "/api/user/";
     private static UserDTO privateMockUser;

@@ -23,6 +23,7 @@ public class JobMapper {
         projection.setType(entity.getType());
         projection.setDescription(entity.getDescription());
         projection.setCompanyId(entity.getCompanyId());
+        projection.setExpired(entity.getValidTo().isBefore(LocalDate.now()));
         return projection;
     }
 

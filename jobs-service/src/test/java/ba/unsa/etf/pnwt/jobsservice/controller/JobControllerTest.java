@@ -10,6 +10,7 @@ import ba.unsa.etf.pnwt.jobsservice.mapper.UserMapper;
 import ba.unsa.etf.pnwt.jobsservice.repository.JobRepository;
 import ba.unsa.etf.pnwt.jobsservice.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class JobControllerTest {
 
     private static final String API_JOB = "/api/job/";

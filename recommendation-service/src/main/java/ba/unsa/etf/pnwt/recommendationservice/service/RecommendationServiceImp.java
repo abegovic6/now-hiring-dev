@@ -69,10 +69,10 @@ public class RecommendationServiceImp implements RecommendationService{
         Optional<JobEntity> jobById = recommendationRepository.findJobById(recommendation.getJobId());
         Optional<UserEntity> recommendedUserById = recommendationRepository.findUserById(recommendation.getRecommendedUser());
         if(!userById.isPresent()){
-            throw new ApiRequestException("User with given id doesn't exist!");
+            throw new ApiRequestException("User with given id "+ recommendation.getUserId()+" doesn't exist!");
         }
         else if(!jobById.isPresent()){
-            throw new ApiRequestException("Job with given id doesn't exist!");
+            throw new ApiRequestException("Job with given id "+recommendation.getJobId()+" doesn't exist!");
         }
         else if(!recommendedUserById.isPresent()){
             throw new ApiRequestException("User with given id doesn't exist!");

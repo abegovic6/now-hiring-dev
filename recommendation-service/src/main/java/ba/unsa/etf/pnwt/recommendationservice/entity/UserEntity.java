@@ -47,13 +47,13 @@ public class UserEntity {
 
     public UserEntity(Long id, String name, String email) {
         this.id = id;
-        this.uuid = id.toString();
+        this.uuid = "11111"; //samo proba ne smije ovako ostat
         this.name = name;
         this.email = email;
     }
 
     public UserEntity(String name, String email) {
-        this.uuid = id.toString();
+        this.uuid = "111"; ////samo proba ne smije ovako ostat
         this.name = name;
         this.email = email;
     }

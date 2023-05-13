@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 @Transactional
 public class NotificationTests {
-    private final String API_URL = "/api/notification/";
+    private final String API_URL = "/notification/";
 
     @Autowired
     private MockMvc mockMvc;

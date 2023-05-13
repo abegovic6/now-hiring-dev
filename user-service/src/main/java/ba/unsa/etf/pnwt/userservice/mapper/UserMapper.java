@@ -1,6 +1,6 @@
 package ba.unsa.etf.pnwt.userservice.mapper;
 
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 
@@ -26,7 +26,7 @@ public class UserMapper {
         projection.setDescription(entity.getDescription());
         projection.setEmail(entity.getEmail());
 
-        if (UserType.COMPANY.equals(entity.getUserType())) {
+        if (Role.COMPANY.equals(entity.getUserType())) {
             projection.setDisplayValue(entity.getCompanyName());
         } else {
             projection.setDisplayValue(entity.getFirstName() + " " + entity.getLastName());

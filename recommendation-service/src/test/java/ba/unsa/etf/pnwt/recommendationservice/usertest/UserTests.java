@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 @Transactional
 public class UserTests {
-    private static final String API_USER = "/api/user/";
+    private static final String API_USER = "/user/";
     private static UserEntity privateMockUser;
     @Autowired
     private MockMvc mockMvc;

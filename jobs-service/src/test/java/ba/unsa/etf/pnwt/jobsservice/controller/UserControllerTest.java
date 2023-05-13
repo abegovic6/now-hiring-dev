@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class UserControllerTest {
 
-    private static final String API_USER = "/api/user/";
+    private static final String API_USER = "/user/";
 
     @Autowired
     private MockMvc mockMvc;

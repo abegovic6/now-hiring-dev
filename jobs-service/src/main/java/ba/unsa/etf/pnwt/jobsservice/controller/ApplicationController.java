@@ -23,7 +23,7 @@ import java.util.List;
  * Example controller
  */
 @RestController
-@RequestMapping("/api/application")
+@RequestMapping("/job-service/application")
 public class ApplicationController {
 
     @Autowired
@@ -92,7 +92,7 @@ public class ApplicationController {
         if(applicationDTOResponseEntity.getStatusCode().is2xxSuccessful()){
             String companyUuid = jobService.getCompanyId(app.getJobId());
             String userUuid = app.getUserId();
-            String url = "http://userservice/api/notification/" + userUuid + "/user-applied-for-job/" + companyUuid;
+            String url = "http://userservice/notification/" + userUuid + "/user-applied-for-job/" + companyUuid;
             restTemplate.postForObject(url, null, String.class);
             return applicationDTOResponseEntity;
         }

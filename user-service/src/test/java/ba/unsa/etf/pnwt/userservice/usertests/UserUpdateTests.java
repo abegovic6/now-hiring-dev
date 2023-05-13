@@ -1,12 +1,9 @@
 package ba.unsa.etf.pnwt.userservice.usertests;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.dto.LocationDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
-import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
-import ba.unsa.etf.pnwt.userservice.repository.UserRepository;
-import ba.unsa.etf.pnwt.userservice.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
@@ -16,13 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 public class UserUpdateTests {
-    private static final String API_USER_PRIVATE_PROFILE = "/api/user/1111/update/PRIVATE";
-    private static final String API_USER_COMPANY_PROFILE = "/api/user/5555/update/COMPANY";
+    private static final String API_USER_PRIVATE_PROFILE = "user/1111/update/PRIVATE";
+    private static final String API_USER_COMPANY_PROFILE = "user/5555/update/COMPANY";
     private static UserDTO privateMockUser;
     private static UserDTO companyMockUser;
     @Autowired
@@ -48,7 +43,7 @@ public class UserUpdateTests {
         privateMockUser.setDescription("Test");
         privateMockUser.setLocationDTO(new LocationDTO("city", "country"));
         privateMockUser.setPassword("Sifra0001");
-        privateMockUser.setUserType(UserType.PRIVATE);
+        privateMockUser.setUserType(Role.PRIVATE);
 
         companyMockUser = new UserDTO();
         companyMockUser.setUuid("5555");
@@ -57,7 +52,7 @@ public class UserUpdateTests {
         companyMockUser.setDescription("Test");
         companyMockUser.setLocationDTO(new LocationDTO("city", "country"));
         companyMockUser.setPassword("Sifra0001");
-        companyMockUser.setUserType(UserType.COMPANY);
+        companyMockUser.setUserType(Role.COMPANY);
     }
 
     @Test

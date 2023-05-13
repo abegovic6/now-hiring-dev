@@ -2,7 +2,7 @@ package ba.unsa.etf.pnwt.userservice.controller;
 
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.dto.PasswordDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.exception.NotValidException;
@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user-service/user")
 public class UserController {
 
     @Autowired
@@ -39,10 +39,10 @@ public class UserController {
             @RequestParam(required = false) String searchValue,
             @RequestParam(required = false) String country,
             @RequestParam(required = false) String city,
-            @RequestParam(required = false) UserType userType
+            @RequestParam(required = false) Role role
     ) {
         return new ResponseEntity<>(userService.getAllUsers(
-                new UserParams(searchValue, city, country, userType)
+                new UserParams(searchValue, city, country, role)
         ), HttpStatus.OK);
     }
 
@@ -131,10 +131,10 @@ public class UserController {
     @PutMapping("/{uuid}/update/{userType}")
     public ResponseEntity<UserDTO> updateUser(
             @PathVariable("uuid") String uuid,
-            @PathVariable("userType") UserType userType,
+            @PathVariable("userType") Role role,
             @RequestBody UserDTO userDTO) {
-        validateUserUpdate(userDTO, uuid, userType);
-        return new ResponseEntity<>(userService.updateUser(userDTO, uuid, userType), HttpStatus.OK);
+        validateUserUpdate(userDTO, uuid, role);
+        return new ResponseEntity<>(userService.updateUser(userDTO, uuid, role), HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -149,14 +149,14 @@ public class UserController {
         return new ResponseEntity<>(userService.updatePassword(uuid, password.getOldPassword(), password.getNewPassword()), HttpStatus.OK);
     }
 
-    private void validateUserUpdate(UserDTO userDTO, String uuid, UserType userType) {
+    private void validateUserUpdate(UserDTO userDTO, String uuid, Role role) {
         if (userDTO.getUuid() == null) {
             throw new NotValidException(ApiResponseMessages.MISSING_UUID);
         }
         if (!userDTO.getUuid().equals(uuid)) {
             throw new NotValidException(ApiResponseMessages.UUIDS_DO_NOT_MATCH);
         }
-        validateUserTypeAndBasicData(userDTO, userType);
+        validateUserTypeAndBasicData(userDTO, role);
     }
 
     private void validateUserCreation(UserDTO userDTO) {
@@ -169,12 +169,12 @@ public class UserController {
         validateUserTypeAndBasicData(userDTO, userDTO.getUserType());
     }
 
-    private void validateUserTypeAndBasicData(UserDTO userDTO, UserType userType) {
+    private void validateUserTypeAndBasicData(UserDTO userDTO, Role role) {
         if (userDTO.getDescription() != null && userDTO.getDescription().length() > ApiResponseMessages.MAX_DESCRIPTION_LENGTH) {
             throw new NotValidException(ApiResponseMessages.DESCRIPTION_TO_LONG);
         }
         if (userDTO.getCompanyName() != null) {
-            if (userType.equals(UserType.PRIVATE)) {
+            if (role.equals(Role.PRIVATE)) {
                 throw new NotValidException(ApiResponseMessages.CAN_NOT_DECLARE_NAME_WITH_PRIVATE_ACCOUNT);
             }
             if (userDTO.getCompanyName().length() > ApiResponseMessages.MAX_NAME_LENGTH) {
@@ -182,7 +182,7 @@ public class UserController {
             }
         }
         if (userDTO.getFirstName() != null) {
-            if (userType.equals(UserType.COMPANY)) {
+            if (role.equals(Role.COMPANY)) {
                 throw new NotValidException(ApiResponseMessages.CAN_NOT_DECLARE_NAME_WITH_COMPANY_ACCOUNT);
             }
             if (userDTO.getFirstName().length() > ApiResponseMessages.MAX_NAME_LENGTH) {
@@ -190,7 +190,7 @@ public class UserController {
             }
         }
         if (userDTO.getLastName() != null) {
-            if (userType.equals(UserType.COMPANY)) {
+            if (role.equals(Role.COMPANY)) {
                 throw new NotValidException(ApiResponseMessages.CAN_NOT_DECLARE_NAME_WITH_COMPANY_ACCOUNT);
             }
             if (userDTO.getLastName().length() > ApiResponseMessages.MAX_NAME_LENGTH) {

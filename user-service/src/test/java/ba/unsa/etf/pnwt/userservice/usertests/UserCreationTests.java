@@ -1,7 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.usertests;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.dto.LocationDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 public class UserCreationTests {
-    private static final String API_USER = "/api/user/";
+    private static final String API_USER = "user/";
     private static UserDTO privateMockUser;
     private static UserDTO companyMockUser;
     @Autowired
@@ -41,7 +41,7 @@ public class UserCreationTests {
         privateMockUser.setDescription("Test");
         privateMockUser.setLocationDTO(new LocationDTO("city", "country"));
         privateMockUser.setPassword("Sifra0001");
-        privateMockUser.setUserType(UserType.PRIVATE);
+        privateMockUser.setUserType(Role.PRIVATE);
 
         companyMockUser = new UserDTO();
         companyMockUser.setEmail("test2@test.com");
@@ -49,7 +49,7 @@ public class UserCreationTests {
         companyMockUser.setDescription("Test");
         companyMockUser.setLocationDTO(new LocationDTO("city", "country"));
         companyMockUser.setPassword("Sifra0001");
-        companyMockUser.setUserType(UserType.COMPANY);
+        companyMockUser.setUserType(Role.COMPANY);
     }
 
     @Test

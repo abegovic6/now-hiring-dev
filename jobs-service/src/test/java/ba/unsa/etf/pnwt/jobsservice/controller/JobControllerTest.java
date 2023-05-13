@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class JobControllerTest {
 
-    private static final String API_JOB = "/api/job/";
+    private static final String API_JOB = "/job/";
 
     @Autowired
     private MockMvc mockMvc;

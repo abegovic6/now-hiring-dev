@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class UserPasswordUpdateTests {
 
-    private static final String API_USER = "/api/user/1111/passwordUpdate";
+    private static final String API_USER = "/user/1111/passwordUpdate";
     private static PasswordDTO passwordDTO;
 
     @Autowired

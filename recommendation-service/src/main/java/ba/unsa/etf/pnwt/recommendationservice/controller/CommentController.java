@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/comment")
+@RequestMapping(path = "recommendation-service/comment")
 public class CommentController {
     private final CommentServiceImp commentService;
 

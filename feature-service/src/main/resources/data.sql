@@ -4,6 +4,7 @@ DELETE FROM aeesfeature."user";
 DELETE FROM aeesfeature."education";
 DELETE FROM aeesfeature."experience";
 DELETE FROM aeesfeature."skill";
+DELETE FROM aeesfeature."files";
 
 -- Adding users
 

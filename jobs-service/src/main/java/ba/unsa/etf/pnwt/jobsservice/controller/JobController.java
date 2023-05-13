@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ public class JobController {
 
     @Autowired
     protected JobService jobService;
+
+    @Autowired
+    public RestTemplate restTemplate;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully found all jobs in the system",
@@ -54,7 +59,15 @@ public class JobController {
                     content = @Content)})
     @PostMapping("/add")
     public ResponseEntity<JobDTO> add(@Valid @RequestBody JobDTO job){
-        return new ResponseEntity<>(jobService.save(job), HttpStatus.CREATED);
+        ResponseEntity<JobDTO> jobDTOResponseEntity = new ResponseEntity<>(jobService.save(job), HttpStatus.CREATED);
+        if(jobDTOResponseEntity.getStatusCode().is2xxSuccessful()){
+            String url = "http://userservice/api/notification/" + job.getCompanyId() + "/created-job";
+            restTemplate.postForObject(url, null, String.class);
+            return jobDTOResponseEntity;
+        }
+        else{
+            return jobDTOResponseEntity;
+        }
     }
 
     @ApiResponses(value = {

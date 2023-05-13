@@ -1,0 +1,20 @@
+package protobuf;
+
+option java_multiple_files = true;
+option java_package = "ba.unsa.etf.pnwt.proto";
+
+message LoggingRequest{
+  required string service_name = 1;
+  required string user_uuid = 2;
+  required string controller_name = 3;
+  optional string action_url = 4;
+  optional string action_response = 5;
+}
+
+message LoggingResponse {
+  required string response_message = 1;
+}
+
+service LoggingService {
+  rpc logRequest(LoggingRequest) returns (LoggingResponse) {};
+}

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * User DTO class
  */
-public class UserDTO implements Serializable, UserDetails {
+public class UserDTO implements Serializable {
     private int id;
     private String uuid;
     private String email;
@@ -124,38 +124,15 @@ public class UserDTO implements Serializable, UserDetails {
         this.displayValue = displayValue;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthorities();
-    }
-
-    @Override
     public String getPassword() {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
+    public Role getRole() {
+        return role;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

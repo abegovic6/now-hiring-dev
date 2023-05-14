@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +31,7 @@ public class UserController {
     @Autowired
     protected UserService userService;
 
+    @PostAuthorize("hasRole('PRIVATE') or hasRole('COMPANY')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

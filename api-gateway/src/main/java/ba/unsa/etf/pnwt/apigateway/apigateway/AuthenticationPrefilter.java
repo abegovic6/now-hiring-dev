@@ -31,8 +31,8 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
 
     List<String> excludedUrls = Arrays.asList(
             "user-service/auth/register",
-            "user-service/auth/login",
-            "user-service/auth/refresh-token"
+            "user-service/auth/refresh-token",
+            "user-service/auth/validate-token"
     );
 
     @Autowired
@@ -56,7 +56,7 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
 
             if(isSecured.test(request)) {
                 return webClientBuilder.build().post()
-                        .uri("lb://userservice/auth/validate-token")
+                        .uri("lb://userservice/user-service/auth/validate-token")
                         .header(HttpHeaders.AUTHORIZATION, bearerToken)
                         .retrieve().bodyToMono(UserResponse.class)
                         .map(response -> {

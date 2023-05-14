@@ -23,7 +23,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> UserMapper.mapToProjection(repository.findUserEntityByEmail(username));
+        return username -> UserMapper.mapToDetails(repository.findUserEntityByEmail(username));
     }
 
     @Bean

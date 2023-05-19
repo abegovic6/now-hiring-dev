@@ -34,12 +34,12 @@ public class ApiGatewayApplication {
                                 f.filter(authFilter.apply(
                                         new AuthenticationPrefilter.Config())))
                         .uri("lb://jobservice"))
-                .route("recomendationservice", p -> p
-                        .path("/recomendation-service/**")
+                .route("recommendationservice", p -> p
+                        .path("/recommendation-service/**")
                         .filters(f ->
                                 f.filter(authFilter.apply(
                                         new AuthenticationPrefilter.Config())))
-                        .uri("lb://recomendationservice"))
+                        .uri("lb://recommendationservice"))
                 .route("featureservice", p -> p
                         .path("/feature-service/**")
                         .filters(f ->

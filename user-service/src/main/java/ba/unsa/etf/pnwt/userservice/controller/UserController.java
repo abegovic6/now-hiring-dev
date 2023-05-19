@@ -1,8 +1,11 @@
 package ba.unsa.etf.pnwt.userservice.controller;
 
 
+import ba.unsa.etf.pnwt.userservice.authentification.AuthenticationResponse;
+import ba.unsa.etf.pnwt.userservice.authentification.AuthenticationService;
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.Role;
+import ba.unsa.etf.pnwt.userservice.dto.LoginDTO;
 import ba.unsa.etf.pnwt.userservice.dto.PasswordDTO;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.exception.NotValidException;
@@ -31,7 +34,9 @@ public class UserController {
     @Autowired
     protected UserService userService;
 
-    @PostAuthorize("hasRole('PRIVATE') or hasRole('COMPANY')")
+    @Autowired
+    protected AuthenticationService authenticationService;
+
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -88,11 +93,20 @@ public class UserController {
                             schema = @Schema(implementation = UserDTO.class))}),
             @ApiResponse(responseCode = "404", description = ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD,
                     content = @Content)})
-    @GetMapping("{email}/authenticate")
-    public ResponseEntity<UserDTO> getUserByEmailAndPassword(
-            @PathVariable("email") String email,
-            @RequestBody PasswordDTO password) {
-        return new ResponseEntity<>(userService.getUserByEmailAndPassword(email, password.getOldPassword()), HttpStatus.OK);
+    @PutMapping("/auth/authenticate")
+    public ResponseEntity<AuthenticationResponse> getUserByEmailAndPassword(
+            @RequestBody LoginDTO login) {
+        return new ResponseEntity<>(authenticationService.authenticate(userService.getUserByEmailAndPassword(login.getEmail(), login.getPassword())), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))})})
+    @PostMapping("/auth/register")
+    public ResponseEntity<AuthenticationResponse> createUser(@RequestBody UserDTO userDTO) {
+        validateUserCreation(userDTO);
+        return new ResponseEntity<>(authenticationService.register(userService.createUser(userDTO)), HttpStatus.CREATED);
     }
 
     @ApiResponses(value = {
@@ -106,16 +120,7 @@ public class UserController {
         return new ResponseEntity<>(userService.verifyUser(email, code), HttpStatus.OK);
     }
 
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = String.class))})})
-    @PostMapping("/upload")
-    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
-        validateUserCreation(userDTO);
-        userService.createUser(userDTO);
-        return new ResponseEntity<>(ApiResponseMessages.VERIFICATION_CODE_WAS_SENT, HttpStatus.CREATED);
-    }
+
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = ApiResponseMessages.VERIFICATION_CODE_WAS_SENT,

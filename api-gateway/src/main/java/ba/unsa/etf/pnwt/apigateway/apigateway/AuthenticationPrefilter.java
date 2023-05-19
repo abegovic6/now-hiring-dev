@@ -28,9 +28,10 @@ import java.util.function.Predicate;
 @Component
 public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<AuthenticationPrefilter.Config> {
 
-
+    // DODAVANJE RUTA ZA KOJE NIJE POTREBNA AUTH
     List<String> excludedUrls = Arrays.asList(
-            "user-service/auth/register",
+            "user-service/user/auth/authenticate",
+            "user-service/user/auth/register",
             "user-service/auth/refresh-token",
             "user-service/auth/validate-token"
     );

@@ -84,7 +84,7 @@ create table aeesuser.token
 (
     id        SERIAL PRIMARY KEY,
     token     VARCHAR(255) UNIQUE NOT NULL,
-    token_type VARCHAR(50) UNIQUE NOT NULL,
+    token_type VARCHAR(50) NOT NULL,
     user_id   INT                NOT NULL,
     revoked   BOOLEAN            NOT NULL DEFAULT FALSE,
     expired   BOOLEAN            NOT NULL DEFAULT FALSE,

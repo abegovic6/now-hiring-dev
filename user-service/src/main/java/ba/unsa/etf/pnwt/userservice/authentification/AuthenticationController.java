@@ -20,13 +20,11 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    private final JwtService jwtService;
-
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody UserDTO request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(new AuthenticationResponse());
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(

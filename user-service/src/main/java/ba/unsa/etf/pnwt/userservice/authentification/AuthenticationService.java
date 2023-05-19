@@ -32,11 +32,10 @@ public class AuthenticationService {
 
     @Autowired protected UserService userService;
 
-    public AuthenticationResponse register(UserDTO request) {
-        UserEntity savedUser = userService.createUser(request);
-        var jwtToken = jwtService.generateToken(savedUser);
-        var refreshToken = jwtService.generateRefreshToken(savedUser);
-        saveUserToken(savedUser, jwtToken);
+    public AuthenticationResponse register(UserEntity user) {
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -44,12 +43,12 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(UserDTO request) {
-        authenticationManager.authenticate(
+        /*authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
-        );
+        );*/
         var user = userRepository.findUserEntityByEmail(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);

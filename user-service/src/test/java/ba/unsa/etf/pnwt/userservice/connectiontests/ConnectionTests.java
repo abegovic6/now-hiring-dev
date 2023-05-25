@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class ConnectionTests {
 
-    private final String API_URL = "/api/connection/";
+    private final String API_URL = "connection/";
 
     @Autowired
     private MockMvc mockMvc;

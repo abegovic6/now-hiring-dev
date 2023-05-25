@@ -80,14 +80,27 @@ CREATE TABLE aeesuser.notification
 );
 
 
+create table aeesuser.token
+(
+    id        SERIAL PRIMARY KEY,
+    token     VARCHAR(255) UNIQUE NOT NULL,
+    token_type VARCHAR(50) NOT NULL,
+    user_id   INT                NOT NULL,
+    revoked   BOOLEAN            NOT NULL DEFAULT FALSE,
+    expired   BOOLEAN            NOT NULL DEFAULT FALSE,
+
+    FOREIGN KEY (user_id)
+        REFERENCES aeesuser.user (id)
+);
+
 -- grant all access to user postgres
 grant
-all
-privileges
-on
-schema
-aeesuser to postgres;
+    all
+    privileges
+    on
+    schema
+    aeesuser to postgres;
 grant all privileges on all
-tables in schema aeesuser to postgres;
+    tables in schema aeesuser to postgres;
 
 

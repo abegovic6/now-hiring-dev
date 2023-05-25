@@ -36,4 +36,5 @@ INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, comp
 INSERT INTO aeesuser."user" (location_id, uuid, email, password, user_type, company_name, first_name, last_name, description, creation_ts, modification_ts, verified) VALUES (9, '5555', 'begovicami5@gmail.com', 'Sifra0005', 'COMPANY', 'Google', null, null, 'Opis', now(), now(), true);
 
 -- insert into connection
-INSERT INTO aeesuser.connection (user_from, user_to, creation_ts, status, modification_ts) VALUES (1, 5, now(), 'ACCEPTED', now())
+INSERT INTO aeesuser.connection (user_from, user_to, creation_ts, status, modification_ts) VALUES (1, 5, now(), 'ACCEPTED', now());
+

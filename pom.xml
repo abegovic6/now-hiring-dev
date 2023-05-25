@@ -11,8 +11,12 @@
 	<groupId>ba.unsa.etf</groupId>
 	<artifactId>pnwt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>now-hiring-dev</name>
 	<description>Now hiring DEV API application</description>
+	<modules>
+		<module>api-gateway</module>
+	</modules>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

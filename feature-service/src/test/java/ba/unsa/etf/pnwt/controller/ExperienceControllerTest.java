@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class ExperienceControllerTest {
-    private static final String API_USER = "/api/experience/";
+    private static final String API_USER = "experience/";
 
     @Autowired
     private MockMvc mockMvc;

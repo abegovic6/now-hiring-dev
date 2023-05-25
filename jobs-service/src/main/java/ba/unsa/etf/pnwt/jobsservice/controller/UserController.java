@@ -20,7 +20,7 @@ import java.util.List;
  * Example controller
  */
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/job-service/user")
 public class UserController {
 
     @Autowired

@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/api/experience")
+@RequestMapping("/feature-service/experience")
 public class ExperienceController {
 
     @Autowired

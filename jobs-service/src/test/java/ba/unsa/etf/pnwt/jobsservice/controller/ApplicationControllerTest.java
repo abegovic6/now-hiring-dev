@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class ApplicationControllerTest {
 
-    private static final String API_APPLICATION = "/api/application/";
+    private static final String API_APPLICATION = "application/";
 
     @Autowired
     private MockMvc mockMvc;

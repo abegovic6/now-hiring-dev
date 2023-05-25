@@ -21,7 +21,7 @@ import java.util.List;
  * Example controller
  */
 @RestController
-@RequestMapping("/api/job")
+@RequestMapping("/job-service/job")
 public class JobController {
 
     @Autowired
@@ -61,7 +61,7 @@ public class JobController {
     public ResponseEntity<JobDTO> add(@Valid @RequestBody JobDTO job){
         ResponseEntity<JobDTO> jobDTOResponseEntity = new ResponseEntity<>(jobService.save(job), HttpStatus.CREATED);
         if(jobDTOResponseEntity.getStatusCode().is2xxSuccessful()){
-            String url = "http://userservice/api/notification/" + job.getCompanyId() + "/created-job";
+            String url = "http://userservice/notification/" + job.getCompanyId() + "/created-job";
             restTemplate.postForObject(url, null, String.class);
             return jobDTOResponseEntity;
         }

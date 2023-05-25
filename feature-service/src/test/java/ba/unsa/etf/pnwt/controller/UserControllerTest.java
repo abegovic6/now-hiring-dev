@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest {
-    private static final String API_USER = "/api/user/";
+    private static final String API_USER = "/user/";
 
     @Autowired
     private MockMvc mockMvc;

@@ -1,7 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.service;
 
 import ba.unsa.etf.pnwt.userservice.constants.ServerConfigValue;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -44,7 +44,7 @@ public class EmailServiceImpl implements EmailService{
 
     private String addFooter(String text, UserEntity userFor) {
         String name;
-        if (UserType.COMPANY.equals(userFor.getUserType())) {
+        if (Role.COMPANY.equals(userFor.getUserType())) {
             name = userFor.getCompanyName();
         } else {
             name = userFor.getFirstName();

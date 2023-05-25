@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 
 class EducationControllerTest {
-    private static final String API_USER = "/api/education/";
+    private static final String API_USER = "education/";
 
     @Autowired
     private MockMvc mockMvc;

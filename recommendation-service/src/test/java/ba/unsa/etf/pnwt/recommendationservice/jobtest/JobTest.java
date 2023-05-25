@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 public class JobTest {
-    private static final String API_JOB = "/api/job/";
+    private static final String API_JOB = "/job/";
     private static  JobEntity mockJob;
     private static UserEntity mockUser;
 

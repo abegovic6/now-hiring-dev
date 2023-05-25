@@ -1,14 +1,12 @@
 package ba.unsa.etf.pnwt.userservice.service;
 
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.controller.UserController;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.userservice.params.UserParams;
-import org.apache.coyote.Response;
-import org.springframework.http.ResponseEntity;
+import reactor.core.publisher.Mono;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,12 +22,13 @@ public interface UserService {
 
     UserDTO getUserByUUID(String uuid);
     UserDTO getUserByEmailAndPassword(String email, String password);
+    Mono<UserDTO> getMonoUserByEmail(String email);
 
     UserDTO verifyUser(String email, String code);
 
-    void createUser(UserDTO userDTO);
+    UserEntity createUser(UserDTO userDTO);
     void sendCodeAgain(String email);
-    UserDTO updateUser(UserDTO newUser, String uuid, UserType userType);
+    UserDTO updateUser(UserDTO newUser, String uuid, Role role);
     UserDTO updatePassword(String uuid, String oldPassword, String newPassword);
 
     UserEntity getUserEntityByUUID(String uuid);

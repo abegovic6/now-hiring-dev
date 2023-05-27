@@ -26,13 +26,13 @@ VALUES ( null, 'Opis profila4', 'skaleta@gmail.com', 'Senija', 'Kaleta', 'Cwilla
 -- Adding jobs
 
 INSERT INTO aeesjobs.job ( company_id, description, location, title, type, valid)
-VALUES ( '5555', 'Opis posla 1', 'Sarajevo', 'Programer', 'IT', '2024-04-01');
+VALUES ( '5555', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate vel...', 'Sarajevo', 'Programer', 'IT', '2024-04-01');
 INSERT INTO aeesjobs.job ( company_id, description, location, title, type, valid)
-VALUES ( '5555', 'Opis posla 2', 'Sarajevo', 'Programer Senior', 'IT', '2024-04-01');
+VALUES ( '5555', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate vel...', 'Sarajevo', 'Programer Senior', 'IT', '2024-04-01');
 INSERT INTO aeesjobs.job ( company_id, description, location, title, type, valid)
-VALUES ( '5555', 'Opis posla 3', 'Remote', 'Backend programer', 'IT', '2024-04-01');
+VALUES ( '5555', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate vel...', 'Remote', 'Backend programer', 'IT', '2024-04-01');
 INSERT INTO aeesjobs.job ( company_id, description, location, title, type, valid)
-VALUES ( '5555', 'Dizajnerski posao', 'Mostar', 'Web app designer', 'IT', '2024-04-01');
+VALUES ( '5555', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate vel...', 'Mostar', 'Web app designer', 'IT', '2024-04-01');
 -- INSERT INTO aeesjobs.job ( company_id, description, location, title, type, valid)
 -- VALUES ( 'Sifra0002', 'Istekao posao', 'Mostar', 'Web app designer', 'IT', '2022-04-01');
 

@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserEntity getUserEntityByEmail(String email) {
-        UserEntity userEntity = userRepository.findUserEntityByEmailAndVerifiedIsTrue(email);
+        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL);
         }

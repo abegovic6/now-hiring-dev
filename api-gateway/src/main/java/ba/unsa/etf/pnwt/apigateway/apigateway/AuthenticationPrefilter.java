@@ -33,7 +33,10 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
             "user-service/user/auth/authenticate",
             "user-service/user/auth/register",
             "user-service/auth/refresh-token",
-            "user-service/auth/validate-token"
+            "user-service/auth/validate-token",
+            "user-service/notification",
+            "recommendation-service/user/addNewUser",
+            "feature-service/user/add"
     );
 
     @Autowired

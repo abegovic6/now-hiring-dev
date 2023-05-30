@@ -23,6 +23,12 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(String uuid, String email) {
+        //this.id = id;
+        this.uuid = uuid;
+        this.email = email;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -16,6 +16,12 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
       - ./user-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/user_schema.sql
       - ./user-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/user_tables.sql
+      - ./feature-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/feature_schema.sql
+      - ./feature-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/feature_tables.sql
+      - ./jobs-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/jobs_schema.sql
+      - ./jobs-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/jobs_tables.sql
+      - ./recommendation-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/recommendation_schema.sql
+      - ./recommendation-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/recommendation_tables.sql
 
   config-server:
     container_name: config-server

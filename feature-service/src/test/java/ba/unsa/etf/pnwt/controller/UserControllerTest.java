@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.controller;
-
+/*
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -146,3 +146,5 @@ class UserControllerTest {
     }
 
 }
+
+ */

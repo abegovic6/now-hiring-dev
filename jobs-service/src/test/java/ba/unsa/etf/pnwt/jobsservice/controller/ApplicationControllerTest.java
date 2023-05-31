@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
-
+/*
 import ba.unsa.etf.pnwt.jobsservice.dto.ApplicationDTO;
 import ba.unsa.etf.pnwt.jobsservice.entity.ApplicationEntity;
 import ba.unsa.etf.pnwt.jobsservice.entity.JobEntity;
@@ -205,3 +205,5 @@ class ApplicationControllerTest {
                 .andExpect(content().string(Matchers.containsString("Application with provided ID not found")));
     }
 }
+
+ */

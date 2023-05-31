@@ -1,4 +1,4 @@
-drop schema recommendation cascade;
+DROP SCHEMA IF EXISTS recommendation cascade;
 create schema recommendation;
 
 create table recommendation."user"

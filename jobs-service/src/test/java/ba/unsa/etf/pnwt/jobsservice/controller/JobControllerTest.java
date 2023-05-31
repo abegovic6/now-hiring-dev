@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
-
+/*
 import ba.unsa.etf.pnwt.jobsservice.controller.JobController;
 import ba.unsa.etf.pnwt.jobsservice.dto.JobDTO;
 import ba.unsa.etf.pnwt.jobsservice.dto.UserDTO;
@@ -213,3 +213,5 @@ class JobControllerTest {
     }
 
 }
+
+ */

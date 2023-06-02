@@ -1,8 +1,7 @@
 package ba.unsa.etf.pnwt.recommendationservice.controller;
 
-import ba.unsa.etf.pnwt.recommendationservice.dto.CommentEntitryHelper;
+import ba.unsa.etf.pnwt.recommendationservice.dto.CommentEntityHelper;
 import ba.unsa.etf.pnwt.recommendationservice.entity.CommentEntity;
-import ba.unsa.etf.pnwt.recommendationservice.entity.RecommendationEntity;
 import ba.unsa.etf.pnwt.recommendationservice.service.CommentServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class CommentController {
         return commentService.getCommentByUserEmail(email);
     }
     @PostMapping(path="/addComment")
-    public ResponseEntity<CommentEntity> addComment(@Valid @RequestBody CommentEntitryHelper comment){
+    public ResponseEntity<CommentEntity> addComment(@Valid @RequestBody CommentEntityHelper comment){
         CommentEntity addedComment = commentService.addNewComment(comment);
         return ResponseEntity.ok(addedComment);
     }

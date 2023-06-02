@@ -37,6 +37,10 @@
   color: #925762 !important;
 }
 
+.blackText {
+  color: #23242c !important;
+}
+
 .dropdown{
   overflow: visible !important;
   list-style-type: none;
@@ -78,5 +82,16 @@
     transform: rotate(360deg);
   }
 }
+
+.containerButtonText {
+  display: inline;
+  height: 20px;
+}
+
+.containerButtonText img{
+  float: right;
+}
+
+
 
 

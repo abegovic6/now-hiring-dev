@@ -2,7 +2,7 @@ package ba.unsa.etf.pnwt.userservice.constants;
 
 public class ApiResponseMessages {
     public static final int MAX_NAME_LENGTH = 50;
-    public static final int MAX_DESCRIPTION_LENGTH = 255;
+    public static final int MAX_DESCRIPTION_LENGTH = 1000;
     public static final int PASSWORD_MAX_LENGTH = 25;
     public static final int PASSWORD_MIN_LENGTH = 8;
 

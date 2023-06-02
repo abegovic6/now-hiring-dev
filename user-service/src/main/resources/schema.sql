@@ -32,7 +32,7 @@ create table aeesuser.user
     company_name    VARCHAR(50),
     first_name      VARCHAR(50),
     last_name       VARCHAR(50),
-    description     VARCHAR(255),
+    description     VARCHAR(1000),
 
     creation_ts     TIMESTAMP          NOT NULL,
     modification_ts TIMESTAMP,

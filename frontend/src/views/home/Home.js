@@ -4,7 +4,7 @@ import {MDBBtn} from "mdb-react-ui-kit";
 
 import {user} from "../../context/Reducer";
 import NotLoggedInHomePage from "./NotLoggedInHomePage";
-import List from "../components/List";
+import List from "../listpage/List";
 
 export default function Home() {
     return <>

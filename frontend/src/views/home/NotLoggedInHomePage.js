@@ -32,6 +32,7 @@ export default function NotLoggedInHomePage () {
                         <MDBBtn
                             className=" mx-2 w-50 subColorBackground"
                             size='lg'
+                            href={'/signup'}
                         >
                             Join today
                         </MDBBtn>

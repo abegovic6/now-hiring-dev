@@ -62,7 +62,6 @@ const executeRequest = async (url, params, requestOptions) => {
         let response = await fetch(url + '?' + new URLSearchParams(params), requestOptions);
         return  await response.json();
     }
-
     let response = await fetch(url, requestOptions);
     return  await response.json();
 }

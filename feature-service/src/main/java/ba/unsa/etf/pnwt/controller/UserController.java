@@ -2,7 +2,9 @@ package ba.unsa.etf.pnwt.controller;
 
 
 import ba.unsa.etf.pnwt.dto.ExampleDTO;
+import ba.unsa.etf.pnwt.dto.ProfileDTO;
 import ba.unsa.etf.pnwt.dto.UserDTO;
+import ba.unsa.etf.pnwt.service.ProfileService;
 import ba.unsa.etf.pnwt.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,6 +28,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired protected ProfileService profileService;
 
     @Operation(description = "Get all users")
     @ApiResponses(value = {
@@ -90,6 +94,22 @@ public class UserController {
             @PathVariable  String id) {
         var user = userService.getUserByUuid(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @Operation(description = "Get user profile by ID")
+    @ApiResponses ( value = {
+            @ApiResponse(responseCode = "200", description = "Successfully found the profile with provided UUID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProfileDTO.class)),
+                    }),
+            @ApiResponse(responseCode = "404", description = "Profile with provided UUID not found",
+                    content = @Content)})
+    @GetMapping(path="/profile/{uuid}")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody ResponseEntity<ProfileDTO> getUserProfileByUuid(
+            @Parameter(description = "User ID", required = true)
+            @PathVariable  String uuid) {
+        return new ResponseEntity<>(profileService.getUserProfile(uuid), HttpStatus.OK);
     }
 
     @Operation(description = "Get a user by Email")

@@ -8,6 +8,7 @@ import {user} from "../../context/Reducer";
 import mainLogo from'../../icons/logo.png';
 import React from "react";
 import '../../App.css';
+import {PROFILE} from "../utils";
 
 function NavScrollExample(props) {
     const dispatch = useAuthDispatch() // read dispatch method from context
@@ -36,37 +37,19 @@ function NavScrollExample(props) {
         return <Nav.Link href="/signup">Sign Up</Nav.Link>
     }
 
-    const myTicketsMenuItem = () => {
-        return <Nav.Link href="/mytickets">My tickets</Nav.Link>
-    }
-
-    const myTasksMenuItem = () => {
-        return <Nav.Link href="/mytasks">My tasks</Nav.Link>
-    }
-
-    const eventMenuItem = () => {
-        return <Nav.Link href="/event">Event</Nav.Link>
-    }
-
-    const newEventMenuItem = () => {
-        return <Nav.Link href="/new-event">Create Event</Nav.Link>
-    }
-
-    const myProfile = () => {
-        return <Nav.Link  href="/my-profile" >Profile</Nav.Link>
-    }
-
-
-
     const logOutMenuItem = () => {
         return <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
+    }
+
+    const myPage = () => {
+        return <Nav.Link href="/mypage">Profile</Nav.Link>
     }
 
 
     return (
         <Navbar  expand="lg" className="darkColorBackground sticky-top" variant="dark">
             <Container>
-                <Navbar.Brand href="#home">{getMenuLogo()}</Navbar.Brand>
+                <Navbar.Brand href="/">{getMenuLogo()}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -89,24 +72,9 @@ function NavScrollExample(props) {
                             user &&
                             <>
                                 {
-                                  user.userType === 'USER' &&
-                                    <>
-                                        {
-                                            myTicketsMenuItem()
-                                        }
-                                    </>
+                                    user.userType === PROFILE.PRIVATE && myPage()
                                 }
-                                {
-                                    user.userType === 'ADMIN' &&
-                                    <>
-                                        {
-                                            newEventMenuItem()
-                                        }
-                                        {
-                                            myTasksMenuItem()
-                                        }
-                                    </>
-                                }
+
                                 {
                                     logOutMenuItem()
                                 }

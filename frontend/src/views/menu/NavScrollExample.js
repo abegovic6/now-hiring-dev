@@ -45,6 +45,10 @@ function NavScrollExample(props) {
         return <Nav.Link href="/mypage">Profile</Nav.Link>
     }
 
+    const myCompanyPage = () => {
+        return <Nav.Link href="/mycompany">Company</Nav.Link>
+    }
+
 
     return (
         <Navbar  expand="lg" className="darkColorBackground sticky-top" variant="dark">
@@ -73,6 +77,10 @@ function NavScrollExample(props) {
                             <>
                                 {
                                     user.userType === PROFILE.PRIVATE && myPage()
+                                }
+
+                                {
+                                    user.userType === PROFILE.COMPANY && myCompanyPage()
                                 }
 
                                 {

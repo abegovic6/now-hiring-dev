@@ -52,6 +52,17 @@ public class JobController {
     }
 
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully found all jobs with provided company ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = JobDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Jobs with provided company ID not found",
+                    content = @Content)})
+    @GetMapping("/getcompanyjobs/{id}")
+    public ResponseEntity<List<JobDTO>> getCompanyJobs(@PathVariable("id") String id) {
+        return new ResponseEntity<>(jobService.getByCompanyId(id), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created a new JOB",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = JobDTO.class)) }),

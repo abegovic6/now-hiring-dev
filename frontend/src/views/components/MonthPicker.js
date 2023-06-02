@@ -1,7 +1,7 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
-import './monthpicker-style.css';
+//import './monthpicker-style.css';
 
 function MonthPicker() {
     const start = 'Year';

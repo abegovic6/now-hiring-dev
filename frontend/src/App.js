@@ -8,6 +8,7 @@ import SignUp from "./views/signup/SignUp";
 import {AuthProvider} from "./context";
 import PrivateProfilePage from "./views/privateuser/PrivateProfilePage";
 import {user} from "./context/Reducer";
+import CompanyPge from './views/company/CompanyPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/login" element={<Login/>}/>
               <Route path="/signup" element={<SignUp/>}/>
               <Route path="/mypage" element={<PrivateProfilePage profile={user}/>}/>
+              <Route path="/mycompany" element={<CompanyPge profile={user}/>}/>
             </Routes>
           </BrowserRouter>
         </div>

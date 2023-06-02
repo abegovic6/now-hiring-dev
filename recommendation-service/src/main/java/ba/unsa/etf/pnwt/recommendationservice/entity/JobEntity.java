@@ -4,6 +4,7 @@ import ba.unsa.etf.pnwt.recommendationservice.constants.DatabaseConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.lang.Nullable;
 
 import java.util.Set;
 
@@ -23,8 +24,10 @@ public class JobEntity {
     private String name;
     private String description;
 
+
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private UserEntity userEntity;
 
     @OneToMany(mappedBy = "jobEntity")

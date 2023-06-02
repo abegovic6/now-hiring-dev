@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface JobRepository extends JpaRepository<JobEntity, Long> {
     @Query("SELECT u FROM UserEntity u where u.email = ?1")
     Optional<UserEntity> findUserByEmail(String email);
+
+    @Query("SELECT u FROM UserEntity u where u.uuid = ?1")
+    Optional<UserEntity> findUserById(String uuid);
 }

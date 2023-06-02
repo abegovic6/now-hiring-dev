@@ -113,4 +113,9 @@ public class JobServiceImpl implements JobService {
         else throw new EntityNotFoundException("Job with provided ID not found");
     }
 
+    @Override
+    public JobEntity findJobByTitle(String title) {
+        return jobRepository.findJobByTitle(title);
+    }
+
 }

@@ -14,4 +14,7 @@ public interface JobRepository extends JpaRepository<JobEntity, Long> {
     @Query(value = "SELECT * FROM aeesjobs.Job WHERE company_id = :company_id", nativeQuery = true)
     List<JobEntity> findJobsForCompany(@Param("company_id") String uid);
 
+    @Query("SELECT j FROM JobEntity j where j.title = ?1")
+    JobEntity findJobByTitle(String title);
+
 }

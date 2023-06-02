@@ -1,22 +1,17 @@
-package ba.unsa.etf.pnwt.recommendationservice.dto;
+package ba.unsa.etf.pnwt.userservice.dto;
 
-import org.springframework.lang.Nullable;
-
-import java.io.Serializable;
-
-public class UserDTO{
-    private long id;
+public class UserFeaturesDTO {
+    private int id;
     private String uuid;
-    private String name;
+
     private String email;
 
-    public UserDTO() {
+    public UserFeaturesDTO() {
     }
 
-    public UserDTO(long id, String uuid, String name, String email) {
+    public UserFeaturesDTO(int id, String uuid, String email) {
         this.id = id;
         this.uuid = uuid;
-        this.name = name;
         this.email = email;
     }
 
@@ -24,7 +19,7 @@ public class UserDTO{
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -34,14 +29,6 @@ public class UserDTO{
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {

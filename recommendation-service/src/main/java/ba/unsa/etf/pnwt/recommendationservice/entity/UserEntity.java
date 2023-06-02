@@ -45,9 +45,8 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String name, String email) {
-        this.id = id;
-        this.uuid = "11111"; //samo proba ne smije ovako ostat
+    public UserEntity(String id, String name, String email) {
+        this.uuid = id; //samo proba ne smije ovako ostat
         this.name = name;
         this.email = email;
     }
@@ -66,6 +65,13 @@ public class UserEntity {
         this.jobEntities = jobEntities;
         this.recommendedUsers = recommendedUsers;
         this.commentEntities = commentEntities;
+    }
+
+    public UserEntity(Long id, String uuid, String name, String email) {
+        this.id = id;
+        this.uuid = uuid;
+        this.name = name;
+        this.email = email;
     }
 
     public Long getId() {

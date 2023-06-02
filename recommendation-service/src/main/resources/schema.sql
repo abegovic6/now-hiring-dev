@@ -16,7 +16,7 @@ create table recommendation.job
         primary key,
     description varchar(255),
     name        varchar(255) not null,
-    user_id     bigint       not null
+    user_id     bigint
         constraint fkihd6m3auwpenduntl3e1opcoq
             references recommendation."user"
 );

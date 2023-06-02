@@ -5,9 +5,7 @@ import ba.unsa.etf.pnwt.userservice.authentification.AuthenticationResponse;
 import ba.unsa.etf.pnwt.userservice.authentification.AuthenticationService;
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.Role;
-import ba.unsa.etf.pnwt.userservice.dto.LoginDTO;
-import ba.unsa.etf.pnwt.userservice.dto.PasswordDTO;
-import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
+import ba.unsa.etf.pnwt.userservice.dto.*;
 import ba.unsa.etf.pnwt.userservice.exception.NotValidException;
 import ba.unsa.etf.pnwt.userservice.params.UserParams;
 import ba.unsa.etf.pnwt.userservice.service.UserService;
@@ -19,9 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -36,6 +33,9 @@ public class UserController {
 
     @Autowired
     protected AuthenticationService authenticationService;
+
+    @Autowired
+    public RestTemplate restTemplate;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
@@ -106,7 +106,34 @@ public class UserController {
     @PostMapping("/auth/register")
     public ResponseEntity<AuthenticationResponse> createUser(@RequestBody UserDTO userDTO) {
         validateUserCreation(userDTO);
-        return new ResponseEntity<>(authenticationService.register(userService.createUser(userDTO)), HttpStatus.CREATED);
+
+        ResponseEntity<AuthenticationResponse> response = new ResponseEntity<>(authenticationService.register(userService.createUser(userDTO)), HttpStatus.CREATED);
+        if(response.getStatusCode().is2xxSuccessful()){
+            String url = "http://recommendationservice/recommendation-service/user/addNewUserDTO";
+            UserDTO user = userService.getUserByEmail(userDTO.getEmail());
+            UserRecommendationDTO userForRecService =
+                    new UserRecommendationDTO(user.getId(), user.getUuid(), user.getDisplayValue(), user.getEmail());
+            restTemplate.postForObject(url, userForRecService, UserRecommendationDTO.class);
+
+            String urlJobs = "http://jobservice/job-service/user/add";
+            UserJobDTO userjob = new UserJobDTO(user.getUuid(),
+                    user.getUserType().toString(),
+                    user.getCompanyName(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getDescription(),
+                    user.getLocationDTO().getCity(),
+                    user.getId());
+            restTemplate.postForObject(urlJobs, userjob, UserJobDTO.class);
+
+             //ovo ne radi
+            String urlFeatures = "http://featureservice/feature-service/user/add";
+            UserFeaturesDTO userFeatures = new UserFeaturesDTO(user.getId(), user.getUuid(), user.getEmail());
+            restTemplate.postForObject(urlFeatures, userFeatures, UserFeaturesDTO.class); //ne radi id primary nesto
+
+        }
+        return response;
     }
 
     @ApiResponses(value = {

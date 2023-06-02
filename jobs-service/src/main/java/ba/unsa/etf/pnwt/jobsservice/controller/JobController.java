@@ -1,7 +1,9 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
 
 import ba.unsa.etf.pnwt.jobsservice.dto.JobDTO;
+import ba.unsa.etf.pnwt.jobsservice.dto.JobRecommendationDTO;
 import ba.unsa.etf.pnwt.jobsservice.dto.UserDTO;
+import ba.unsa.etf.pnwt.jobsservice.entity.JobEntity;
 import ba.unsa.etf.pnwt.jobsservice.service.JobService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -58,16 +60,22 @@ public class JobController {
             @ApiResponse(responseCode = "400", description = "Invalid information supplied",
                     content = @Content)})
     @PostMapping("/add")
-    public ResponseEntity<JobDTO> add(@Valid @RequestBody JobDTO job){
-        ResponseEntity<JobDTO> jobDTOResponseEntity = new ResponseEntity<>(jobService.save(job), HttpStatus.CREATED);
+    public ResponseEntity<JobDTO> add(@Valid @RequestBody JobDTO jobDTO){
+        ResponseEntity<JobDTO> jobDTOResponseEntity = new ResponseEntity<>(jobService.save(jobDTO), HttpStatus.CREATED);
         if(jobDTOResponseEntity.getStatusCode().is2xxSuccessful()){
-            String url = "http://userservice/notification/" + job.getCompanyId() + "/created-job";
+            String url = "http://userservice/user-service/notification/" + jobDTO.getCompanyId() + "/created-job";
             restTemplate.postForObject(url, null, String.class);
-            return jobDTOResponseEntity;
+
+            String urlJobRec = "http://recommendationservice/recommendation-service/job/addNewJobDTO";
+            JobEntity job = jobService.findJobByTitle(jobDTO.getTitle());
+            JobRecommendationDTO jobRecommendationDTO = new JobRecommendationDTO(new Long(job.getId()), job.getTitle(), job.getDescription(), null);
+            restTemplate.postForObject(urlJobRec, jobRecommendationDTO, JobRecommendationDTO.class);
+
+
         }
-        else{
+
             return jobDTOResponseEntity;
-        }
+
     }
 
     @ApiResponses(value = {

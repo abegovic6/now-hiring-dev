@@ -48,8 +48,10 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public UserDTO crateUser(UserDTO userDTO) {
-        return UserMapper.mapToProjection(userRepository.save(UserMapper.mapToEntity(userDTO)));
+    public UserEntity crateUser(UserDTO userDTO) {
+        //return UserMapper.mapToProjection(userRepository.save(UserMapper.mapToEntity(userDTO)));
+        UserEntity userEntity =  UserMapper.mapToEntity(userDTO);
+        return userRepository.save(userEntity);
     }
 
     @Override

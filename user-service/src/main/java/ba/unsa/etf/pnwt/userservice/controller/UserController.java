@@ -128,9 +128,9 @@ public class UserController {
             restTemplate.postForObject(urlJobs, userjob, UserJobDTO.class);
 
              //ovo ne radi
-//            String urlFeatures = "http://featureservice/feature-service/user/add";
-//            UserFeaturesDTO userFeatures = new UserFeaturesDTO(user.getId(), user.getUuid(), user.getEmail());
-//            restTemplate.postForObject(urlFeatures, userFeatures, UserFeaturesDTO.class); //ne radi id primary nesto
+            String urlFeatures = "http://featureservice/feature-service/user/add";
+            UserFeaturesDTO userFeatures = new UserFeaturesDTO(user.getId(), user.getUuid(), user.getEmail());
+            restTemplate.postForObject(urlFeatures, userFeatures, UserFeaturesDTO.class); //ne radi id primary nesto
 
         }
         return response;

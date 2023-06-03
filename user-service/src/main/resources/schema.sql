@@ -1,5 +1,5 @@
 -- drop and create schema
-drop schema aeesuser cascade;
+DROP SCHEMA IF EXISTS aeesuser cascade;
 create schema aeesuser;
 
 

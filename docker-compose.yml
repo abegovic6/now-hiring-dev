@@ -1,0 +1,159 @@
+version: '3'
+
+services:
+
+  postgresql-db:
+    container_name: postgresql-db
+    hostname: postgresql
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./user-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/user_schema.sql
+      - ./user-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/user_tables.sql
+      - ./feature-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/feature_schema.sql
+      - ./feature-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/feature_tables.sql
+      - ./jobs-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/jobs_schema.sql
+      - ./jobs-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/jobs_tables.sql
+      - ./recommendation-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/recommendation_schema.sql
+      - ./recommendation-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/recommendation_tables.sql
+
+  config-server:
+    container_name: config-server
+    hostname: config-service
+    build:
+      context: ./configuration/
+      dockerfile: Dockerfile
+    image: config-server:latest
+    restart: on-failure
+    expose:
+      - 8888
+    ports:
+      - 8888:8888
+
+  eureka-server:
+    container_name: eureka-server
+    hostname: discovery-server
+    build:
+      context: ./eureka-service/
+      dockerfile: Dockerfile
+    image: eureka-server:latest
+    restart: on-failure
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+    depends_on:
+      - config-server
+
+  user-service:
+    container_name: user-service
+    build:
+      context: ./user-service/
+      dockerfile: Dockerfile
+    image: user-service:latest
+    restart: on-failure
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 8092
+    ports:
+      - 8092:8092
+    depends_on:
+      - postgresql-db
+      - config-server
+      - eureka-server
+
+
+  feature-service:
+    container_name: feature-service
+    build:
+      context: ./feature-service/
+      dockerfile: Dockerfile
+    image: feature-service:latest
+    restart: on-failure
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 8086
+    ports:
+      - 8086:8086
+    depends_on:
+      - postgresql-db
+      - config-server
+      - eureka-server
+
+  jobs-service:
+    container_name: jobs-service
+    build:
+      context: ./jobs-service/
+      dockerfile: Dockerfile
+    image: jobs-service:latest
+    restart: on-failure
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 8082
+    ports:
+      - 8082:8082
+    depends_on:
+      - postgresql-db
+      - config-server
+      - eureka-server
+
+  recommendation-service:
+    container_name: recommendation-service
+    build:
+      context: ./recommendation-service/
+      dockerfile: Dockerfile
+    image: recommendation-service:latest
+    restart: on-failure
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 8088
+    ports:
+      - 8088:8088
+    depends_on:
+      - postgresql-db
+      - config-server
+      - eureka-server
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway/
+      dockerfile: Dockerfile
+    image: api-gateway:latest
+    restart: on-failure
+    environment:
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends_on:
+      - eureka-server
+      - config-server
+      - postgresql-db
+      - user-service
+      - recommendation-service
+      - jobs-service
+      - feature-service

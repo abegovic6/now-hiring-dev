@@ -1,5 +1,6 @@
 package ba.unsa.etf.pnwt.recommendationservice.service;
 
+import ba.unsa.etf.pnwt.recommendationservice.dto.JobDTO;
 import ba.unsa.etf.pnwt.recommendationservice.entity.JobEntity;
 import ba.unsa.etf.pnwt.recommendationservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.recommendationservice.exceptions.ApiRequestException;
@@ -44,5 +45,14 @@ public class JobServiceImp implements JobService{
             throw  new ApiRequestException("Jon with id "+ id +" doesn't exist");
         }
         jobRepository.deleteById(id);
+    }
+
+    @Override
+    public JobEntity addNewJobDTO(JobDTO jobDTO) {
+
+        //Optional<UserEntity> owner = jobRepository.findUserById(jobDTO.getUserUuid());
+        JobEntity newJob = new JobEntity(jobDTO.getName(), jobDTO.getDescription(), null);
+        jobRepository.save(newJob);
+        return newJob;
     }
 }

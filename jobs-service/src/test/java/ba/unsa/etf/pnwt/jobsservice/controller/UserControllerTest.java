@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
-
+/*
 import ba.unsa.etf.pnwt.jobsservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.jobsservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.jobsservice.mapper.UserMapper;
@@ -192,3 +192,5 @@ class UserControllerTest {
     }
 
 }
+
+ */

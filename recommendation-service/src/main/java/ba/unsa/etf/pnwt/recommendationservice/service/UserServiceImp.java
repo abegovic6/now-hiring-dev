@@ -1,5 +1,6 @@
 package ba.unsa.etf.pnwt.recommendationservice.service;
 
+import ba.unsa.etf.pnwt.recommendationservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.recommendationservice.entity.JobEntity;
 import ba.unsa.etf.pnwt.recommendationservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.recommendationservice.exceptions.ApiRequestException;
@@ -81,5 +82,12 @@ public class UserServiceImp implements UserService{
         }
         userRepository.deleteById(userEntityByEmail.get().getId());
         return userEntityByEmail.get();
+    }
+
+    @Override
+    public UserEntity addNewUser(UserDTO user) {
+        UserEntity newUser = new UserEntity(user.getUuid(), user.getName(), user.getEmail());
+        return userRepository.save(newUser);
+
     }
 }

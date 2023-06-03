@@ -1,6 +1,7 @@
 package ba.unsa.etf.pnwt.service.user;
 
 import ba.unsa.etf.pnwt.dto.UserDTO;
+import ba.unsa.etf.pnwt.entity.UserEntity;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface UserService {
 
     UserDTO getUserByUuid(String uuid);
 
-    UserDTO crateUser(UserDTO userDTO);
+    UserEntity crateUser(UserDTO userDTO);
 
     String deleteUser(String uuid);
 

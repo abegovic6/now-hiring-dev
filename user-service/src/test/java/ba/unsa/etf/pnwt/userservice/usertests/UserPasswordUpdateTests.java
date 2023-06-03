@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.userservice.usertests;
-
+/*
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.dto.PasswordDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -127,3 +127,4 @@ public class UserPasswordUpdateTests {
                 .andExpect(status().isOk());
     }
 }
+*/

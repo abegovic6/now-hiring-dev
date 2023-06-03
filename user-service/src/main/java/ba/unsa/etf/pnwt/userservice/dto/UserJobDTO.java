@@ -1,32 +1,25 @@
-package ba.unsa.etf.pnwt.jobsservice.dto;
+package ba.unsa.etf.pnwt.userservice.dto;
 
-import jakarta.validation.constraints.NotNull;
-import org.springframework.lang.Nullable;
 
-import java.io.Serializable;
+public class UserJobDTO {
 
-/**
- * Example DTO class
- */
-public class UserDTO implements Serializable {
-    @NotNull(message = "ID must be specified")
     private String uid;
-    @NotNull(message = "User Type must be specified")
+
     private String userType;
     private String companyName;
     private String firstName;
     private String lastName;
-    @NotNull(message = "E-mail must be specified")
+
     private String email;
     private String description;
     private String location;
 
     private Integer id;
 
-    public UserDTO() {
+    public UserJobDTO() {
     }
 
-    public UserDTO(String uid, String userType, String companyName, String firstName, String lastName, String email, String description, String location, Integer id) {
+    public UserJobDTO(String uid, String userType, String companyName, String firstName, String lastName, String email, String description, String location, Integer id) {
         this.uid = uid;
         this.userType = userType;
         this.companyName = companyName;
@@ -38,7 +31,6 @@ public class UserDTO implements Serializable {
         this.id = id;
     }
 
-    @Nullable
     public String getUid() {
         return uid;
     }
@@ -47,7 +39,7 @@ public class UserDTO implements Serializable {
         this.uid = id;
     }
 
-    @Nullable
+
     public String getFirstName() {
         return firstName;
     }
@@ -56,7 +48,7 @@ public class UserDTO implements Serializable {
         this.firstName = firstName;
     }
 
-    @Nullable
+
     public String getLastName() {
         return lastName;
     }
@@ -65,7 +57,7 @@ public class UserDTO implements Serializable {
         this.lastName = lastName;
     }
 
-    @Nullable
+
     public String getDescription() {
         return description;
     }
@@ -74,7 +66,7 @@ public class UserDTO implements Serializable {
         this.description = description;
     }
 
-    @Nullable
+
     public String getLocation() {
         return location;
     }
@@ -91,7 +83,7 @@ public class UserDTO implements Serializable {
         this.userType = userType;
     }
 
-    @Nullable
+
     public String getCompanyName() {
         return companyName;
     }

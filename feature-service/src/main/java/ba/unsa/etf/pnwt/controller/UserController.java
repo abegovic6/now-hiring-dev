@@ -5,6 +5,7 @@ import ba.unsa.etf.pnwt.dto.ExampleDTO;
 import ba.unsa.etf.pnwt.dto.ProfileDTO;
 import ba.unsa.etf.pnwt.dto.UserDTO;
 import ba.unsa.etf.pnwt.service.ProfileService;
+import ba.unsa.etf.pnwt.entity.UserEntity;
 import ba.unsa.etf.pnwt.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,7 +55,7 @@ public class UserController {
                     content = @Content)})
     @PostMapping(path="/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody ResponseEntity<UserDTO> addNewUser (
+    public @ResponseBody ResponseEntity<UserEntity> addNewUser (
             @Parameter(description = "User", required = true)
             @Valid @RequestBody UserDTO userDTO) {
         var user = userService.crateUser(userDTO);

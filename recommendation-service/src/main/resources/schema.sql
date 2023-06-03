@@ -1,4 +1,4 @@
-drop schema recommendation cascade;
+DROP SCHEMA IF EXISTS recommendation cascade;
 create schema recommendation;
 
 create table recommendation."user"
@@ -14,7 +14,7 @@ create table recommendation.job
     id         SERIAL PRIMARY KEY,
     description varchar(255),
     name        varchar(255) not null,
-    user_id     bigint       not null
+    user_id     bigint
         constraint fkihd6m3auwpenduntl3e1opcoq
             references recommendation."user"
 );

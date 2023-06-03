@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service/location")
+@RequestMapping("/user-service/user/auth")
 public class LocationController {
 
     @Autowired protected LocationService locationService;
@@ -27,7 +27,7 @@ public class LocationController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = LocationDTO.class))})}
     )
-    @GetMapping("/all")
+    @GetMapping("/locations")
     public ResponseEntity<List<LocationDTO>> getAll(@RequestParam(required = false) String searchValue) {
         return new ResponseEntity<>(locationService.getAllLocations(searchValue), HttpStatus.OK);
     }

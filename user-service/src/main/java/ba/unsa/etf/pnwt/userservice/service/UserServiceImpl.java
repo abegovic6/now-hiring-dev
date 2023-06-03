@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserEntity createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO) {
         if (userDTO.getLocationDTO() == null) {
             throw new NotValidException(ApiResponseMessages.MISSING_CITY);
         }
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService{
         userEntity.setLocationEntity(locationEntity);
         userEntity.setVerified(false);
         setCodeAndSend(userEntity);
-        return userRepository.save(userEntity);
+        return UserMapper.mapToProjection(userRepository.save(userEntity));
     }
 
     @Override
@@ -116,6 +116,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDTO getUserByEmailAndPassword(String email, String password) {
         UserEntity userEntity = getUserEntityByEmail(email);
+        if (!userEntity.isVerified()) {
+            throw new NotValidException(ApiResponseMessages.USER_IS_NOT_VERIFIED);
+        }
         if (!userEntity.comparePasswords(password)) {
             throw new NotValidException(ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD);
         }

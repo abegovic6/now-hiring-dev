@@ -26,7 +26,7 @@ public interface UserService {
 
     UserDTO verifyUser(String email, String code);
 
-    UserEntity createUser(UserDTO userDTO);
+    UserDTO createUser(UserDTO userDTO);
     void sendCodeAgain(String email);
     UserDTO updateUser(UserDTO newUser, String uuid, Role role);
     UserDTO updatePassword(String uuid, String oldPassword, String newPassword);

@@ -32,9 +32,11 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
     List<String> excludedUrls = Arrays.asList(
             "user-service/user/auth/authenticate",
             "user-service/user/auth/register",
+            "user-service/user/auth/verify",
             "user-service/auth/refresh-token",
             "user-service/auth/validate-token",
             "user-service/notification",
+            "user-service/user/auth/locations",
             "recommendation-service/user/addNewUser",
             "feature-service/user/add"
     );

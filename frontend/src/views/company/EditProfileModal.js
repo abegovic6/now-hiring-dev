@@ -25,7 +25,7 @@ export default function EditProfileModal(props) {
     const [description, setDescription] = useState(user.description)
 
     useEffect(() => {
-        get('user-service/location/all', undefined, token)
+        get('user-service/user/auth/locations', undefined)
             .then(response => {
                 setLocations(response);
                 setIsLoading(false);

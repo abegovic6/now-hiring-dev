@@ -81,6 +81,15 @@ public class NotificationServiceImpl implements NotificationService {
         return NotificationMapper.mapToProjection(saveNotification(userFor, userFrom, NotificationType.REVIEW));
     }
 
+    @Override
+    public NotificationDTO createReviewerWroteARecommendationForUser(String uuidReviewer, String uuidForUser) {
+        UserEntity userFor = userService.getUserEntityByUUID(uuidForUser);
+        UserEntity userFrom = userService.getUserEntityByUUID(uuidReviewer);
+
+        sendMail(userFor, userFrom, NotificationType.RECOMMENDATION);
+        return NotificationMapper.mapToProjection(saveNotification(userFor, userFrom, NotificationType.RECOMMENDATION));
+    }
+
     private NotificationEntity saveNotification(UserEntity userFor, UserEntity userFrom, NotificationType notificationType) {
         NotificationEntity notificationEntity = new NotificationEntity();
         notificationEntity.setNotificationType(notificationType);

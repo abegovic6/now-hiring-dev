@@ -51,6 +51,7 @@ public class ApiResponseMessages {
     public static final String CANT_HAVE_CONNECTION_WITH_YOURSELF = "The connection can not start between same users";
     public static final String USER_IS_ALREADY_VERIFIED = "The user is already verified";
     public static final String WRONG_VERIFICATION_CODE = "The verification code is not correct!";
+    public static final String USER_IS_NOT_VERIFIED = "The user is not verified";
 
 
     // wrong format

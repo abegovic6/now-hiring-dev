@@ -61,6 +61,20 @@ public class NotificationController {
     }
 
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.NOTIFICATION_CREATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))})}
+    )
+    @PostMapping("{uuidReviewer}/recommend/{userUuid}")
+    public ResponseEntity<NotificationDTO> createUserWroteARecommendationNotification(
+            @PathVariable("uuidReviewer") String uuidReviewer,
+            @PathVariable("userUuid") String userUuid
+    ) {
+        return new ResponseEntity<>(
+                notificationService.createReviewerWroteAReviewForUser(uuidReviewer, userUuid), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.MAIL_SENT,
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = String.class))})}

@@ -2,7 +2,6 @@ import {Modal} from "react-bootstrap";
 import {MDBContainer, MDBInput, MDBRow} from "mdb-react-ui-kit";
 import {Button} from "reactstrap";
 import React from "react";
-import MonthPicker from "../components/MonthPicker";
 
 export default function AddExperienceModal(props) {
     const {open, onClose} = props;
@@ -37,7 +36,6 @@ export default function AddExperienceModal(props) {
                             type='text'
                             size="lg"
                         />
-                        <MonthPicker />
                     </div>
                 </MDBRow>
             </MDBContainer>

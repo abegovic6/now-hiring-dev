@@ -22,12 +22,11 @@ import editSign from '../../icons/pencil.svg';
 import {Modal} from "react-bootstrap";
 import {Button} from "reactstrap";
 import EditProfileModal from "./EditProfileModal";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import AddExperienceModal from "./AddExperienceModal";
 
-export default function PrivateProfilePage(params) {
-    const {profile} = params;
-    const isMy = profile.uuid === user.uuid;
+export default function PrivateProfilePage(props) {
+    const {currentProfile} = props;
     const [educations, setEducations] = useState([])
     const [experiences, setExperiences] = useState([])
     const [skills, setSkills] = useState([])
@@ -35,14 +34,43 @@ export default function PrivateProfilePage(params) {
     const [addExperience, setAddExperience] = useState(false)
     const [isLoading, setIsLoading] = useState(true);
     const [editProfile, setEditProfile] = useState(false);
-
+    const params = useParams();
+    const [isMy, setIsMy] = useState(false);
+    const [profile, setProfile] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (profile) {
+        if (currentProfile) {
             setIsLoading(true);
-            get('feature-service/user/profile/' + profile.uuid, undefined, token)
+            get('user-service/user/uuid/' + currentProfile.uuid, undefined, token)
                 .then(response => {
+
+                    setProfile(response);
+                    setIsMy(response.uuid === user.uuid)
+                    return get('feature-service/user/profile/' + currentProfile.uuid, undefined, token)
+                }).then(response => {
+
+                            setEducations(response.educations)
+                            setExperiences(response.experiences)
+                    setSkills(response.skills)
+
+
+
+                    return get('recommendation-service/review/' + currentProfile.uuid + '/all', undefined,  token)
+                }).then(response => {
+                setReviews(response);
+                setIsLoading(false);
+            })
+        } else {
+            if (params && params.id) {
+                setIsLoading(true);
+                get('http://localhost:3000/user-service/user/uuid/' + params.id, undefined, token)
+                    .then(response => {
+
+                        setProfile(response);
+                        setIsMy(response.uuid === user.uuid)
+                        return get('http://localhost:3000/feature-service/user/profile/' + params.id, undefined, token)
+                    }).then(response => {
 
                     setEducations(response.educations)
                     setExperiences(response.experiences)
@@ -50,15 +78,16 @@ export default function PrivateProfilePage(params) {
 
 
 
-                    return get('recommendation-service/review/' + profile.uuid + '/all', undefined,  token)
+                    return get('http://localhost:3000/recommendation-service/review/' + params.id + '/all', undefined,  token)
                 }).then(response => {
-                setReviews(response);
-                setIsLoading(false);
-            })
+                    setReviews(response);
+                    setIsLoading(false);
+                })
+            }
         }
 
 
-    }, [profile])
+    }, [])
 
     const onEditProfileClose = () => {
       setEditProfile(false);

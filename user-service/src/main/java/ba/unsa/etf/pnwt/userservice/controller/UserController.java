@@ -104,13 +104,25 @@ public class UserController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = String.class))})})
     @PostMapping("/auth/register")
-    public ResponseEntity<AuthenticationResponse> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         validateUserCreation(userDTO);
 
-        ResponseEntity<AuthenticationResponse> response = new ResponseEntity<>(authenticationService.register(userService.createUser(userDTO)), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.CREATED);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_VERIFIED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))}),
+            @ApiResponse(responseCode = "404", description = ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL,
+                    content = @Content)})
+    @PutMapping("/auth/verify")
+    public ResponseEntity<UserDTO> verifyUser(@RequestBody VerifyDTO verifyDTO) {
+        var response = new ResponseEntity<>(userService.verifyUser(verifyDTO.getEmail(), verifyDTO.getCode()), HttpStatus.OK);
+
         if(response.getStatusCode().is2xxSuccessful()){
             String url = "http://recommendationservice/recommendation-service/user/addNewUserDTO";
-            UserDTO user = userService.getUserByEmail(userDTO.getEmail());
+            UserDTO user = userService.getUserByEmail(verifyDTO.getEmail());
             UserRecommendationDTO userForRecService =
                     new UserRecommendationDTO(user.getId(), user.getUuid(), user.getDisplayValue(), user.getEmail());
             restTemplate.postForObject(url, userForRecService, UserRecommendationDTO.class);
@@ -127,24 +139,14 @@ public class UserController {
                     user.getId());
             restTemplate.postForObject(urlJobs, userjob, UserJobDTO.class);
 
-             //ovo ne radi
+            //ovo ne radi
             String urlFeatures = "http://featureservice/feature-service/user/add";
             UserFeaturesDTO userFeatures = new UserFeaturesDTO(user.getId(), user.getUuid(), user.getEmail());
             restTemplate.postForObject(urlFeatures, userFeatures, UserFeaturesDTO.class); //ne radi id primary nesto
 
         }
-        return response;
-    }
 
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ApiResponseMessages.USER_WAS_VERIFIED,
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = UserDTO.class))}),
-            @ApiResponse(responseCode = "404", description = ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL,
-                    content = @Content)})
-    @PutMapping("/{email}/verify")
-    public ResponseEntity<UserDTO> verifyUser(@PathVariable("email") String email, @RequestParam("code") String code) {
-        return new ResponseEntity<>(userService.verifyUser(email, code), HttpStatus.OK);
+        return response;
     }
 
 

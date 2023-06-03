@@ -30,7 +30,7 @@ export default function AddJobModal(props) {
     const [validTo, setValidTo] = useState("")
 
     useEffect(() => {
-        get('user-service/location/all', undefined, token)
+        get('user-service/user/auth/locations', undefined)
             .then(response => {
                 setLocations(response);
                 setIsLoading(false);

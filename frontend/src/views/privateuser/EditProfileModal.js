@@ -26,7 +26,7 @@ export default function EditProfileModal(props) {
     const [description, setDescription] = useState(user.description)
 
     useEffect(() => {
-        get('user-service/location/all', undefined, token)
+        get('user-service/user/auth/locations')
             .then(response => {
                 setLocations(response);
                 setIsLoading(false);
@@ -40,9 +40,6 @@ export default function EditProfileModal(props) {
     }
 
     const handleOnSubmit = () => {
-        console.info(location);
-        console.info(locations)
-
         let selectedLocation = undefined;
 
         for(let l of locations) {

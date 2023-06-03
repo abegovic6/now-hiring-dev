@@ -12,12 +12,7 @@ import java.util.Set;
 @Table(schema = DatabaseConstants.RECOMMENDATION_SERVICE_SCHEMA, name = "user")
 public class UserEntity {
     @Id
-    @SequenceGenerator(
-            name="user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "uuid", unique = true, nullable = false)

@@ -15,4 +15,6 @@ public interface NotificationService {
     NotificationDTO createUserAppliedForJobApplication(String uuidUser, String companyUuid);
 
     NotificationDTO createReviewerWroteAReviewForUser(String uuidReviewer, String uuidForUser);
+
+    NotificationDTO createReviewerWroteARecommendationForUser(String uuidReviewer, String uuidForUser);
 }

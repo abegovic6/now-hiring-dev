@@ -8,6 +8,7 @@ import jobPlaceholder from '../../icons/jobplaceholder.png';
 import {get} from "../../methods";
 import {token} from "../../context/Reducer";
 import {PROFILE} from "../utils";
+import {useNavigate} from "react-router-dom";
 
 
 export default function List(params) {
@@ -15,6 +16,7 @@ export default function List(params) {
     const [companies, setCompanies] = useState([]);
     const [profiles, setProfiles] = useState([]);
     const [jobs, setJobs] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         get('user-service/user/all', undefined, token)
@@ -51,6 +53,10 @@ export default function List(params) {
                     title={card.displayValue}
                     location={card.location}
                     description={card.description}
+                    onArrowClick={() => {
+                        navigate('/company/' + card.uuid)
+                    }
+                    }
                 />
             })
         }
@@ -64,6 +70,10 @@ export default function List(params) {
                     title={card.displayValue}
                     location={card.location}
                     description={card.description}
+                    onArrowClick={() => {
+                        navigate('/profile/' + card.uuid)
+                    }
+                    }
                 />
             })
         }

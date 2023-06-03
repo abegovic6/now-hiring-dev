@@ -7,8 +7,7 @@ CREATE TABLE aeesfeature.user
 (
     id              SERIAL      PRIMARY KEY,
     email           VARCHAR(255) NOT NULL,
-    uuid         VARCHAR(255) NOT NULL
-            UNIQUE
+    uuid         VARCHAR(255) NOT NULL UNIQUE
 );
 
 -- create tables
@@ -27,8 +26,7 @@ CREATE TABLE aeesfeature.education
     end_month       INT         NOT NULL,
     starting_year   INT         NOT NULL,
     end_year        INT         NOT NULL,
-    user_id         INT         NOT NULL
-            UNIQUE,
+    user_id         INT         NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES aeesfeature.user (id)
 );
@@ -42,8 +40,7 @@ CREATE TABLE aeesfeature.experience
     end_month       INT         NOT NULL,
     starting_year   INT         NOT NULL,
     end_year        INT         NOT NULL,
-    user_id         INT         NOT NULL
-            UNIQUE,
+    user_id         INT         NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES aeesfeature.user (id)
 );
@@ -52,8 +49,7 @@ CREATE TABLE aeesfeature.skill
 (
     id              SERIAL      PRIMARY KEY,
     title           VARCHAR(255) NOT NULL,
-    user_id         INT         NOT NULL
-            UNIQUE,
+    user_id         INT         NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES aeesfeature.user (id)
 );

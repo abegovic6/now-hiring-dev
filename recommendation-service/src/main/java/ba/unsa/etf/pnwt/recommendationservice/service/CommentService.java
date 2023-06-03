@@ -1,6 +1,6 @@
 package ba.unsa.etf.pnwt.recommendationservice.service;
 
-import ba.unsa.etf.pnwt.recommendationservice.dto.CommentEntitryHelper;
+import ba.unsa.etf.pnwt.recommendationservice.dto.CommentEntityHelper;
 import ba.unsa.etf.pnwt.recommendationservice.entity.CommentEntity;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface CommentService {
 
     List<CommentEntity> getCommentByUserEmail(String email);
 
-    CommentEntity addNewComment(CommentEntitryHelper comment);
+    CommentEntity addNewComment(CommentEntityHelper comment);
 }

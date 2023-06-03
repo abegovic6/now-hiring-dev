@@ -26,7 +26,7 @@ create table aeesjobs.job
     id          serial
         primary key,
     company_id  varchar(255),
-    description varchar(255),
+    description varchar(500),
     location    varchar(255),
     title       varchar(255),
     type        varchar(255),

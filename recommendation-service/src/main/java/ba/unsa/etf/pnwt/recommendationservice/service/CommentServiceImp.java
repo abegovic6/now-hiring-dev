@@ -1,6 +1,6 @@
 package ba.unsa.etf.pnwt.recommendationservice.service;
 
-import ba.unsa.etf.pnwt.recommendationservice.dto.CommentEntitryHelper;
+import ba.unsa.etf.pnwt.recommendationservice.dto.CommentEntityHelper;
 import ba.unsa.etf.pnwt.recommendationservice.entity.CommentEntity;
 import ba.unsa.etf.pnwt.recommendationservice.entity.RecommendationEntity;
 import ba.unsa.etf.pnwt.recommendationservice.entity.UserEntity;
@@ -38,7 +38,7 @@ public class CommentServiceImp implements CommentService{
 
     @Override
     @Transactional
-    public CommentEntity addNewComment(CommentEntitryHelper comment) {
+    public CommentEntity addNewComment(CommentEntityHelper comment) {
         Optional<UserEntity> userCreator = commentRepository.getUserById(comment.getUserCreatorId());
         if(!userCreator.isPresent()){
             throw new ApiRequestException("User with given id " + comment.getUserCreatorId() + " doesn't exist");

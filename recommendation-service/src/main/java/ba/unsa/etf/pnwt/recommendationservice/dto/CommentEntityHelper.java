@@ -1,14 +1,14 @@
 package ba.unsa.etf.pnwt.recommendationservice.dto;
 
-public class CommentEntitryHelper {
+public class CommentEntityHelper {
     private Long userCreatorId;
     private Long recommendationId;
     private String commentContent;
 
-    public CommentEntitryHelper() {
+    public CommentEntityHelper() {
     }
 
-    public CommentEntitryHelper(Long userCreatorId, Long recommendationId, String commentContent) {
+    public CommentEntityHelper(Long userCreatorId, Long recommendationId, String commentContent) {
         this.userCreatorId = userCreatorId;
         this.recommendationId = recommendationId;
         this.commentContent = commentContent;

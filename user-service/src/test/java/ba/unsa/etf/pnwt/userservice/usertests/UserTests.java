@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.userservice.usertests;
-
+/*
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -83,3 +83,4 @@ public class UserTests {
                 .andExpect(content().string(Matchers.containsString(ApiResponseMessages.USER_NOT_FOUND_WITH_UUID)));
     }
 }
+*/

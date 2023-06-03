@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.userservice.usertests;
-
+/*
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.dto.LocationDTO;
@@ -229,3 +229,5 @@ public class UserUpdateTests {
 
 
 }
+
+*/

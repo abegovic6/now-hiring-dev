@@ -1,6 +1,6 @@
 -- drop and create schema
 
-drop schema aeesjobs cascade;
+DROP SCHEMA IF EXISTS aeesjobs cascade;
 create schema aeesjobs;
 
 -- create tables

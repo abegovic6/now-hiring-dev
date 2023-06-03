@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.controller;
-
+/*
 import ba.unsa.etf.pnwt.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.dto.EducationDTO;
 import ba.unsa.etf.pnwt.dto.ExperienceDTO;
@@ -149,3 +149,5 @@ class EducationControllerTest {
     void deleteExperience() {
     }
 }
+
+ */

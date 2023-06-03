@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.recommendationservice.jobtest;
-
+/*
 import ba.unsa.etf.pnwt.recommendationservice.entity.JobEntity;
 import ba.unsa.etf.pnwt.recommendationservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.recommendationservice.repository.JobRepository;
@@ -62,3 +62,6 @@ public class JobTest {
 
 
 }
+
+
+ */

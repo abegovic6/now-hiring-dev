@@ -1,5 +1,5 @@
 -- drop and create schema
-drop schema aeesfeature cascade;
+DROP SCHEMA IF EXISTS aeesfeature cascade;
 create schema aeesfeature;
 
 

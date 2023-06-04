@@ -1,8 +1,8 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
 
+import ba.unsa.etf.pnwt.jobsservice.config.RabbitMQConfig;
 import ba.unsa.etf.pnwt.jobsservice.dto.JobDTO;
 import ba.unsa.etf.pnwt.jobsservice.dto.JobRecommendationDTO;
-import ba.unsa.etf.pnwt.jobsservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.jobsservice.entity.JobEntity;
 import ba.unsa.etf.pnwt.jobsservice.service.JobService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,13 +10,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -31,6 +31,9 @@ public class JobController {
 
     @Autowired
     public RestTemplate restTemplate;
+
+    @Autowired
+    private RabbitTemplate template;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully found all jobs in the system",
@@ -74,15 +77,17 @@ public class JobController {
     public ResponseEntity<JobDTO> add(@Valid @RequestBody JobDTO jobDTO){
         ResponseEntity<JobDTO> jobDTOResponseEntity = new ResponseEntity<>(jobService.save(jobDTO), HttpStatus.CREATED);
         if(jobDTOResponseEntity.getStatusCode().is2xxSuccessful()){
-            String url = "http://userservice/user-service/notification/" + jobDTO.getCompanyId() + "/created-job";
-            restTemplate.postForObject(url, null, String.class);
+            //String url = "http://userservice/user-service/notification/" + jobDTO.getCompanyId() + "/created-job";
+            //restTemplate.postForObject(url, null, String.class);
 
-            String urlJobRec = "http://recommendationservice/recommendation-service/job/addNewJobDTO";
+            template.convertAndSend(RabbitMQConfig.EXCHANGE_USER_NOTIFICATION, RabbitMQConfig.ROUTING_KEY_USER_NOTIFICATION, jobDTO.getCompanyId());
+
+            //String urlJobRec = "http://recommendationservice/recommendation-service/job/addNewJobDTO";
             JobEntity job = jobService.findJobByTitle(jobDTO.getTitle());
             JobRecommendationDTO jobRecommendationDTO = new JobRecommendationDTO(new Long(job.getId()), job.getTitle(), job.getDescription(), null);
-            restTemplate.postForObject(urlJobRec, jobRecommendationDTO, JobRecommendationDTO.class);
-
-
+            //restTemplate.postForObject(urlJobRec, jobRecommendationDTO, JobRecommendationDTO.class);
+            template.convertAndSend(RabbitMQConfig.EXCHANGE_RECOMMENDATION, RabbitMQConfig.ROUTING_KEY_RECOMMENDATION, jobRecommendationDTO);
+            System.out.println("job");
         }
 
             return jobDTOResponseEntity;

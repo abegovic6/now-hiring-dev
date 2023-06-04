@@ -2,14 +2,6 @@ version: '3'
 
 services:
 
-  rabbitmq:
-    container_name: rabbitmq
-    hostname: rabbitmq
-    image: rabbitmq:3.9-management
-    ports:
-      - 5672:5672
-      - 15672:15672
-
   postgresql-db:
     container_name: postgresql-db
     hostname: postgresql
@@ -71,7 +63,6 @@ services:
       - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
       - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
       - POSTGRES_PASSWORD=postgres
-      - SPRING_RABBITMQ_HOST=rabbitmq
     expose:
       - 8092
     ports:
@@ -80,7 +71,7 @@ services:
       - postgresql-db
       - config-server
       - eureka-server
-      - rabbitmq
+
 
   feature-service:
     container_name: feature-service
@@ -94,7 +85,6 @@ services:
       - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
       - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
       - POSTGRES_PASSWORD=postgres
-      - SPRING_RABBITMQ_HOST=rabbitmq
     expose:
       - 8086
     ports:
@@ -103,7 +93,6 @@ services:
       - postgresql-db
       - config-server
       - eureka-server
-      - rabbitmq
 
   jobs-service:
     container_name: jobs-service
@@ -117,7 +106,6 @@ services:
       - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
       - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
       - POSTGRES_PASSWORD=postgres
-      - SPRING_RABBITMQ_HOST=rabbitmq
     expose:
       - 8082
     ports:
@@ -126,7 +114,6 @@ services:
       - postgresql-db
       - config-server
       - eureka-server
-      - rabbitmq
 
   recommendation-service:
     container_name: recommendation-service
@@ -140,7 +127,6 @@ services:
       - POSTGRESQL_DB=jdbc:postgresql://postgresql:5432/postgres
       - EUREKA_SERVER_URL=http://discovery-server:8761/eureka
       - POSTGRES_PASSWORD=postgres
-      - SPRING_RABBITMQ_HOST=rabbitmq
     expose:
       - 8088
     ports:
@@ -149,7 +135,6 @@ services:
       - postgresql-db
       - config-server
       - eureka-server
-      - rabbitmq
 
   api-gateway:
     container_name: api-gateway
@@ -172,4 +157,3 @@ services:
       - recommendation-service
       - jobs-service
       - feature-service
-      - rabbitmq

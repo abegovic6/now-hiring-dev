@@ -2,15 +2,20 @@ package ba.unsa.etf.pnwt.recommendationservice.dto;
 
 import java.io.Serializable;
 
+
 public class JobDTO implements Serializable {
     private Long id;
     private String name;
     private String description;
 
+    public JobDTO() {
+    }
 
-
-
-
+    public JobDTO(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
     public long getId() {
         return id;

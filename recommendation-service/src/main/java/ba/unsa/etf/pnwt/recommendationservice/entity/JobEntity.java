@@ -12,12 +12,7 @@ import java.util.Set;
 @Table(schema = DatabaseConstants.RECOMMENDATION_SERVICE_SCHEMA, name="job")
 public class JobEntity {
     @Id
-    @SequenceGenerator(
-            name="job_sequence",
-            sequenceName = "job_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "job_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "Name is mandatory")
     @NotNull(message = "Name cannot be null")

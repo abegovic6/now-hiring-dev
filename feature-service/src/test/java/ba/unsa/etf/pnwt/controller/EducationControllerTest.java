@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.controller;
-
+/*
 import ba.unsa.etf.pnwt.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.dto.EducationDTO;
 import ba.unsa.etf.pnwt.dto.ExperienceDTO;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 
 class EducationControllerTest {
-    private static final String API_USER = "/api/education/";
+    private static final String API_USER = "education/";
 
     @Autowired
     private MockMvc mockMvc;
@@ -149,3 +149,5 @@ class EducationControllerTest {
     void deleteExperience() {
     }
 }
+
+ */

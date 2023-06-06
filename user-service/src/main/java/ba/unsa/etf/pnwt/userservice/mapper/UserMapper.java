@@ -1,8 +1,10 @@
 package ba.unsa.etf.pnwt.userservice.mapper;
 
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
+import ba.unsa.etf.pnwt.userservice.dto.AuthenticatedUser;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -10,6 +12,13 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class UserMapper {
+
+    public static UserDetails mapToDetails(UserEntity entity) {
+        AuthenticatedUser userDetails = new AuthenticatedUser();
+        userDetails.setEmail(entity.getEmail());
+        userDetails.setRole(entity.getUserType());
+        return userDetails;
+    }
 
     public static UserDTO mapToProjection(UserEntity entity) {
         if (entity == null) {
@@ -26,7 +35,7 @@ public class UserMapper {
         projection.setDescription(entity.getDescription());
         projection.setEmail(entity.getEmail());
 
-        if (UserType.COMPANY.equals(entity.getUserType())) {
+        if (Role.COMPANY.equals(entity.getUserType())) {
             projection.setDisplayValue(entity.getCompanyName());
         } else {
             projection.setDisplayValue(entity.getFirstName() + " " + entity.getLastName());

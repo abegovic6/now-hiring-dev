@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/api/education")
+@RequestMapping("/feature-service/education")
 public class EducationController {
 
     @Autowired

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Set;
+
 @Entity
 @Table(schema = DatabaseConstants.RECOMMENDATION_SERVICE_SCHEMA, name = "recommendation")
 public class RecommendationEntity {
@@ -27,6 +29,9 @@ public class RecommendationEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "recommended_id", nullable = false)
     private UserEntity recommendedUser;
+
+    @OneToMany(mappedBy = "recommendationEntity", cascade = CascadeType.ALL)
+    private Set<CommentEntity> commentEntities;
 
 
     public RecommendationEntity() {

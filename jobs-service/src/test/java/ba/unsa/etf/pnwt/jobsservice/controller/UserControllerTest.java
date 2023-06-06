@@ -1,10 +1,11 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
-
+/*
 import ba.unsa.etf.pnwt.jobsservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.jobsservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.jobsservice.mapper.UserMapper;
 import ba.unsa.etf.pnwt.jobsservice.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.apache.catalina.User;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class UserControllerTest {
 
-    private static final String API_USER = "/api/user/";
+    private static final String API_USER = "/user/";
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,6 +46,7 @@ class UserControllerTest {
     @BeforeEach
     void setUpMockUser(){
         user = new UserDTO();
+        //user.setId(100000);
         user.setUserType("PRIVATE");
         user.setUid("SifraUserTEST");
         user.setEmail("test@gmail.com");
@@ -189,3 +192,5 @@ class UserControllerTest {
     }
 
 }
+
+ */

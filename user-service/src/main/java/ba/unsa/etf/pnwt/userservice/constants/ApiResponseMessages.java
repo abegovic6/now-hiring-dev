@@ -2,7 +2,7 @@ package ba.unsa.etf.pnwt.userservice.constants;
 
 public class ApiResponseMessages {
     public static final int MAX_NAME_LENGTH = 50;
-    public static final int MAX_DESCRIPTION_LENGTH = 255;
+    public static final int MAX_DESCRIPTION_LENGTH = 1000;
     public static final int PASSWORD_MAX_LENGTH = 25;
     public static final int PASSWORD_MIN_LENGTH = 8;
 
@@ -51,6 +51,7 @@ public class ApiResponseMessages {
     public static final String CANT_HAVE_CONNECTION_WITH_YOURSELF = "The connection can not start between same users";
     public static final String USER_IS_ALREADY_VERIFIED = "The user is already verified";
     public static final String WRONG_VERIFICATION_CODE = "The verification code is not correct!";
+    public static final String USER_IS_NOT_VERIFIED = "The user is not verified";
 
 
     // wrong format

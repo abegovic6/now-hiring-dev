@@ -12,13 +12,11 @@ import java.util.Set;
 @Table(schema = DatabaseConstants.RECOMMENDATION_SERVICE_SCHEMA, name = "user")
 public class UserEntity {
     @Id
-    @SequenceGenerator(
-            name="user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "uuid", unique = true, nullable = false)
+    private String uuid;
     @NotBlank(message = "Name is mandatory")
     @NotNull(message = "Name cannot be null")
     private String name;
@@ -36,16 +34,37 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private Set<RecommendationEntity> recommendedUsers;
 
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private Set<CommentEntity> commentEntities;
+
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String name, String email) {
-        this.id = id;
+    public UserEntity(String id, String name, String email) {
+        this.uuid = id; //samo proba ne smije ovako ostat
         this.name = name;
         this.email = email;
     }
 
     public UserEntity(String name, String email) {
+        this.uuid = "111"; ////samo proba ne smije ovako ostat
+        this.name = name;
+        this.email = email;
+    }
+
+    public UserEntity(String uuid, String name, String email, Set<RecommendationEntity> recommendationEntities, Set<JobEntity> jobEntities, Set<RecommendationEntity> recommendedUsers, Set<CommentEntity> commentEntities) {
+        this.uuid = uuid;
+        this.name = name;
+        this.email = email;
+        this.recommendationEntities = recommendationEntities;
+        this.jobEntities = jobEntities;
+        this.recommendedUsers = recommendedUsers;
+        this.commentEntities = commentEntities;
+    }
+
+    public UserEntity(Long id, String uuid, String name, String email) {
+        this.id = id;
+        this.uuid = uuid;
         this.name = name;
         this.email = email;
     }
@@ -72,5 +91,13 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

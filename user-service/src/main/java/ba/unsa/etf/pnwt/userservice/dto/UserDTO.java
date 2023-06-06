@@ -1,10 +1,13 @@
 package ba.unsa.etf.pnwt.userservice.dto;
 
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,7 +23,7 @@ public class UserDTO implements Serializable {
     private LocationDTO locationDTO;
     private String description;
     private List<UserDTO> connections = new ArrayList<>();
-    private UserType userType;
+    private Role role;
     private String companyName;
     private String displayValue;
 
@@ -38,10 +41,6 @@ public class UserDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -100,12 +99,12 @@ public class UserDTO implements Serializable {
         this.lastName = lastName;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public Role getUserType() {
+        return role;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserType(Role role) {
+        this.role = role;
     }
 
     @Nullable
@@ -123,5 +122,17 @@ public class UserDTO implements Serializable {
 
     public void setDisplayValue(String displayValue) {
         this.displayValue = displayValue;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -1,7 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.entity;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApplicationConstants;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -44,7 +44,7 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
-    private UserType userType;
+    private Role role;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -137,12 +137,12 @@ public class UserEntity {
         this.modificationTS = modificationTS;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public Role getUserType() {
+        return role;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserType(Role role) {
+        this.role = role;
     }
 
     public String getCompanyName() {

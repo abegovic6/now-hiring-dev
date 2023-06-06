@@ -104,4 +104,18 @@ public class JobServiceImpl implements JobService {
         else throw new EntityNotFoundException("Company not found");
     }
 
+    @Override
+    public String getCompanyId(int jobId) {
+        Optional<JobEntity> job = jobRepository.findById((long) jobId);
+        if (job.isPresent()){
+            return job.get().getCompanyId();
+        }
+        else throw new EntityNotFoundException("Job with provided ID not found");
+    }
+
+    @Override
+    public JobEntity findJobByTitle(String title) {
+        return jobRepository.findJobByTitle(title);
+    }
+
 }

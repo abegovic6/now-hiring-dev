@@ -1,5 +1,6 @@
 package ba.unsa.etf.pnwt.recommendationservice.controller;
 
+import ba.unsa.etf.pnwt.recommendationservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.recommendationservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.recommendationservice.exceptions.ApiRequestException;
 import ba.unsa.etf.pnwt.recommendationservice.service.UserServiceImp;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="api/user")
+@RequestMapping(path="recommendation-service/user")
 @Validated
 public class UserController {
     private final UserServiceImp userService;
@@ -35,6 +36,14 @@ public class UserController {
         }
         userService.addNewUser(user);
         return ResponseEntity.ok(user);
+    }
+    @PostMapping(path = "/addNewUserDTO")
+    public ResponseEntity<UserEntity> addNewUserDTO(@Validated @RequestBody UserDTO user, Errors errors){
+        if(errors.hasErrors()){
+            throw new ApiRequestException("Email must be valid!");
+        }
+        UserEntity addedUser = userService.addNewUser(user);
+        return ResponseEntity.ok(addedUser);
     }
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@Validated @PathVariable("userId") Long id){

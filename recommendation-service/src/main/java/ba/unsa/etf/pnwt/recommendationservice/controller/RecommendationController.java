@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/recommendation")
+@RequestMapping("/recommendation-service/recommendation")
 public class RecommendationController {
     private final RecommendationServiceImp recommendationService;
 

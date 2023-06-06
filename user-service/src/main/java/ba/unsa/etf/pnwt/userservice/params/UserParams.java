@@ -1,18 +1,18 @@
 package ba.unsa.etf.pnwt.userservice.params;
 
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 
 public class UserParams {
     private String searchValue;
     private String city;
     private String country;
-    private UserType userType;
+    private Role role;
 
-    public UserParams(String searchValue, String city, String country, UserType userType) {
+    public UserParams(String searchValue, String city, String country, Role role) {
         this.searchValue = searchValue;
         this.city = city;
         this.country = country;
-        this.userType = userType;
+        this.role = role;
     }
 
     public String getSearchValue() {
@@ -39,11 +39,11 @@ public class UserParams {
         this.country = country;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public Role getUserType() {
+        return role;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserType(Role role) {
+        this.role = role;
     }
 }

@@ -23,6 +23,21 @@ public class UserDTO implements Serializable {
 
     private Integer id;
 
+    public UserDTO() {
+    }
+
+    public UserDTO(String uid, String userType, String companyName, String firstName, String lastName, String email, String description, String location, Integer id) {
+        this.uid = uid;
+        this.userType = userType;
+        this.companyName = companyName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.description = description;
+        this.location = location;
+        this.id = id;
+    }
+
     @Nullable
     public String getUid() {
         return uid;

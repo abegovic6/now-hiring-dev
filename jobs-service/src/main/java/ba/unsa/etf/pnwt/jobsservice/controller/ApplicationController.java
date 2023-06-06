@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,11 +23,17 @@ import java.util.List;
  * Example controller
  */
 @RestController
-@RequestMapping("/api/application")
+@RequestMapping("/job-service/application")
 public class ApplicationController {
 
     @Autowired
     protected ApplicationService applicationService;
+
+    @Autowired
+    protected JobService jobService;
+
+    @Autowired
+    public RestTemplate restTemplate;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully found all applications in the system",
@@ -81,7 +88,17 @@ public class ApplicationController {
                     content = @Content)})
     @PostMapping("/create")
     public ResponseEntity<ApplicationDTO> create(@Valid @RequestBody ApplicationDTO app){
-        return new ResponseEntity<>(applicationService.createApplication(app), HttpStatus.CREATED);
+        ResponseEntity<ApplicationDTO> applicationDTOResponseEntity = new ResponseEntity<>(applicationService.createApplication(app), HttpStatus.CREATED);
+        if(applicationDTOResponseEntity.getStatusCode().is2xxSuccessful()){
+            String companyUuid = jobService.getCompanyId(app.getJobId());
+            String userUuid = app.getUserId();
+            String url = "http://userservice/notification/" + userUuid + "/user-applied-for-job/" + companyUuid;
+            restTemplate.postForObject(url, null, String.class);
+            return applicationDTOResponseEntity;
+        }
+        else{
+            return applicationDTOResponseEntity;
+        }
     }
 
     @ApiResponses(value = {

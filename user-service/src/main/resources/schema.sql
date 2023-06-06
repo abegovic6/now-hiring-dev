@@ -1,5 +1,5 @@
 -- drop and create schema
-drop schema aeesuser cascade;
+DROP SCHEMA IF EXISTS aeesuser cascade;
 create schema aeesuser;
 
 
@@ -32,7 +32,7 @@ create table aeesuser.user
     company_name    VARCHAR(50),
     first_name      VARCHAR(50),
     last_name       VARCHAR(50),
-    description     VARCHAR(255),
+    description     VARCHAR(1000),
 
     creation_ts     TIMESTAMP          NOT NULL,
     modification_ts TIMESTAMP,
@@ -80,14 +80,27 @@ CREATE TABLE aeesuser.notification
 );
 
 
+create table aeesuser.token
+(
+    id        SERIAL PRIMARY KEY,
+    token     VARCHAR(255) UNIQUE NOT NULL,
+    token_type VARCHAR(50) NOT NULL,
+    user_id   INT                NOT NULL,
+    revoked   BOOLEAN            NOT NULL DEFAULT FALSE,
+    expired   BOOLEAN            NOT NULL DEFAULT FALSE,
+
+    FOREIGN KEY (user_id)
+        REFERENCES aeesuser.user (id)
+);
+
 -- grant all access to user postgres
 grant
-all
-privileges
-on
-schema
-aeesuser to postgres;
+    all
+    privileges
+    on
+    schema
+    aeesuser to postgres;
 grant all privileges on all
-tables in schema aeesuser to postgres;
+    tables in schema aeesuser to postgres;
 
 

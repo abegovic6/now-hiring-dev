@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notification")
+@RequestMapping("/user-service/notification")
 public class NotificationController {
 
     @Autowired protected NotificationService notificationService;
@@ -53,6 +53,20 @@ public class NotificationController {
     )
     @PostMapping("{uuidReviewer}/review/{userUuid}")
     public ResponseEntity<NotificationDTO> createUserWroteAReviewNotification(
+            @PathVariable("uuidReviewer") String uuidReviewer,
+            @PathVariable("userUuid") String userUuid
+    ) {
+        return new ResponseEntity<>(
+                notificationService.createReviewerWroteAReviewForUser(uuidReviewer, userUuid), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.NOTIFICATION_CREATED,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = String.class))})}
+    )
+    @PostMapping("{uuidReviewer}/recommend/{userUuid}")
+    public ResponseEntity<NotificationDTO> createUserWroteARecommendationNotification(
             @PathVariable("uuidReviewer") String uuidReviewer,
             @PathVariable("userUuid") String userUuid
     ) {

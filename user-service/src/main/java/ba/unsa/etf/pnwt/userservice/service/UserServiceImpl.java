@@ -1,7 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.service;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.controller.UserController;
 import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.entity.LocationEntity;
@@ -12,8 +12,8 @@ import ba.unsa.etf.pnwt.userservice.params.UserParams;
 import ba.unsa.etf.pnwt.userservice.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO) {
         if (userDTO.getLocationDTO() == null) {
             throw new NotValidException(ApiResponseMessages.MISSING_CITY);
         }
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService{
         userEntity.setLocationEntity(locationEntity);
         userEntity.setVerified(false);
         setCodeAndSend(userEntity);
-        UserMapper.mapToProjection(userRepository.save(userEntity));
+        return UserMapper.mapToProjection(userRepository.save(userEntity));
     }
 
     @Override
@@ -116,10 +116,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDTO getUserByEmailAndPassword(String email, String password) {
         UserEntity userEntity = getUserEntityByEmail(email);
+        if (!userEntity.isVerified()) {
+            throw new NotValidException(ApiResponseMessages.USER_IS_NOT_VERIFIED);
+        }
         if (!userEntity.comparePasswords(password)) {
             throw new NotValidException(ApiResponseMessages.WRONG_EMAIL_OR_PASSWORD);
         }
         return UserMapper.mapToProjection(userEntity);
+    }
+
+    @Override
+    public Mono<UserDTO> getMonoUserByEmail(String email) {
+        return null;
     }
 
     private void setCodeAndSend(UserEntity userEntity) {
@@ -130,11 +138,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO updateUser(UserDTO userDTO, String uuid, UserType userType) {
+    public UserDTO updateUser(UserDTO userDTO, String uuid, Role role) {
         UserEntity userEntity = getUserEntityByUUID(uuid);
 
-        if (!userType.equals(userEntity.getUserType())) {
-            throw new NotValidException("Not a " + userType + " profile!");
+        if (!role.equals(userEntity.getUserType())) {
+            throw new NotValidException("Not a " + role + " profile!");
         }
 
         userEntity.setFirstName(userDTO.getFirstName());
@@ -182,7 +190,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserEntity getUserEntityByEmail(String email) {
-        UserEntity userEntity = userRepository.findUserEntityByEmailAndVerifiedIsTrue(email);
+        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
         if (userEntity == null) {
             throw new EntityNotFoundException(ApiResponseMessages.USER_NOT_FOUND_WITH_EMAIL);
         }

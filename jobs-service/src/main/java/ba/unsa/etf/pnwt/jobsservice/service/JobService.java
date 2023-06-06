@@ -20,4 +20,8 @@ public interface JobService {
     String deleteById(int id);
 
     List<JobDTO> getByCompanyId(String id);
+
+    String getCompanyId(int jobId);
+
+    JobEntity findJobByTitle(String title);
 }

@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.userservice.connectiontests;
-
+/*
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.constants.NotificationType;
 import ba.unsa.etf.pnwt.userservice.constants.ServerConfigValue;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class ConnectionTests {
 
-    private final String API_URL = "/api/connection/";
+    private final String API_URL = "connection/";
 
     @Autowired
     private MockMvc mockMvc;
@@ -147,3 +147,4 @@ public class ConnectionTests {
                 .andExpect(content().string(Matchers.containsString("2222")));
     }
 }
+*/

@@ -2,7 +2,7 @@ package ba.unsa.etf.pnwt.userservice.service;
 
 import ba.unsa.etf.pnwt.userservice.constants.ConnectionStatus;
 import ba.unsa.etf.pnwt.userservice.constants.NotificationType;
-import ba.unsa.etf.pnwt.userservice.constants.UserType;
+import ba.unsa.etf.pnwt.userservice.constants.Role;
 import ba.unsa.etf.pnwt.userservice.dto.NotificationDTO;
 import ba.unsa.etf.pnwt.userservice.entity.ConnectionEntity;
 import ba.unsa.etf.pnwt.userservice.entity.NotificationEntity;
@@ -81,11 +81,20 @@ public class NotificationServiceImpl implements NotificationService {
         return NotificationMapper.mapToProjection(saveNotification(userFor, userFrom, NotificationType.REVIEW));
     }
 
+    @Override
+    public NotificationDTO createReviewerWroteARecommendationForUser(String uuidReviewer, String uuidForUser) {
+        UserEntity userFor = userService.getUserEntityByUUID(uuidForUser);
+        UserEntity userFrom = userService.getUserEntityByUUID(uuidReviewer);
+
+        sendMail(userFor, userFrom, NotificationType.RECOMMENDATION);
+        return NotificationMapper.mapToProjection(saveNotification(userFor, userFrom, NotificationType.RECOMMENDATION));
+    }
+
     private NotificationEntity saveNotification(UserEntity userFor, UserEntity userFrom, NotificationType notificationType) {
         NotificationEntity notificationEntity = new NotificationEntity();
         notificationEntity.setNotificationType(notificationType);
         notificationEntity.setCreationTS(ZonedDateTime.now());
-        if (UserType.COMPANY.equals(userFrom.getUserType())) {
+        if (Role.COMPANY.equals(userFrom.getUserType())) {
             notificationEntity.setText(notificationType.getNotificationValue(userFrom.getCompanyName()));
         } else {
             notificationEntity.setText(notificationType.getNotificationValue(userFrom.getFirstName()));
@@ -98,7 +107,7 @@ public class NotificationServiceImpl implements NotificationService {
     
     private void sendMail(UserEntity userFor, UserEntity userFrom, NotificationType type) {
         String text;
-        if (UserType.COMPANY.equals(userFrom.getUserType())) {
+        if (Role.COMPANY.equals(userFrom.getUserType())) {
             text = type.getNotificationValue(userFrom.getCompanyName());
         } else {
             text = type.getNotificationValue(userFrom.getFirstName());

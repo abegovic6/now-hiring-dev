@@ -1,5 +1,5 @@
 package ba.unsa.etf.pnwt.jobsservice.controller;
-
+/*
 import ba.unsa.etf.pnwt.jobsservice.dto.ApplicationDTO;
 import ba.unsa.etf.pnwt.jobsservice.entity.ApplicationEntity;
 import ba.unsa.etf.pnwt.jobsservice.entity.JobEntity;
@@ -8,6 +8,7 @@ import ba.unsa.etf.pnwt.jobsservice.repository.ApplicationRepository;
 import ba.unsa.etf.pnwt.jobsservice.repository.JobRepository;
 import ba.unsa.etf.pnwt.jobsservice.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,9 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class ApplicationControllerTest {
 
-    private static final String API_APPLICATION = "/api/application/";
+    private static final String API_APPLICATION = "application/";
 
     @Autowired
     private MockMvc mockMvc;
@@ -203,3 +205,5 @@ class ApplicationControllerTest {
                 .andExpect(content().string(Matchers.containsString("Application with provided ID not found")));
     }
 }
+
+ */

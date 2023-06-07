@@ -14,7 +14,7 @@ import {
 } from 'mdb-react-ui-kit';
 import profilePlaceholder from '../../icons/profileplaceholder.png';
 import {token, user} from "../../context/Reducer";
-import {get} from "../../methods";
+import {get, post, put} from "../../methods";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import StarRatings from "react-star-ratings/build/star-ratings";
 import plusSign from '../../icons/plus.svg';
@@ -37,6 +37,7 @@ export default function PrivateProfilePage(props) {
     const params = useParams();
     const [isMy, setIsMy] = useState(false);
     const [profile, setProfile] = useState();
+    const [connections, setConnections] = useState([])
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -56,9 +57,10 @@ export default function PrivateProfilePage(props) {
 
 
 
-                    return get('recommendation-service/review/' + currentProfile.uuid + '/all', undefined,  token)
-                }).then(response => {
-                setReviews(response);
+                return get('http://localhost:3000/user-service/connection/' + currentProfile.uuid + '/all', undefined, token)
+
+            }).then(response => {
+                setConnections(response)
                 setIsLoading(false);
             })
         } else {
@@ -81,6 +83,11 @@ export default function PrivateProfilePage(props) {
                     return get('http://localhost:3000/recommendation-service/review/' + params.id + '/all', undefined,  token)
                 }).then(response => {
                     setReviews(response);
+
+                    return get('http://localhost:3000/user-service/connection/' + params.id + '/all', undefined, token)
+
+                }).then(response => {
+                    setConnections(response)
                     setIsLoading(false);
                 })
             }
@@ -105,6 +112,23 @@ export default function PrivateProfilePage(props) {
         return date.toLocaleString('en-US', { month: 'long' });
     }
 
+    function isConnected() {
+        return connections.find(connection => connection.uuid === user.uuid)
+    }
+
+    function connect() {
+        setIsLoading(true)
+        post('http://localhost:3000/user-service/connection/' + profile.uuid + '/start/' + user.uuid, undefined, undefined, token)
+            .then(response => {
+                if (response.errors) {
+                    alert(response.errors[0])
+                } else {
+                    alert('Connection request successfully sent!')
+                }
+                setIsLoading(false);
+            })
+    }
+
     return (<>
         {isLoading ? <LoadingSpinner /> :
         <section style={{ backgroundColor: '#eee' }}>
@@ -121,10 +145,14 @@ export default function PrivateProfilePage(props) {
                                     fluid />
                                 <p className="text-muted mb-1">{profile.displayValue}</p>
                                 <p className="text-muted mb-1">{profile.locationDTO.displayValue}</p>
-                                <p className="text-muted mb-1">{"Connections: " + profile.connections.length}</p>
+                                <p className="text-muted mb-1">{"Connections: " + connections.length}</p>
                                 {
                                     !isMy && <div className="d-flex justify-content-center mb-2">
-                                        <MDBBtn className="subColorBackground">Connect</MDBBtn>
+                                        {
+                                            !isConnected() &&
+                                            <MDBBtn className="subColorBackground" onClick={connect}>Connect</MDBBtn>
+                                        }
+
                                         <MDBBtn outline className="mainColorBackground">Recommend</MDBBtn>
                                     </div>
                                 }

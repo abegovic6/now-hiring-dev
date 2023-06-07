@@ -9,7 +9,8 @@ import java.util.List;
 public interface ConnectionService {
     List<UserDTO> findAllConnectionsByUUID(String uuid);
 
-    List<UserEntity> findAllConnectionEntitiesByUUID(String uuid);
+    List<UserDTO> findAllConnectionRequestsByUUID(String uuid);
+
 
     NotificationDTO sendConnectionRequest(String uuidTo, String uuidFrom);
 

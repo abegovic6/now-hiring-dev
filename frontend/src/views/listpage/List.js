@@ -9,6 +9,7 @@ import {get} from "../../methods";
 import {token} from "../../context/Reducer";
 import {PROFILE} from "../utils";
 import {useNavigate} from "react-router-dom";
+import LoadingSpinner from "../loading/LoadingSpinner";
 
 
 export default function List(params) {
@@ -17,6 +18,7 @@ export default function List(params) {
     const [profiles, setProfiles] = useState([]);
     const [jobs, setJobs] = useState([]);
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         get('user-service/user/all', undefined, token)
@@ -38,59 +40,64 @@ export default function List(params) {
             }).then(jobs => {
                 console.info(jobs);
                 setJobs(jobs);
+                setIsLoading(false);
         })
     }, [])
 
 
-    return <>
-        <ListNavbar selected={selected} setSelected={setSelected}/>
-        {
-            selected === SUBMENU.COMPANIES &&
-            companies.map(card => {
-                return <ListCard
-                    key = {card.id}
-                    image={companyPlaceHolder}
-                    title={card.displayValue}
-                    location={card.location}
-                    description={card.description}
-                    onArrowClick={() => {
-                        navigate('/company/' + card.uuid)
-                    }
-                    }
-                />
-            })
-        }
+    return <>{
+        isLoading ? <LoadingSpinner/> : <>
+            <ListNavbar selected={selected} setSelected={setSelected}/>
+            {
+                selected === SUBMENU.COMPANIES &&
+                companies.map(card => {
+                    return <ListCard
+                        key = {card.id}
+                        image={companyPlaceHolder}
+                        title={card.displayValue}
+                        location={card.location}
+                        description={card.description}
+                        onArrowClick={() => {
+                            navigate('/company/' + card.uuid)
+                        }
+                        }
+                    />
+                })
+            }
 
-        {
-            selected === SUBMENU.PROFILES &&
-            profiles.map(card => {
-                return <ListCard
-                    key = {card.id}
-                    image={profilePlaceholder}
-                    title={card.displayValue}
-                    location={card.location}
-                    description={card.description}
-                    onArrowClick={() => {
-                        navigate('/profile/' + card.uuid)
-                    }
-                    }
-                />
-            })
-        }
+            {
+                selected === SUBMENU.PROFILES &&
+                profiles.map(card => {
+                    return <ListCard
+                        key = {card.id}
+                        image={profilePlaceholder}
+                        title={card.displayValue}
+                        location={card.location}
+                        description={card.description}
+                        onArrowClick={() => {
+                            navigate('/profile/' + card.uuid)
+                        }
+                        }
+                    />
+                })
+            }
 
-        {
-            selected === SUBMENU.JOBS &&
-            jobs.map(card => {
-                return <ListCard
-                    key = {card.id}
-                    image={jobPlaceholder}
-                    title={card.title}
-                    location={card.location}
-                    description={card.description}
+            {
+                selected === SUBMENU.JOBS &&
+                jobs.map(card => {
+                    return <ListCard
+                        key = {card.id}
+                        image={jobPlaceholder}
+                        title={card.title}
+                        location={card.location}
+                        description={card.description}
 
-                />
-            })
-        }
+                    />
+                })
+            }
+        </>
+    }
+
 
     </>
 }

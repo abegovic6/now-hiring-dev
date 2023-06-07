@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -24,6 +25,29 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired protected UserService userService;
     @Autowired protected NotificationRepository notificationRepository;
     @Autowired protected ConnectionRepository connectionRepository;
+
+
+    @Override
+    public List<NotificationDTO> findAll(String uuid) {
+        return NotificationMapper.mapToProjections(
+                notificationRepository.findAll().stream()
+                        .filter(n -> !n.isViewed() && n.getRecipientUser().getUuid().equals(uuid))
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @Override
+    public List<NotificationDTO> clearAll(String uuid) {
+        List<NotificationEntity> entities = notificationRepository.findAll().stream()
+                .filter(n -> !n.isViewed() && n.getRecipientUser().getUuid().equals(uuid))
+                .toList();
+        for (var entity : entities) {
+            entity.setViewed(true);
+            notificationRepository.save(entity);
+        }
+
+        return findAll(uuid);
+    }
 
     @Override
     public NotificationDTO createConnectionNotification(String uuidFrom, String uuidTo) {
@@ -36,7 +60,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     private List<UserEntity> findAllConnectionEntities(UserEntity user) {
         List<ConnectionEntity> allConnections
-                = connectionRepository.getConnectionEntitiesByConnectionStatusAndUserFromOrUserTo(ConnectionStatus.ACCEPTED, user, user);
+                = connectionRepository.getConnectionEntitiesByUserFromOrUserTo(user, user)
+                .stream().filter(connectionEntity -> ConnectionStatus.ACCEPTED.equals(connectionEntity.getConnectionStatus()))
+                .toList();
 
         List<UserEntity> connectedUsers = new ArrayList<>();
         for (var connection: allConnections) {

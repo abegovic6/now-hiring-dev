@@ -17,4 +17,8 @@ public interface NotificationService {
     NotificationDTO createReviewerWroteAReviewForUser(String uuidReviewer, String uuidForUser);
 
     NotificationDTO createReviewerWroteARecommendationForUser(String uuidReviewer, String uuidForUser);
+
+    List<NotificationDTO> findAll(String uuid);
+
+    List<NotificationDTO> clearAll(String uuid);
 }

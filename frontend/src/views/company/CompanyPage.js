@@ -28,6 +28,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import jobPlaceholder from '../../icons/jobplaceholder.png';
 import ListCard from "../listpage/ListCard";
+import JobCard from './JobCard';
 
 
 export default function CompanyPage(props) {
@@ -37,6 +38,7 @@ export default function CompanyPage(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [editProfile, setEditProfile] = useState(false);
     const [addJob, setAddJob] = useState(false);
+    const [editJob, setEditJob] = useState(false);
     const [profile, setProfile] = useState();
     const [isMy, setIsMy] = useState(false);
     const params = useParams();
@@ -94,12 +96,6 @@ export default function CompanyPage(props) {
         window.location.reload();
     }
 
-    function getMonthName(monthNumber) {
-        const date = new Date();
-        date.setMonth(monthNumber - 1);
-
-        return date.toLocaleString('en-US', {month: 'long'});
-    }
 
     function isConnected() {
         return connections.find(connection => connection.uuid === user.uuid)
@@ -139,10 +135,10 @@ export default function CompanyPage(props) {
                                             !isMy && <div className="d-flex justify-content-center mb-2">
                                                 {
                                                     !isConnected() &&
-                                                    <MDBBtn className="subColorBackground" onClick={connect}>Connect</MDBBtn>
+                                                    <MDBBtn className="subColorBackground mainColorText" onClick={connect}>Connect</MDBBtn>
                                                 }
 
-                                                <MDBBtn outline className="mainColorBackground">Recommend</MDBBtn>
+                                                <MDBBtn outline className="mainColorBackground blackText">Recommend</MDBBtn>
                                             </div>
                                         }
 
@@ -221,13 +217,14 @@ export default function CompanyPage(props) {
 
                                         {
                                             jobs && jobs.map(card => {
-                                                return <ListCard
+                                                return <JobCard
                                                     key={card.id}
                                                     image={jobPlaceholder}
                                                     title={card.title}
                                                     location={card.location}
                                                     description={card.description}
-
+                                                    jobId = {card.id}
+                                                    expired = {card.expired}
                                                 />
                                             })
                                         }

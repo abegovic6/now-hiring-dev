@@ -91,7 +91,9 @@ export default function List(params) {
                         title={card.title}
                         location={card.location}
                         description={card.description}
-
+                        onArrowClick={() => {
+                            navigate('/job/' + card.id)
+                        }}
                     />
                 })
             }

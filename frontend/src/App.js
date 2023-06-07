@@ -9,6 +9,7 @@ import {AuthProvider} from "./context";
 import PrivateProfilePage from "./views/privateuser/PrivateProfilePage";
 import {user} from "./context/Reducer";
 import CompanyPage from './views/company/CompanyPage';
+import JobPage from './views/job/JobPage';
 import ConnectionRequests from "./views/connections/ConnectionRequests";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
               <Route path="/mycompany" element={<CompanyPage currentProfile={user}/>}/>
               <Route path="/profile/:id" element={<PrivateProfilePage />}/>
               <Route path="/company/:id" element={<CompanyPage />}/>
+              <Route path="/job/:id" element={<JobPage />}/>
             </Routes>
           </BrowserRouter>
         </div>

@@ -5,9 +5,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import {logout, useAuthDispatch} from "../../context";
 import {useNavigate} from "react-router-dom";
 import {token, user} from "../../context/Reducer";
-import mainLogo from'../../icons/logo.png';
-import bellIcon from'../../icons/bell.svg';
-import connectionsIcon from'../../icons/people.svg';
+import mainLogo from '../../icons/logo.png';
+import bellIcon from '../../icons/bell.svg';
+import connectionsIcon from '../../icons/people.svg';
 import React, {useEffect, useState} from "react";
 import '../../App.css';
 import {NOTIFICATION_TYPES, PROFILE} from "../utils";
@@ -19,11 +19,12 @@ function NavScrollExample(props) {
 
     const [notifications, setNotifications] = useState([])
     const [connectionCount, setConnectionCount] = useState([])
+    const [hideElements, setHideElements] = useState(false);
 
     useEffect(() => {
         if (user) {
             let interval = setInterval(() => {
-                get('http://localhost:3000/user-service/notification/' + user.uuid + '/all', undefined, token )
+                get('http://localhost:3000/user-service/notification/' + user.uuid + '/all', undefined, token)
                     .then(response => {
                         setNotifications(response)
                         setConnectionCount(response.filter(r => r.type === NOTIFICATION_TYPES.CONNECTION).length)
@@ -46,7 +47,7 @@ function NavScrollExample(props) {
     const getMenuLogo = () => {
         return <div className="logo">
             <div>
-                <img src={mainLogo} height={50} alt="fireSpot" />
+                <img src={mainLogo} height={50} alt="fireSpot"/>
             </div>
 
         </div>
@@ -68,31 +69,33 @@ function NavScrollExample(props) {
     }
 
     const connectionRequests = () => {
-        return <Nav.Link href="/connections"><div>
-            <img src={connectionsIcon} height={20} alt="notificaation" />
-            <span className="badge bg-danger badge-dot" >{connectionCount}</span>
-        </div></Nav.Link>
+        return <Nav.Link href="/connections">
+            <div>
+                <img src={connectionsIcon} height={20} alt="notificaation"/>
+                <span className="badge bg-danger badge-dot">{connectionCount}</span>
+            </div>
+        </Nav.Link>
     }
 
     const getNotifications = () => {
         return <NavDropdown className="possitionOfNavbar" title={
             <div>
-                <img src={bellIcon} height={20} alt="notificaation" />
+                <img src={bellIcon} height={20} alt="notificaation"/>
                 <span className="badge bg-danger badge-dot">{notifications.length}</span>
             </div>
-        } >
+        }>
             <NavDropdown.Item onClick={clearNotifications}>Clear notifications</NavDropdown.Item>
-            <NavDropdown.Divider />
+            <NavDropdown.Divider/>
             {
                 notifications.map(response => {
                     return <NavDropdown.Item href={
                         response.type === NOTIFICATION_TYPES.JOB_APPLICATION ?
                             '/profile/' + response.fromUser.uuid :
-                        response.type === NOTIFICATION_TYPES.JOB_CREATED ?
-                            '/company/' + response.fromUser.uuid :
-                            (response.type === NOTIFICATION_TYPES.REVIEW || response.type === NOTIFICATION_TYPES.RECOMMENDATION) ?
-                            (user.userType === PROFILE.PRIVATE ? '/mypage' : '/mycompany') :
-                        '/connections'
+                            response.type === NOTIFICATION_TYPES.JOB_CREATED ?
+                                '/company/' + response.fromUser.uuid :
+                                (response.type === NOTIFICATION_TYPES.REVIEW || response.type === NOTIFICATION_TYPES.RECOMMENDATION) ?
+                                    (user.userType === PROFILE.PRIVATE ? '/mypage' : '/mycompany') :
+                                    '/connections'
                     }>{response.text}</NavDropdown.Item>
                 })
             }
@@ -101,7 +104,7 @@ function NavScrollExample(props) {
     }
 
     const dropdown = () => {
-        return <NavDropdown className="possitionOfNavbar" title={"Account"} >
+        return <NavDropdown className="possitionOfNavbar" title={"Account"}>
             {
                 user.userType === PROFILE.PRIVATE && myPage()
             }
@@ -109,11 +112,10 @@ function NavScrollExample(props) {
             {
                 user.userType === PROFILE.COMPANY && myCompanyPage()
             }
-            <NavDropdown.Divider />
+            <NavDropdown.Divider/>
             <NavDropdown.Item onClick={handleLogout}>Log out</NavDropdown.Item>
         </NavDropdown>
     }
-
 
 
     const myPage = () => {
@@ -125,41 +127,61 @@ function NavScrollExample(props) {
     }
 
 
+    useEffect(() => {
+        const handleHideNavBarElementsUpdated = () => {
+            const hideNavBarElements = localStorage.getItem('hideNavBarElements');
+            if (hideNavBarElements === 'true') {
+                setHideElements(true);
+            }
+        };
+
+        // Add an event listener to handle the local storage update event
+        document.addEventListener('hideNavBarElementsUpdated', handleHideNavBarElementsUpdated);
+
+        // Clean up the event listener when the component unmounts
+        return () => {
+            document.removeEventListener('hideNavBarElementsUpdated', handleHideNavBarElementsUpdated);
+        };
+    }, []);
+
+
     return (
-        <Navbar  expand="lg" className="darkColorBackground sticky-top" variant="dark">
+        <Navbar expand="lg" className="darkColorBackground sticky-top" variant="dark">
             <Container>
                 <Navbar.Brand href="/">{getMenuLogo()}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
+                    {!hideElements && <><Nav className="me-auto">
                         <Nav.Link href="/">Home</Nav.Link>
                     </Nav>
-                    <Nav>
-                        {
-                            !user &&
-                            <>
-                                {
-                                    logInMenuItem()
-                                }
-                                {
-                                    signUpMenuItem()
-                                }
-                            </>
+                        <Nav>
+                            {
+                                !user &&
+                                <>
+                                    {
+                                        logInMenuItem()
+                                    }
+                                    {
+                                        signUpMenuItem()
+                                    }
+                                </>
 
-                        }
-                        {
-                            user &&
-                            <>
-                                {
-                                    connectionRequests()
-                                }
-                                {getNotifications()}
-                                {
-                                    dropdown()
-                                }
-                            </>
-                        }
-                    </Nav>
+                            }
+                            {
+                                user &&
+                                <>
+                                    {
+                                        connectionRequests()
+                                    }
+                                    {getNotifications()}
+                                    {
+                                        dropdown()
+                                    }
+                                </>
+                            }
+                        </Nav>
+                    </>
+                    }
                 </Navbar.Collapse>
             </Container>
         </Navbar>

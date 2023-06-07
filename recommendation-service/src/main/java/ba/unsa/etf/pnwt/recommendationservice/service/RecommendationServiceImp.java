@@ -48,9 +48,9 @@ public class RecommendationServiceImp implements RecommendationService{
                     " and email " + recommendation.getUserEntity().getEmail() + " doesn't exist");
         }
 
-        recommendation.getUserEntity().setId(owner.get().getId());
-        recommendation.getJobEntity().setId(job.get().getId());
-        recommendation.getRecommendedUser().setId(recommendedUser.get().getId());
+        recommendation.setUserEntity(owner.get());
+        recommendation.setJobEntity(job.get());
+        recommendation.setRecommendedUser(recommendedUser.get());
         recommendationRepository.save(recommendation);
     }
 

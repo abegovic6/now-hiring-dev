@@ -71,7 +71,7 @@ public class NotificationController {
             @PathVariable("userUuid") String userUuid
     ) {
         return new ResponseEntity<>(
-                notificationService.createReviewerWroteAReviewForUser(uuidReviewer, userUuid), HttpStatus.OK);
+                notificationService.createReviewerWroteARecommendationForUser(uuidReviewer, userUuid), HttpStatus.OK);
     }
 
     @ApiResponses(value = {

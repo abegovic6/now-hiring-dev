@@ -1,3 +1,19 @@
+.body {
+  z-index: 10 !important;
+}
+
+.possitionOfNavbar {
+  z-index: 20 !important;
+}
+
+.possitionOfSecondNavbar {
+  z-index: 15 !important;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
 .App {
   font-family: 'Work Sans', serif;
   text-align: center;

@@ -14,7 +14,7 @@ import {
 } from 'mdb-react-ui-kit';
 import profilePlaceholder from '../../icons/profileplaceholder.png';
 import {token, user} from "../../context/Reducer";
-import {get} from "../../methods";
+import {get, post} from "../../methods";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import StarRatings from "react-star-ratings/build/star-ratings";
 import plusSign from '../../icons/plus.svg';
@@ -42,6 +42,8 @@ export default function CompanyPage(props) {
     const [profile, setProfile] = useState();
     const [isMy, setIsMy] = useState(false);
     const params = useParams();
+    const [connections, setConnections] = useState([])
+
 
     const [jobs, setJobs] = useState([])
 
@@ -57,6 +59,10 @@ export default function CompanyPage(props) {
                     return get('job-service/job/getcompanyjobs/' + currentProfile.uuid, undefined, token)
                 }).then(response => {
                 setJobs(response);
+                return get('http://localhost:3000/user-service/connection/' + params.id + '/all', undefined, token)
+
+            }).then(response => {
+                setConnections(response)
                 setIsLoading(false);
             })
         } else {
@@ -69,6 +75,10 @@ export default function CompanyPage(props) {
                         return get('http://localhost:3000/job-service/job/getcompanyjobs/' + response.uuid, undefined, token)
                     }).then(response => {
                     setJobs(response);
+                    return get('http://localhost:3000/user-service/connection/' + params.id + '/all', undefined, token)
+
+                }).then(response => {
+                    setConnections(response)
                     setIsLoading(false);
                 })
             }
@@ -86,6 +96,23 @@ export default function CompanyPage(props) {
         window.location.reload();
     }
 
+
+    function isConnected() {
+        return connections.find(connection => connection.uuid === user.uuid)
+    }
+
+    function connect() {
+        setIsLoading(true)
+        post('http://localhost:3000/user-service/connection/' + profile.uuid + '/start/' + user.uuid, undefined, undefined, token)
+            .then(response => {
+                if (response.errors) {
+                    alert(response.errors[0])
+                } else {
+                    alert('Connection request successfully sent!')
+                }
+                setIsLoading(false);
+            })
+    }
 
     return (<>
             {isLoading ? <LoadingSpinner/> :
@@ -106,7 +133,11 @@ export default function CompanyPage(props) {
                                         <p className="text-muted mb-1">{"Connections: " + profile.connections.length}</p>
                                         {
                                             !isMy && <div className="d-flex justify-content-center mb-2">
-                                                <MDBBtn className="subColorBackground">Connect</MDBBtn>
+                                                {
+                                                    !isConnected() &&
+                                                    <MDBBtn className="subColorBackground" onClick={connect}>Connect</MDBBtn>
+                                                }
+
                                                 <MDBBtn outline className="mainColorBackground">Recommend</MDBBtn>
                                             </div>
                                         }

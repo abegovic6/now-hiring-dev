@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface ConnectionRepository extends JpaRepository<ConnectionEntity, Integer> {
 
-    List<ConnectionEntity> getConnectionEntitiesByConnectionStatusAndUserFromOrUserTo
-            (ConnectionStatus status, UserEntity userFrom, UserEntity userTo);
+    List<ConnectionEntity> getConnectionEntitiesByUserFromOrUserTo
+            (UserEntity userFrom, UserEntity userTo);
 
     ConnectionEntity getConnectionEntityByUserFromAndUserToAndConnectionStatus
             (UserEntity userFrom, UserEntity userTo, ConnectionStatus status);

@@ -2,6 +2,7 @@ package ba.unsa.etf.pnwt.userservice.controller;
 
 import ba.unsa.etf.pnwt.userservice.constants.ApiResponseMessages;
 import ba.unsa.etf.pnwt.userservice.dto.NotificationDTO;
+import ba.unsa.etf.pnwt.userservice.dto.UserDTO;
 import ba.unsa.etf.pnwt.userservice.service.NotificationService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +21,28 @@ import java.util.List;
 public class NotificationController {
 
     @Autowired protected NotificationService notificationService;
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})}
+    )
+    @GetMapping("{uuid}/all")
+    public ResponseEntity<List<NotificationDTO>> getAllConnectionsForUserWithUUID
+            (@PathVariable("uuid") String uuid) {
+        return new ResponseEntity<>(notificationService.findAll(uuid), HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ApiResponseMessages.ALL_USERS_FOUND,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserDTO.class))})}
+    )
+    @PutMapping("{uuid}/all")
+    public ResponseEntity<List<NotificationDTO>> clearAllConnectionsForUserWithUUID
+            (@PathVariable("uuid") String uuid) {
+        return new ResponseEntity<>(notificationService.clearAll(uuid), HttpStatus.OK);
+    }
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ApiResponseMessages.NOTIFICATION_CREATED,
@@ -71,7 +94,7 @@ public class NotificationController {
             @PathVariable("userUuid") String userUuid
     ) {
         return new ResponseEntity<>(
-                notificationService.createReviewerWroteAReviewForUser(uuidReviewer, userUuid), HttpStatus.OK);
+                notificationService.createReviewerWroteARecommendationForUser(uuidReviewer, userUuid), HttpStatus.OK);
     }
 
     @ApiResponses(value = {

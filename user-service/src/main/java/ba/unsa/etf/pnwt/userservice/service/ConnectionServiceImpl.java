@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ConnectionServiceImpl implements ConnectionService{
@@ -26,18 +27,24 @@ public class ConnectionServiceImpl implements ConnectionService{
 
     @Override
     public List<UserDTO> findAllConnectionsByUUID(String uuid) {
-        return UserMapper.mapToProjections(findAllConnectionEntitiesByUUID(uuid));
+        return UserMapper.mapToProjections(findAllConnectionEntitiesByUUID(uuid, ConnectionStatus.ACCEPTED));
     }
 
     @Override
-    public List<UserEntity> findAllConnectionEntitiesByUUID(String uuid) {
+    public List<UserDTO> findAllConnectionRequestsByUUID(String uuid) {
+        return UserMapper.mapToProjections(findAllConnectionEntitiesByUUID(uuid, ConnectionStatus.PENDING));
+    }
+
+    public List<UserEntity> findAllConnectionEntitiesByUUID(String uuid, ConnectionStatus connectionStatus) {
         UserEntity user = userService.getUserEntityByUUID(uuid);
         List<ConnectionEntity> allConnections
-                = connectionRepository.getConnectionEntitiesByConnectionStatusAndUserFromOrUserTo(ConnectionStatus.ACCEPTED, user, user);
+                = connectionRepository.getConnectionEntitiesByUserFromOrUserTo( user, user)
+                .stream().filter(connectionEntity -> connectionStatus.equals(connectionEntity.getConnectionStatus()))
+                .toList();
 
         List<UserEntity> connectedUsers = new ArrayList<>();
         for (var connection: allConnections) {
-            if (!Objects.equals(connection.getUserFrom().getUuid(), uuid)) {
+            if (connectionStatus.equals(ConnectionStatus.ACCEPTED) && !Objects.equals(connection.getUserFrom().getUuid(), uuid)) {
                 connectedUsers.add(connection.getUserFrom());
             }
             if (!Objects.equals(connection.getUserTo().getUuid(), uuid)) {

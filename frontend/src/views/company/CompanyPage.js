@@ -135,10 +135,10 @@ export default function CompanyPage(props) {
                                             !isMy && <div className="d-flex justify-content-center mb-2">
                                                 {
                                                     !isConnected() &&
-                                                    <MDBBtn className="subColorBackground" onClick={connect}>Connect</MDBBtn>
+                                                    <MDBBtn className="subColorBackground mainColorText" onClick={connect}>Connect</MDBBtn>
                                                 }
 
-                                                <MDBBtn outline className="mainColorBackground">Recommend</MDBBtn>
+                                                <MDBBtn outline className="mainColorBackground blackText">Recommend</MDBBtn>
                                             </div>
                                         }
 

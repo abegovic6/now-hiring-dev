@@ -1,20 +1,16 @@
-import {logout, useAuthDispatch} from "../../context";
-import {useNavigate} from "react-router-dom";
-import mainLogo from "../../icons/logo.png";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
-import {user} from "../../context/Reducer";
 import React from "react";
 import {SUBMENU} from "./util";
+import './../../App.css'
 
 export default function ListNavbar(props) {
     const {selected, setSelected} = props;
 
 
     return (
-        <Navbar expand="lg" className="lighterColorBackground sticky-top" variant="dark">
+        <Navbar expand="lg" className="lighterColorBackground sticky-top possitionOfSecondNavbar" variant="dark">
             <Container className="justify-content-center">
                 <Nav style={{width: '100%'}}>
                     <Nav.Link onClick={() => setSelected(SUBMENU.COMPANIES)} style={{width: '33%'}} active={selected === SUBMENU.COMPANIES}>{SUBMENU.COMPANIES}</Nav.Link>

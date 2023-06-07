@@ -9,6 +9,7 @@ import {AuthProvider} from "./context";
 import PrivateProfilePage from "./views/privateuser/PrivateProfilePage";
 import {user} from "./context/Reducer";
 import CompanyPage from './views/company/CompanyPage';
+import ConnectionRequests from "./views/connections/ConnectionRequests";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/signup" element={<SignUp/>}/>
+              <Route path="/connections" element={<ConnectionRequests/>}/>
               <Route path="/mypage" element={<PrivateProfilePage currentProfile={user}/>}/>
               <Route path="/mycompany" element={<CompanyPage currentProfile={user}/>}/>
               <Route path="/profile/:id" element={<PrivateProfilePage />}/>

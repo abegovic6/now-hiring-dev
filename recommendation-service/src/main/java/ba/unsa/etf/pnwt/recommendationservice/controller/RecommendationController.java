@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,9 @@ public class RecommendationController {
     public RecommendationController(RecommendationServiceImp recommendationServiceImp) {
         this.recommendationService = recommendationServiceImp;
     }
+    @Autowired
+    public RestTemplate restTemplate;
+
     @GetMapping
     public List<RecommendationEntity> getRecommendations(){
         return recommendationService.getRecommendation();
@@ -29,7 +33,12 @@ public class RecommendationController {
     @PostMapping(path = "/addNewRecommendation")
     public ResponseEntity<RecommendationEntity> addNewRecommendation(@Valid @RequestBody RecommendationEntity recommendation){
           recommendationService.addNewRecommendation(recommendation);
-        return ResponseEntity.ok(recommendation);
+        var response = ResponseEntity.ok(recommendation);
+        if(response.getStatusCode().is2xxSuccessful()){
+            String url = "http://userservice/user-service/notification/" + recommendation.getUserEntity().getUuid() +"/recommend/"+recommendation.getRecommendedUser().getUuid();
+            restTemplate.postForObject(url, null, String.class);
+        }
+        return response;
 
     }
     @PostMapping(path="/addRecomendationDTO")

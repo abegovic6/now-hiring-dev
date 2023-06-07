@@ -28,6 +28,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import jobPlaceholder from '../../icons/jobplaceholder.png';
 import ListCard from "../listpage/ListCard";
+import JobCard from './JobCard';
 
 
 export default function CompanyPage(props) {
@@ -37,6 +38,7 @@ export default function CompanyPage(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [editProfile, setEditProfile] = useState(false);
     const [addJob, setAddJob] = useState(false);
+    const [editJob, setEditJob] = useState(false);
     const [profile, setProfile] = useState();
     const [isMy, setIsMy] = useState(false);
     const params = useParams();
@@ -84,12 +86,6 @@ export default function CompanyPage(props) {
         window.location.reload();
     }
 
-    function getMonthName(monthNumber) {
-        const date = new Date();
-        date.setMonth(monthNumber - 1);
-
-        return date.toLocaleString('en-US', {month: 'long'});
-    }
 
     return (<>
             {isLoading ? <LoadingSpinner/> :
@@ -190,13 +186,14 @@ export default function CompanyPage(props) {
 
                                         {
                                             jobs && jobs.map(card => {
-                                                return <ListCard
+                                                return <JobCard
                                                     key={card.id}
                                                     image={jobPlaceholder}
                                                     title={card.title}
                                                     location={card.location}
                                                     description={card.description}
-
+                                                    jobId = {card.id}
+                                                    expired = {card.expired}
                                                 />
                                             })
                                         }

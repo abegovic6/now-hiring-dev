@@ -8,20 +8,20 @@
 -- Adding users
 
 INSERT INTO aeesjobs."user" (company_name, description, e_mail, first_name, last_name, location, uid, user_type)
-VALUES ( 'Programerska firma', 'Opis programerske firme', 'firma1@gmail.com', null, null, 'Sarajevo',
+VALUES ( 'Google', 'Opis programerske firme', 'begovicami5@gmail.com', null, null, 'Los Angeles',
         '5555', 'COMPANY');
 -- INSERT INTO aeesjobs."user" ( company_name, description, e_mail, first_name, last_name, location, uid, user_type)
 -- VALUES ( 'Dizajnerska firma', 'Opis dizajnerske firme', 'firma2@gmail.com', null, null, 'Travnik',
 --         'Sifra0002', 'COMPANY');
 
 INSERT INTO aeesjobs."user" ( company_name, description, e_mail, first_name, last_name, location, uid, user_type)
-VALUES ( null, 'Opis profila1', 'epanjeta@gmail.com', 'Eldar', 'Panjeta', 'Sarajevo', '1111', 'PRIVATE');
+VALUES ( null, 'Opis profila1', 'epanjeta1@gmail.com', 'Eldar', 'Panjeta', 'Sarajevo', '4444', 'PRIVATE');
 INSERT INTO aeesjobs."user" ( company_name, description, e_mail, first_name, last_name, location, uid, user_type)
-VALUES ( null, 'Opis profila2', 'abegovic@gmail.com', 'Amila', 'Begovic', 'Donji Vakuf', '2222', 'PRIVATE');
+VALUES ( null, 'Opis profila2', 'abegovic6@gmail.com', 'Amila', 'Begovic', 'Donji Vakuf', '1111', 'PRIVATE');
 INSERT INTO aeesjobs."user" ( company_name, description, e_mail, first_name, last_name, location, uid, user_type)
-VALUES ( null, 'Opis profila3', 'epolutan@gmail.com', 'Elma', 'Polutan', 'Hrasnica', '3333', 'PRIVATE');
+VALUES ( null, 'Opis profila3', 'eleka1@gmail.com', 'Elma', 'Polutan', 'Sarajevo', '2222', 'PRIVATE');
 INSERT INTO aeesjobs."user" ( company_name, description, e_mail, first_name, last_name, location, uid, user_type)
-VALUES ( null, 'Opis profila4', 'skaleta@gmail.com', 'Senija', 'Kaleta', 'Cwilla', '4444', 'PRIVATE');
+VALUES ( null, 'Opis profila4', 'skaleta1@gmail.com', 'Senija', 'Kaleta', 'Sarajevo', '3333', 'PRIVATE');
 
 -- Adding jobs
 

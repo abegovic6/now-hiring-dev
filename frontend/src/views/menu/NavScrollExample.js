@@ -9,6 +9,7 @@ import mainLogo from'../../icons/logo.png';
 import React from "react";
 import '../../App.css';
 import {PROFILE} from "../utils";
+import  {useEffect, useState} from 'react';
 
 function NavScrollExample(props) {
     const dispatch = useAuthDispatch() // read dispatch method from context
@@ -49,6 +50,25 @@ function NavScrollExample(props) {
         return <Nav.Link href="/mycompany">Company</Nav.Link>
     }
 
+    const [hideElements, setHideElements] = useState(false);
+
+    useEffect(() => {
+        const handleHideNavBarElementsUpdated = () => {
+          const hideNavBarElements = localStorage.getItem('hideNavBarElements');
+          if (hideNavBarElements === 'true') {
+            setHideElements(true);
+          }
+        };
+    
+        // Add an event listener to handle the local storage update event
+        document.addEventListener('hideNavBarElementsUpdated', handleHideNavBarElementsUpdated);
+    
+        // Clean up the event listener when the component unmounts
+        return () => {
+          document.removeEventListener('hideNavBarElementsUpdated', handleHideNavBarElementsUpdated);
+        };
+      }, []);
+
 
     return (
         <Navbar  expand="lg" className="darkColorBackground sticky-top" variant="dark">
@@ -56,39 +76,24 @@ function NavScrollExample(props) {
                 <Navbar.Brand href="/">{getMenuLogo()}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
+                    {!hideElements && <><Nav className="me-auto">
                         <Nav.Link href="/">Home</Nav.Link>
-                    </Nav>
-                    <Nav>
-                        {
-                            !user &&
-                            <>
-                                {
-                                    logInMenuItem()
-                                }
-                                {
-                                    signUpMenuItem()
-                                }
-                            </>
+                    </Nav><Nav>
+                            {!user &&
+                                <>
+                                    {logInMenuItem()}
+                                    {signUpMenuItem()}
+                                </>}
+                            {user &&
+                                <>
+                                    {user.userType === PROFILE.PRIVATE && myPage()}
 
-                        }
-                        {
-                            user &&
-                            <>
-                                {
-                                    user.userType === PROFILE.PRIVATE && myPage()
-                                }
+                                    {user.userType === PROFILE.COMPANY && myCompanyPage()}
 
-                                {
-                                    user.userType === PROFILE.COMPANY && myCompanyPage()
-                                }
-
-                                {
-                                    logOutMenuItem()
-                                }
-                            </>
-                        }
-                    </Nav>
+                                    {logOutMenuItem()}
+                                </>}
+                        </Nav></>
+}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

@@ -24,6 +24,7 @@ import {Button} from "reactstrap";
 import EditProfileModal from "./EditProfileModal";
 import {useNavigate, useParams} from "react-router-dom";
 import AddExperienceModal from "./AddExperienceModal";
+import html2pdf from 'html2pdf.js';
 
 export default function PrivateProfilePage(props) {
     const {currentProfile} = props;
@@ -37,9 +38,11 @@ export default function PrivateProfilePage(props) {
     const params = useParams();
     const [isMy, setIsMy] = useState(false);
     const [profile, setProfile] = useState();
+    const [download, setDownload] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
+        localStorage.setItem('hideNavBarElements', 'false');
         if (currentProfile) {
             setIsLoading(true);
             get('user-service/user/uuid/' + currentProfile.uuid, undefined, token)
@@ -105,6 +108,22 @@ export default function PrivateProfilePage(props) {
         return date.toLocaleString('en-US', { month: 'long' });
     }
 
+    const handleDownload = async (name) => {
+        setDownload(true);
+        localStorage.setItem('hideNavBarElements', 'true');
+        document.dispatchEvent(new Event('hideNavBarElementsUpdated'));
+        const element = document.body;
+        const options = {
+          filename: name + ' CV.pdf',
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        };
+    
+        await html2pdf().set(options).from(element).save();
+        localStorage.setItem('hideNavBarElements', 'false');
+        window.location.reload();
+      };
+
     return (<>
         {isLoading ? <LoadingSpinner /> :
         <section style={{ backgroundColor: '#eee' }}>
@@ -123,10 +142,15 @@ export default function PrivateProfilePage(props) {
                                 <p className="text-muted mb-1">{profile.locationDTO.displayValue}</p>
                                 <p className="text-muted mb-1">{"Connections: " + profile.connections.length}</p>
                                 {
-                                    !isMy && <div className="d-flex justify-content-center mb-2">
+                                    !isMy && !download && <div className="d-flex justify-content-center mb-2">
                                         <MDBBtn className="subColorBackground">Connect</MDBBtn>
                                         <MDBBtn outline className="mainColorBackground">Recommend</MDBBtn>
+                                        <Button onClick={() => handleDownload(profile.displayValue)}>Download CV</Button>
                                     </div>
+                                }
+                                {
+                                    isMy && !download &&
+                                    <Button onClick={() => handleDownload(profile.displayValue)}>Download CV</Button>
                                 }
 
                             </MDBCardBody>
@@ -137,10 +161,10 @@ export default function PrivateProfilePage(props) {
                             <MDBCardBody className="p-0">
                                 <MDBListGroup flush className="rounded-3">
                                     {
-                                        isMy && <MDBListGroupItem >
+                                        isMy && !download && <MDBListGroupItem >
                                             <div className='containerButtonText'>
                                                 {
-                                                    isMy && <MDBCardImage src={plusSign} alt='...' height={30} />
+                                                    isMy && !download && <MDBCardImage src={plusSign} alt='...' height={30} />
                                                 }
                                             </div>
                                         </MDBListGroupItem>
@@ -168,7 +192,7 @@ export default function PrivateProfilePage(props) {
                                     <MDBCol>
                                         <div className='containerButtonText'>
                                             {
-                                                isMy && <MDBCardImage src={editSign} alt='...' height={20} onClick={() => setEditProfile(true)} />
+                                                isMy && !download && <MDBCardImage src={editSign} alt='...' height={20} onClick={() => setEditProfile(true)} />
                                             }
                                         </div>
                                     </MDBCol>
@@ -209,7 +233,7 @@ export default function PrivateProfilePage(props) {
                                     <MDBCardBody>
                                         <div className='containerButtonText'>
                                             {
-                                                isMy && <MDBCardImage src={plusSign} alt='...' height={30} />
+                                                isMy && !download && <MDBCardImage src={plusSign} alt='...' height={30} />
                                             }
                                             <MDBCardText style={{ fontSize: '18px', fontWeight: "bold" }} className="mb-4">Education</MDBCardText>
                                         </div>
@@ -242,7 +266,7 @@ export default function PrivateProfilePage(props) {
                                         <div className='containerButtonText'>
 
                                             {
-                                                isMy && <MDBCardImage style={{ cursor: 'pointer' }} src={plusSign}
+                                                isMy && !download && <MDBCardImage style={{ cursor: 'pointer' }} src={plusSign}
                                                                       alt='...'  height={30} onClick={() => setAddExperience(true)}/>
                                             }
                                             <MDBCardText style={{ fontSize: '18px', fontWeight: "bold" }} className="mb-4">Experience</MDBCardText>
@@ -273,7 +297,7 @@ export default function PrivateProfilePage(props) {
                             <MDBCardBody>
                                 <div className='containerButtonText'>
                                     {
-                                        !isMy && <MDBCardImage src={plusSign} alt='...' height={30} />
+                                        !isMy && !download && <MDBCardImage src={plusSign} alt='...' height={30} />
                                     }
                                     <MDBCardText style={{ fontSize: '18px', fontWeight: "bold" }} className="mb-4">Reviews</MDBCardText>
                                 </div>

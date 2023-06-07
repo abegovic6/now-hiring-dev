@@ -1,5 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.service;
 
+import ba.unsa.etf.pnwt.proto.LoggingRequest;
+import ba.unsa.etf.pnwt.proto.LoggingServiceGrpc;
 import ba.unsa.etf.pnwt.userservice.constants.ConnectionStatus;
 import ba.unsa.etf.pnwt.userservice.constants.NotificationType;
 import ba.unsa.etf.pnwt.userservice.constants.Role;
@@ -10,6 +12,7 @@ import ba.unsa.etf.pnwt.userservice.entity.UserEntity;
 import ba.unsa.etf.pnwt.userservice.mapper.NotificationMapper;
 import ba.unsa.etf.pnwt.userservice.repository.ConnectionRepository;
 import ba.unsa.etf.pnwt.userservice.repository.NotificationRepository;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,9 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired protected UserService userService;
     @Autowired protected NotificationRepository notificationRepository;
     @Autowired protected ConnectionRepository connectionRepository;
+
+    @GrpcClient("logging")
+    LoggingServiceGrpc.LoggingServiceBlockingStub loggingServiceBlockingStub;
 
     @Override
     public NotificationDTO createConnectionNotification(String uuidFrom, String uuidTo) {
@@ -60,6 +66,16 @@ public class NotificationServiceImpl implements NotificationService {
             sendMail(company, userFor, NotificationType.JOB_CREATED);
             notificationEntities.add(saveNotification(company, userFor, NotificationType.JOB_CREATED));
         }
+
+        LoggingRequest loggingRequest = LoggingRequest.newBuilder()
+                .setServiceName("UserService")
+                .setControllerName("NotificationController")
+                .setActionUrl("/user-service/notification/" + uuidCompany + "created-job")
+                .setActionType("GET")
+                .setActionResponse("SUCCESS")
+                .build();
+        loggingServiceBlockingStub.logRequest(loggingRequest);
+
         return NotificationMapper.mapToProjections(notificationEntities);
     }
 
@@ -69,6 +85,16 @@ public class NotificationServiceImpl implements NotificationService {
         UserEntity company = userService.getUserEntityByUUID(uuidCompany);
 
         sendMail(company, user, NotificationType.JOB_APPLICATION);
+
+        LoggingRequest loggingRequest = LoggingRequest.newBuilder()
+                .setServiceName("UserService")
+                .setControllerName("NotificationController")
+                .setActionUrl("/user-service/notification/" + uuidUser + "/user-applied-for-job/" + uuidCompany)
+                .setActionType("POST")
+                .setActionResponse("SUCCESS")
+                .build();
+        loggingServiceBlockingStub.logRequest(loggingRequest);
+
         return NotificationMapper.mapToProjection(saveNotification(company, user, NotificationType.JOB_APPLICATION));
     }
 

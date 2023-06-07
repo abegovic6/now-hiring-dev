@@ -77,6 +77,21 @@
 			<version>5.9.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.devh</groupId>
+			<artifactId>grpc-client-spring-boot-starter</artifactId>
+			<version>2.9.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>net.devh</groupId>
+			<artifactId>grpc-spring-boot-starter</artifactId>
+			<version>2.9.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>ba.unsa.etf.pnwt</groupId>
+			<artifactId>grpc</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

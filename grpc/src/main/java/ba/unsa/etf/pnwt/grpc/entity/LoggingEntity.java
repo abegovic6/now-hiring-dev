@@ -1,6 +1,5 @@
 package ba.unsa.etf.pnwt.grpc.entity;
 
-import ba.unsa.etf.pnwt.grpc.constants.ActionResponse;
 import ba.unsa.etf.pnwt.grpc.constants.ApplicationConstants;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,9 +31,11 @@ public class LoggingEntity {
     @Column(name = "actionURL")
     private String url;
 
-    @Enumerated(EnumType.STRING)
+    @Column(name = "actionType")
+    private String actionType;
+
     @Column(name = "actionResponse")
-    private ActionResponse actionResponse;
+    private String actionResponse;
 
     public String getId() {
         return id;
@@ -84,11 +85,19 @@ public class LoggingEntity {
         this.url = url;
     }
 
-    public ActionResponse getActionResponse() {
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
+
+    public String getActionResponse() {
         return actionResponse;
     }
 
-    public void setActionResponse(ActionResponse actionResponse) {
+    public void setActionResponse(String actionResponse) {
         this.actionResponse = actionResponse;
     }
 }

@@ -1,6 +1,5 @@
 package ba.unsa.etf.pnwt.grpc.mapper;
 
-import ba.unsa.etf.pnwt.grpc.constants.ActionResponse;
 import ba.unsa.etf.pnwt.grpc.entity.LoggingEntity;
 import ba.unsa.etf.pnwt.proto.LoggingRequest;
 
@@ -16,11 +15,13 @@ public class LoggingMapper {
             return null;
         }
         LoggingEntity entity = new LoggingEntity();
-        entity.setActionResponse(ActionResponse.valueOf(request.getActionResponse()));
+        entity.setActionType(request.getActionType());
+        entity.setActionResponse(request.getActionResponse());
         entity.setUrl(request.getActionUrl());
         entity.setServiceName(request.getServiceName());
         entity.setTimeStamp(ZonedDateTime.now());
         entity.setUserUUID(request.getUserUuid());
+        entity.setControllerName(request.getControllerName());
         return entity;
     }
 }

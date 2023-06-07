@@ -18,6 +18,10 @@ public class LoggingService extends LoggingServiceGrpc.LoggingServiceImplBase {
     public void logRequest(LoggingRequest request, StreamObserver<LoggingResponse> responseObserver) {
         LoggingEntity loggingEntity = LoggingMapper.mapToEntity(request);
         loggingRepository.save(loggingEntity);
+
+        LoggingResponse loggingResponse = LoggingResponse.newBuilder().setResponseMessage("Sucess").build();
+        responseObserver.onNext(loggingResponse);
+        responseObserver.onCompleted();
     }
 
 

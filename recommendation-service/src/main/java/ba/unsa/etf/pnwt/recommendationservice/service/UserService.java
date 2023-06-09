@@ -17,4 +17,6 @@ public interface UserService{
     UserEntity deleteUserByEmail(String email);
 
     UserEntity addNewUser(UserDTO user);
+
+    UserEntity getUserByEmail(String email);
 }

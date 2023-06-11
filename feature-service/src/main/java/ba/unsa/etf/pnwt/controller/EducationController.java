@@ -2,6 +2,7 @@ package ba.unsa.etf.pnwt.controller;
 
 import ba.unsa.etf.pnwt.dto.EducationDTO;
 import ba.unsa.etf.pnwt.dto.UserDTO;
+import ba.unsa.etf.pnwt.entity.EducationEntity;
 import ba.unsa.etf.pnwt.repository.EducationRepository;
 import ba.unsa.etf.pnwt.service.education.EducationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +52,7 @@ public class EducationController {
     @PostMapping(path="/add")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
-    ResponseEntity<EducationDTO> addNewEducation (
+    ResponseEntity<EducationEntity> addNewEducation (
             @Parameter(description = "Education", required = true)
             @Valid @RequestBody EducationDTO educationDTO) {
         var user = educationService.createEducation(educationDTO);

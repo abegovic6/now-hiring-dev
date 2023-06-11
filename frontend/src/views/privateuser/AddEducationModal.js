@@ -55,11 +55,13 @@ export default function AddEducationModal(props) {
         alert(response.errors[0]);
       } else {
         alert("Education added!");
+        window.location.reload();
       }
 
       //window.location.reload();
     });
     onClose();
+    //window.location.reload();
   };
 
   return (

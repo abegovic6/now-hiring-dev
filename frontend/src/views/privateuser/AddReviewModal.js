@@ -45,6 +45,7 @@ function AddReviewModal(props) {
 
     alert("You have reviewed a user " + reviewedUser.name);
     onClose();
+    window.location.reload();
   };
   const handleChange = (event) => {
     setComment(event.target.value);

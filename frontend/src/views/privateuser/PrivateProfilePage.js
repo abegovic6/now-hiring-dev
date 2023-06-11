@@ -40,8 +40,8 @@ export default function PrivateProfilePage(props) {
   const [addRecommendation, setAddRecommendation] = useState(false);
   const [addReview, setAddReview] = useState(false);
   const [addSkills, setAddSkills] = useState(false);
-    const [addEducation, setAddEducation] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+  const [addEducation, setAddEducation] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [editProfile, setEditProfile] = useState(false);
   const params = useParams();
   const [isMy, setIsMy] = useState(false);
@@ -151,30 +151,32 @@ export default function PrivateProfilePage(props) {
       token
     );
     alert("You have deleted education " + educationToDeleteTitle + "!");
+    window.location.reload();
   };
-    const onAddRecommendationClose = () => {
-        setAddRecommendation(false);
-        //window.location.reload();
-    };
-    const onAddReviewClose = () => {
-        setAddReview(false);
-        //window.location.reload();
-    };
-    const onAddSkillsClose = () => {
-        setAddSkills(false);
-        //window.location.reload();
-    };
+  const onAddRecommendationClose = () => {
+    setAddRecommendation(false);
+    //window.location.reload();
+  };
+  const onAddReviewClose = () => {
+    setAddReview(false);
+    //window.location.reload();
+  };
+  const onAddSkillsClose = () => {
+    setAddSkills(false);
+    //window.location.reload();
+  };
 
-    const deleteSkill = (skillToDelete) => {
-        //let skillToDelete = skills.find((s) => (s.title = e.target.value));
-        let skillTitle = skillToDelete.title;
-        deleteMet(
-            "http://localhost:3000/feature-service/skill/delete/" + skillToDelete.id,
-            undefined,
-            token
-        );
-        alert("You have deleted skill " + skillTitle + "!");
-    };
+  const deleteSkill = (skillToDelete) => {
+    //let skillToDelete = skills.find((s) => (s.title = e.target.value));
+    let skillTitle = skillToDelete.title;
+    deleteMet(
+      "http://localhost:3000/feature-service/skill/delete/" + skillToDelete.id,
+      undefined,
+      token
+    );
+    alert("You have deleted skill " + skillTitle + "!");
+    window.location.reload();
+  };
 
   const deleteExperience = (experience) => {
     let experienceTitle = experience.title;
@@ -185,13 +187,14 @@ export default function PrivateProfilePage(props) {
       token
     );
     alert("You have deleted education " + experienceTitle + "!");
+    window.location.reload();
   };
   function getMonthName(monthNumber) {
     const date = new Date();
     date.setMonth(monthNumber - 1);
 
-        return date.toLocaleString('en-US', {month: 'long'});
-    }
+    return date.toLocaleString("en-US", { month: "long" });
+  }
 
   function isConnected() {
     return connections.find((connection) => connection.uuid === user.uuid);
@@ -262,8 +265,9 @@ export default function PrivateProfilePage(props) {
                       <div className="d-flex justify-content-center mb-2">
                         {!isConnected() && (
                           <MDBBtn
-                          onClick={() => connect()}
-                              className="subColorBackground addMargins">
+                            onClick={() => connect()}
+                            className="subColorBackground addMargins"
+                          >
                             Connect
                           </MDBBtn>
                         )}
@@ -617,7 +621,6 @@ export default function PrivateProfilePage(props) {
       {addEducation && (
         <AddEducationModal open={addEducation} onClose={onAddEducationClose} />
       )}
-
     </>
   );
 }

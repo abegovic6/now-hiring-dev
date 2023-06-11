@@ -28,6 +28,7 @@ function AddSkillsModal(props) {
       token
     );
     onClose();
+    window.location.reload();
   };
 
   const handleChange = (event) => {

@@ -261,13 +261,16 @@ export default function PrivateProfilePage(props) {
                     {!isMy && !download && (
                       <div className="d-flex justify-content-center mb-2">
                         {!isConnected() && (
-                          <MDBBtn className="subColorBackground addMargins">
+                          <MDBBtn
+                          onClick={() => connect()}
+                              className="subColorBackground addMargins">
                             Connect
                           </MDBBtn>
                         )}
                         <MDBBtn
                           outline
                           className="mainColorBackground addMargins blackText"
+                          onClick={() => setAddRecommendation(true)}
                         >
                           Recommend
                         </MDBBtn>

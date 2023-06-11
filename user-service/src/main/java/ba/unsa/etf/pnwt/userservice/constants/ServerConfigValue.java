@@ -1,7 +1,7 @@
 package ba.unsa.etf.pnwt.userservice.constants;
 
 public enum ServerConfigValue {
-    EMAIL_SENDING_ACTIVE("false");
+    EMAIL_SENDING_ACTIVE("true");
 
     private final String value;
 

@@ -336,6 +336,7 @@ export default function JobPage() {
           open={jobApply}
           onClose={onApplyJobClose}
           jobId={job.id}
+          companyId={company.uuid}
         />
       )}
     </>

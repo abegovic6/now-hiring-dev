@@ -17,7 +17,7 @@ import LoadingSpinner from "../loading/LoadingSpinner";
 import Form from 'react-bootstrap/Form';
 
 export default function JobApplicationModal(props){
-    const {open, onClose, jobId} = props;
+    const {open, onClose, jobId, companyId} = props;
     const [coverLetter, setCoverLetter] = useState('')
     const [done, setDone] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +51,7 @@ export default function JobApplicationModal(props){
             response => {
                 setDone(true)
                 setIsLoading(false)
+                
             }
         )
     }

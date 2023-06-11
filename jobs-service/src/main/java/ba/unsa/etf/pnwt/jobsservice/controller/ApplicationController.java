@@ -92,7 +92,7 @@ public class ApplicationController {
         if(applicationDTOResponseEntity.getStatusCode().is2xxSuccessful()){
             String companyUuid = jobService.getCompanyId(app.getJobId());
             String userUuid = app.getUserId();
-            String url = "http://userservice/notification/" + userUuid + "/user-applied-for-job/" + companyUuid;
+            String url = "http://userservice/user-service/notification/" + userUuid + "/user-applied-for-job/" + companyUuid;
             restTemplate.postForObject(url, null, String.class);
             return applicationDTOResponseEntity;
         }

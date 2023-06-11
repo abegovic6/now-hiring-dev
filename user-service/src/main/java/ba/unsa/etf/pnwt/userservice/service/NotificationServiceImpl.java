@@ -83,7 +83,7 @@ public class NotificationServiceImpl implements NotificationService {
         List<UserEntity> userEntitiesFor = findAllConnectionEntities(company);
         List<NotificationEntity> notificationEntities = new ArrayList<>();
         for (UserEntity userFor : userEntitiesFor) {
-            sendMail(company, userFor, NotificationType.JOB_CREATED);
+            sendMail(userFor, company, NotificationType.JOB_CREATED);
             notificationEntities.add(saveNotification(company, userFor, NotificationType.JOB_CREATED));
         }
         return NotificationMapper.mapToProjections(notificationEntities);

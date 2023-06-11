@@ -318,14 +318,19 @@ export default function PrivateProfilePage(props) {
                       {skills &&
                         skills.map((skill, index) => {
                           return (
+                            
                             <MDBListGroupItem className="d-flex justify-content-center align-items-center p-3">
-                              <MDBIcon
+                              {
+                                !download && 
+                                <MDBIcon
                                 icon="trash-alt"
                                 size="sm"
                                 alt="..."
                                 //height={20}
                                 onClick={() => deleteSkill(skill)}
                               />
+                              }
+                              
                               <MDBCardText>{skill.title}</MDBCardText>
                             </MDBListGroupItem>
                           );
@@ -415,13 +420,15 @@ export default function PrivateProfilePage(props) {
                           educations.map((education, index) => {
                             return (
                               <div key={index}>
-                                <MDBIcon
+                                { !download &&
+                                  <MDBIcon
                                   icon="trash-alt"
                                   size="sm"
                                   alt="..."
                                   //height={20}
                                   onClick={() => deleteEducation(education)}
                                 />
+                                }
                                 <MDBCardText
                                   className="mb-1"
                                   style={{ fontSize: ".9rem" }}
@@ -489,13 +496,17 @@ export default function PrivateProfilePage(props) {
                           experiences.map((education, index) => {
                             return (
                               <div key={index}>
-                                <MDBIcon
+                                {
+                                  !download && 
+                                  <MDBIcon
                                   icon="trash-alt"
                                   size="sm"
                                   alt="..."
                                   //height={20}
                                   onClick={() => deleteExperience(education)}
                                 />
+                                }
+                                
                                 <MDBCardText
                                   className="mb-1"
                                   style={{ fontSize: ".9rem" }}

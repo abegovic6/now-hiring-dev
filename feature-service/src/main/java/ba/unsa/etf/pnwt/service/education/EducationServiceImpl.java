@@ -33,8 +33,12 @@ public class EducationServiceImpl implements EducationService{
     }
 
     @Override
-    public EducationDTO createEducation(EducationDTO educationDTO) {
-        return EducationMapper.mapToProjection(educationRepository.save(EducationMapper.mapToEntity(educationDTO)));
+    public EducationEntity createEducation(EducationDTO educationDTO) {
+        Optional<UserEntity> user= educationRepository.findUserEntityByEmail(educationDTO.getUser().getEmail());
+        EducationEntity education = new EducationEntity(user.get(), educationDTO.getTitle(), educationDTO.getDescription(), educationDTO.getStartingMonth(), educationDTO.getStartingYear(), educationDTO.getEndMonth(), educationDTO.getEndYear());
+        educationRepository.save(education);
+        return education;
+        //return EducationMapper.mapToProjection(educationRepository.save(EducationMapper.mapToEntity(educationDTO)));
     }
 
     @Override

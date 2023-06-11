@@ -45,6 +45,7 @@ function AddReviewModal(props) {
 
     alert("You have reviewed a user " + reviewedUser.name);
     onClose();
+    window.location.reload();
   };
   const handleChange = (event) => {
     setComment(event.target.value);
@@ -99,7 +100,7 @@ function AddReviewModal(props) {
                     size="lg"
                     onChange={(e) => handleChange(e)}
                   />
-                  <div wrapperClass="mb-4 mx-5 w-100">
+                  <div className="mb-4 mx-5 w-100">
                     <p>Rating: {rating}</p>
                     {[1, 2, 3, 4, 5].map((value) => (
                       <span

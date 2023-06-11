@@ -101,4 +101,17 @@ public class EducationEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
+    public EducationEntity() {
+    }
+
+    public EducationEntity(UserEntity user, String title, String description, Integer startingMonth, Integer startingYear, Integer endMonth, Integer endYear) {
+        this.user = user;
+        this.title = title;
+        this.description = description;
+        this.startingMonth = startingMonth;
+        this.startingYear = startingYear;
+        this.endMonth = endMonth;
+        this.endYear = endYear;
+    }
 }

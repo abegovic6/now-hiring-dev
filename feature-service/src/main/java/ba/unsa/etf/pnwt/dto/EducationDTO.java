@@ -8,27 +8,18 @@ import java.io.Serializable;
 
 public class EducationDTO implements Serializable {
 
-    @NotNull(message = "Id has to be specified")
     private int id;
 
-    @NotNull(message = "User must be specified")
     private UserDTO user;
 
-    @NotNull(message = "Title has to be specified.")
-    @Size(min=2, max=30, message = "Title size must be larger than 2 and smaller than 30.")
     private String title;
 
-    @Size(max=1000, message = "Description can not have more than 1000 characters.")
     private String description;
 
-    @Min(value = 1, message = "Months can not have value smaller than 1.")
-    @Max(value = 12, message = "Months can not have value larger than 12.")
     private Integer startingMonth;
 
     private Integer startingYear;
 
-    @Min(value = 1, message = "Months can not have value smaller than 1.")
-    @Max(value = 12, message = "Months can not have value larger than 12.")
     private Integer endMonth;
 
     private Integer endYear;

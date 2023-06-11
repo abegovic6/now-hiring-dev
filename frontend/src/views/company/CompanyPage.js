@@ -137,8 +137,6 @@ export default function CompanyPage(props) {
                                                     !isConnected() &&
                                                     <MDBBtn className="subColorBackground mainColorText" onClick={connect}>Connect</MDBBtn>
                                                 }
-
-                                                <MDBBtn outline className="mainColorBackground blackText">Recommend</MDBBtn>
                                             </div>
                                         }
 
@@ -227,36 +225,6 @@ export default function CompanyPage(props) {
                                                     expired = {card.expired}
                                                 />
                                             })
-                                        }
-                                    </MDBCardBody>
-                                </MDBCard>
-                                <MDBCard className="mb-4">
-                                    <MDBCardBody>
-                                        <div className='containerButtonText'>
-                                            {
-                                                !isMy && <MDBCardImage src={plusSign} alt='...' height={30}/>
-                                            }
-                                            <MDBCardText style={{fontSize: '18px', fontWeight: "bold"}}
-                                                         className="mb-4">Reviews</MDBCardText>
-                                        </div>
-
-                                        {
-                                            reviews && reviews.map((review, index) => {
-                                                return <MDBCol className="mb-4 mb-md-0">
-                                                    <MDBCardText className="mb-1"
-                                                                 style={{fontSize: '.9rem'}}>{review.creator.name}</MDBCardText>
-                                                    <StarRatings
-                                                        rating={review.number}
-                                                        starDimension="10px"
-                                                        starSpacing="5px"
-                                                    />
-                                                    <MDBCardText className="mb-4"
-                                                                 style={{fontSize: '.7rem'}}>{review.comment}</MDBCardText>
-                                                </MDBCol>
-
-
-                                            })
-
                                         }
                                     </MDBCardBody>
                                 </MDBCard>

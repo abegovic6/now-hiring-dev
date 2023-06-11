@@ -18,10 +18,9 @@ import { token, user } from "../../context/Reducer";
 import { deleteMet, get, post, put } from "../../methods";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import StarRatings from "react-star-ratings/build/star-ratings";
+import { Button } from "reactstrap";
 import plusSign from "../../icons/plus.svg";
 import editSign from "../../icons/pencil.svg";
-import { Modal } from "react-bootstrap";
-import { Button } from "reactstrap";
 import EditProfileModal from "./EditProfileModal";
 import { useNavigate, useParams } from "react-router-dom";
 import AddExperienceModal from "./AddExperienceModal";
@@ -29,7 +28,7 @@ import AddRecommendationModal from "./AddRecommendationModal";
 import AddReviewModal from "./AddReviewModal";
 import AddSkillsModal from "./AddSkillsModal";
 import html2pdf from "html2pdf.js";
-import deleteSign from "../../icons/trash.svg";
+import AddEducationModal from "./AddEducationModal";
 
 export default function PrivateProfilePage(props) {
   const { currentProfile } = props;
@@ -41,6 +40,7 @@ export default function PrivateProfilePage(props) {
   const [addRecommendation, setAddRecommendation] = useState(false);
   const [addReview, setAddReview] = useState(false);
   const [addSkills, setAddSkills] = useState(false);
+  const [addEducation, setAddEducation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [editProfile, setEditProfile] = useState(false);
   const params = useParams();
@@ -138,6 +138,21 @@ export default function PrivateProfilePage(props) {
     setAddExperience(false);
     //window.location.reload();
   };
+  const onAddEducationClose = () => {
+    setAddEducation(false);
+    //window.location.reload();
+  };
+  const deleteEducation = (educationToDelete) => {
+    let educationToDeleteTitle = educationToDelete.title;
+    deleteMet(
+      "http://localhost:3000/feature-service/education/delete/" +
+        educationToDelete.id,
+      undefined,
+      token
+    );
+    alert("You have deleted education " + educationToDeleteTitle + "!");
+    window.location.reload();
+  };
   const onAddRecommendationClose = () => {
     setAddRecommendation(false);
     //window.location.reload();
@@ -160,8 +175,20 @@ export default function PrivateProfilePage(props) {
       token
     );
     alert("You have deleted skill " + skillTitle + "!");
+    window.location.reload();
   };
 
+  const deleteExperience = (experience) => {
+    let experienceTitle = experience.title;
+    deleteMet(
+      "http://localhost:3000/feature-service/experience/delete/" +
+        experience.id,
+      undefined,
+      token
+    );
+    alert("You have deleted education " + experienceTitle + "!");
+    window.location.reload();
+  };
   function getMonthName(monthNumber) {
     const date = new Date();
     date.setMonth(monthNumber - 1);
@@ -208,8 +235,6 @@ export default function PrivateProfilePage(props) {
     localStorage.setItem("hideNavBarElements", "false");
     window.location.reload();
   };
-  const ness = user;
-  console.log(ness);
 
   return (
     <>
@@ -239,16 +264,17 @@ export default function PrivateProfilePage(props) {
                     {!isMy && !download && (
                       <div className="d-flex justify-content-center mb-2">
                         {!isConnected() && (
-                          <MDBBtn className="subColorBackground addMargins">
+                          <MDBBtn
+                            onClick={() => connect()}
+                            className="subColorBackground addMargins"
+                          >
                             Connect
                           </MDBBtn>
                         )}
                         <MDBBtn
                           outline
                           className="mainColorBackground addMargins blackText"
-                          onClick={() => {
-                            setAddRecommendation(true);
-                          }}
+                          onClick={() => setAddRecommendation(true)}
                         >
                           Recommend
                         </MDBBtn>
@@ -370,9 +396,11 @@ export default function PrivateProfilePage(props) {
                         <div className="containerButtonText">
                           {isMy && !download && (
                             <MDBCardImage
+                              style={{ cursor: "pointer" }}
                               src={plusSign}
                               alt="..."
                               height={30}
+                              onClick={() => setAddEducation(true)}
                             />
                           )}
                           <MDBCardText
@@ -387,6 +415,13 @@ export default function PrivateProfilePage(props) {
                           educations.map((education, index) => {
                             return (
                               <div key={index}>
+                                <MDBIcon
+                                  icon="trash-alt"
+                                  size="sm"
+                                  alt="..."
+                                  //height={20}
+                                  onClick={() => deleteEducation(education)}
+                                />
                                 <MDBCardText
                                   className="mb-1"
                                   style={{ fontSize: ".9rem" }}
@@ -454,6 +489,13 @@ export default function PrivateProfilePage(props) {
                           experiences.map((education, index) => {
                             return (
                               <div key={index}>
+                                <MDBIcon
+                                  icon="trash-alt"
+                                  size="sm"
+                                  alt="..."
+                                  //height={20}
+                                  onClick={() => deleteExperience(education)}
+                                />
                                 <MDBCardText
                                   className="mb-1"
                                   style={{ fontSize: ".9rem" }}
@@ -575,6 +617,9 @@ export default function PrivateProfilePage(props) {
 
       {editProfile && (
         <EditProfileModal open={editProfile} onClose={onEditProfileClose} />
+      )}
+      {addEducation && (
+        <AddEducationModal open={addEducation} onClose={onAddEducationClose} />
       )}
     </>
   );

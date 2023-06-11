@@ -1,4 +1,4 @@
-# NowHiringDev.com
+# NowHiringDev.ba
 
 Projekat iz predmeta Praktikum - Napredne web tehnologije
 

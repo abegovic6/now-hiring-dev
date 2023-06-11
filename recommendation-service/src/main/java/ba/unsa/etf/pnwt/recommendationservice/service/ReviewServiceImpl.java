@@ -41,6 +41,7 @@ public class ReviewServiceImpl implements ReviewService{
         reviewEntity.setNumber(review.getNumber());
         reviewEntity.setUserReceiver(userRepository.getUserEntityByUuid(review.getReceiver().getUuid()));
         reviewEntity.setUserCreator(userRepository.getUserEntityByUuid(review.getCreator().getUuid()));
+        reviewEntity.setComment(review.getComment());
         reviewRepository.save(reviewEntity);
         return review;
     }

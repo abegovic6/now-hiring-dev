@@ -29,6 +29,12 @@ public class UserController {
     public List<UserEntity> getUsers(){
         return userService.getUser();
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserEntity> getUserByEmail(@PathVariable("email") String email){
+        UserEntity user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
     @PostMapping(path = "/addNewUser")
     public ResponseEntity<UserEntity> addNewUser(@Validated @RequestBody UserEntity user, Errors errors){
         if(errors.hasErrors()){

@@ -90,4 +90,10 @@ public class UserServiceImp implements UserService{
         return userRepository.save(newUser);
 
     }
+
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        Optional<UserEntity> user = userRepository.findUserEntityByEmail(email);
+        return user.get();
+    }
 }

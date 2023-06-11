@@ -7,7 +7,7 @@ import {token, user} from "../../context/Reducer";
 import {post} from "../../methods";
 import LoadingSpinner from "../loading/LoadingSpinner";
 
-export default function AddExperienceModal(props) {
+export default function AddEducationModal(props) {
     const {open, onClose} = props;
     const [title, setTile] = useState("")
     const [description, setDescription] = useState("")
@@ -44,16 +44,16 @@ export default function AddExperienceModal(props) {
             endYear: validTo.getFullYear()
         }
 
-        post('/feature-service/experience/add', experience, undefined, token)
+        post('/feature-service/education/add', experience, undefined, token)
             .then(response => {
                 setIsLoading(false);
                 if (response.errors) {
                     alert(response.errors[0]);
                 } else {
-                    alert('Experience added!');
+                    alert('Education added!');
                 }
 
-                window.location.reload();
+                //window.location.reload();
             })
         onClose();
     }
@@ -62,7 +62,7 @@ export default function AddExperienceModal(props) {
     return <>{isLoading ? <LoadingSpinner/> :
         <Modal show={open} onHide={onClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add experience</Modal.Title>
+                <Modal.Title>Add education</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <MDBContainer fluid>

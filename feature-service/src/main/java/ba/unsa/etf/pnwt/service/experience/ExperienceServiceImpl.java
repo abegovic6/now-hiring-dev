@@ -33,7 +33,10 @@ public class ExperienceServiceImpl implements ExperienceService{
 
     @Override
     public ExperienceDTO createExperience(ExperienceDTO experienceDTO) {
-        return ExperienceMapper.mapToProjection(experienceRepository.save(ExperienceMapper.mapToEntity(experienceDTO)));
+        UserEntity userEntity = userRepository.findByUuid(experienceDTO.getUser().getUuid());
+        ExperienceEntity entity = ExperienceMapper.mapToEntity(experienceDTO);
+        entity.setUser(userEntity);
+        return ExperienceMapper.mapToProjection(experienceRepository.save(entity));
     }
 
     @Override

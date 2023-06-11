@@ -18,22 +18,15 @@ import { token, user } from "../../context/Reducer";
 import { deleteMet, get, post, put } from "../../methods";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import StarRatings from "react-star-ratings/build/star-ratings";
-import plusSign from "../../icons/plus.svg";
-import editSign from "../../icons/pencil.svg";
-import deleteSign from "../../icons/trash.svg";
 import { Button } from "reactstrap";
 import plusSign from "../../icons/plus.svg";
 import editSign from "../../icons/pencil.svg";
-import { Modal } from "react-bootstrap";
-import { Button } from "reactstrap";
 import EditProfileModal from "./EditProfileModal";
 import { useNavigate, useParams } from "react-router-dom";
 import AddExperienceModal from "./AddExperienceModal";
 import AddRecommendationModal from "./AddRecommendationModal";
 import AddReviewModal from "./AddReviewModal";
 import AddSkillsModal from "./AddSkillsModal";
-import html2pdf from "html2pdf.js";
-import deleteSign from "../../icons/trash.svg";
 import html2pdf from "html2pdf.js";
 import AddEducationModal from "./AddEducationModal";
 
@@ -239,8 +232,6 @@ export default function PrivateProfilePage(props) {
     localStorage.setItem("hideNavBarElements", "false");
     window.location.reload();
   };
-  const ness = user;
-  console.log(ness);
 
   return (
     <>

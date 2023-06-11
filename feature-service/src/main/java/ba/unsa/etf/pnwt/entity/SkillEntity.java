@@ -22,6 +22,20 @@ public class SkillEntity {
     @JsonIgnore
     private UserEntity user;
 
+    public SkillEntity() {
+    }
+
+    public SkillEntity(Integer id, String title, UserEntity user) {
+        this.id = id;
+        this.title = title;
+        this.user = user;
+    }
+
+    public SkillEntity(String title, UserEntity user) {
+        this.title = title;
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }

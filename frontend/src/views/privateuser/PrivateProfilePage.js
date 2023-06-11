@@ -15,7 +15,7 @@ import {
 } from "mdb-react-ui-kit";
 import profilePlaceholder from "../../icons/profileplaceholder.png";
 import { token, user } from "../../context/Reducer";
-import { get, post, put } from "../../methods";
+import { deleteMet, get, post, put } from "../../methods";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import StarRatings from "react-star-ratings/build/star-ratings";
 import plusSign from "../../icons/plus.svg";
@@ -27,7 +27,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import AddExperienceModal from "./AddExperienceModal";
 import AddRecommendationModal from "./AddRecommendationModal";
 import AddReviewModal from "./AddReviewModal";
+import AddSkillsModal from "./AddSkillsModal";
 import html2pdf from "html2pdf.js";
+import deleteSign from "../../icons/trash.svg";
 
 export default function PrivateProfilePage(props) {
   const { currentProfile } = props;
@@ -38,6 +40,7 @@ export default function PrivateProfilePage(props) {
   const [addExperience, setAddExperience] = useState(false);
   const [addRecommendation, setAddRecommendation] = useState(false);
   const [addReview, setAddReview] = useState(false);
+  const [addSkills, setAddSkills] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [editProfile, setEditProfile] = useState(false);
   const params = useParams();
@@ -142,6 +145,21 @@ export default function PrivateProfilePage(props) {
   const onAddReviewClose = () => {
     setAddReview(false);
     //window.location.reload();
+  };
+  const onAddSkillsClose = () => {
+    setAddSkills(false);
+    //window.location.reload();
+  };
+
+  const deleteSkill = (skillToDelete) => {
+    //let skillToDelete = skills.find((s) => (s.title = e.target.value));
+    let skillTitle = skillToDelete.title;
+    deleteMet(
+      "http://localhost:3000/feature-service/skill/delete/" + skillToDelete.id,
+      undefined,
+      token
+    );
+    alert("You have deleted skill " + skillTitle + "!");
   };
 
   function getMonthName(monthNumber) {
@@ -260,9 +278,11 @@ export default function PrivateProfilePage(props) {
                           <div className="containerButtonText">
                             {isMy && !download && (
                               <MDBCardImage
+                                style={{ cursor: "pointer" }}
                                 src={plusSign}
                                 alt="..."
                                 height={30}
+                                onClick={() => setAddSkills(true)}
                               />
                             )}
                           </div>
@@ -273,6 +293,13 @@ export default function PrivateProfilePage(props) {
                         skills.map((skill, index) => {
                           return (
                             <MDBListGroupItem className="d-flex justify-content-center align-items-center p-3">
+                              <MDBIcon
+                                icon="trash-alt"
+                                size="sm"
+                                alt="..."
+                                //height={20}
+                                onClick={() => deleteSkill(skill)}
+                              />
                               <MDBCardText>{skill.title}</MDBCardText>
                             </MDBListGroupItem>
                           );
@@ -541,6 +568,9 @@ export default function PrivateProfilePage(props) {
           open={addReview}
           onClose={onAddReviewClose}
         />
+      )}
+      {addSkills && (
+        <AddSkillsModal open={addSkills} onClose={onAddSkillsClose} />
       )}
 
       {editProfile && (

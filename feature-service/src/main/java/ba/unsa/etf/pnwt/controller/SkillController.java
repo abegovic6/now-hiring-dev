@@ -3,6 +3,7 @@ package ba.unsa.etf.pnwt.controller;
 import ba.unsa.etf.pnwt.dto.EducationDTO;
 import ba.unsa.etf.pnwt.dto.SkillDTO;
 import ba.unsa.etf.pnwt.dto.UserDTO;
+import ba.unsa.etf.pnwt.entity.SkillEntity;
 import ba.unsa.etf.pnwt.service.education.EducationService;
 import ba.unsa.etf.pnwt.service.skill.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,7 +54,7 @@ public class SkillController {
     @PostMapping(path="/add")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
-    ResponseEntity<SkillDTO> addNewSkill (
+    ResponseEntity<SkillEntity> addNewSkill (
             @Parameter(description = "Skill", required = true)
             @Valid @RequestBody SkillDTO skillDTO) {
         var skill = skillService.createSkill(skillDTO);

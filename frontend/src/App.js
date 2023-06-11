@@ -11,6 +11,7 @@ import {user} from "./context/Reducer";
 import CompanyPage from './views/company/CompanyPage';
 import JobPage from './views/job/JobPage';
 import ConnectionRequests from "./views/connections/ConnectionRequests";
+import AddRecommendationModal from './views/privateuser/AddRecommendationModal';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/profile/:id" element={<PrivateProfilePage />}/>
               <Route path="/company/:id" element={<CompanyPage />}/>
               <Route path="/job/:id" element={<JobPage />}/>
+              <Route path='/recommend' element={<AddRecommendationModal/>}/>
             </Routes>
           </BrowserRouter>
         </div>

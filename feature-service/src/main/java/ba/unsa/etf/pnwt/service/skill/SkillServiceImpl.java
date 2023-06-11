@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static ba.unsa.etf.pnwt.mapper.SkillMapper.mapToEntity;
+
 @Service
 public class SkillServiceImpl implements SkillService{
 
@@ -33,8 +35,13 @@ public class SkillServiceImpl implements SkillService{
     }
 
     @Override
-    public SkillDTO createSkill(SkillDTO skillDTO) {
-        return SkillMapper.mapToProjection(skillRepository.save(SkillMapper.mapToEntity(skillDTO)));
+    public SkillEntity createSkill(SkillDTO skillDTO) {
+
+
+        Optional<UserEntity> user = skillRepository.findUserEntityByEmail(skillDTO.getUser().getEmail());
+        SkillEntity skill = new SkillEntity(skillDTO.getTitle(), user.get());
+        skillRepository.save(skill);
+        return skill;
     }
 
     @Override

@@ -21,4 +21,5 @@ Potrebno je prije svega pozicionirati se u folder u kojem se nalazi docker-compo
 ## Video
 
 Frontend: https://drive.google.com/file/d/1pSQ3m7lhYh8QZ6C42e0G4N_XEqbAKzCv/view
+
 Backend: https://drive.google.com/drive/u/1/folders/1xIi1gc7bmD2Yk6kLijHi6CzfgMKdSNiY
